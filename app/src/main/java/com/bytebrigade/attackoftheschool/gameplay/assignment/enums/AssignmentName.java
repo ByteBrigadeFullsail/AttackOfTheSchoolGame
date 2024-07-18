@@ -4,13 +4,13 @@ public enum AssignmentName {
     MATH_ASSIGNMENT("Math Assignment"){
         @Override
         public String getAssignmentName() {
-            return "Math Assignment";
+            return "English Assignment";
         }
     },
     ENGLISH_ASSIGNMENT("English Assignment"){
         @Override
         public String getAssignmentName() {
-            return "English Assignment";
+            return "Math Assignment";
         }
     },
     SCIENTIFIC_ASSIGNMENT("Scientific Assignment"){
