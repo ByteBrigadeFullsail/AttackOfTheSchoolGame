@@ -11,6 +11,7 @@ import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBin
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
+
 import java.util.Random;
 
 public class AssignmentScreen extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class AssignmentScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(AssignmentScreen.this, "Menu button clicked", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }

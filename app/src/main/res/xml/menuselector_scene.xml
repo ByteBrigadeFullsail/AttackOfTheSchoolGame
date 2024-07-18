@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnSwipe motion:touchAnchorId="@+id/button2" motion:touchAnchorSide="bottom"/>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint motion:layout_constraintEnd_toEndOf="parent" android:layout_width="386dp"
+                    android:layout_height="67dp" motion:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp" android:layout_marginEnd="16dp" android:id="@+id/button2"
+                    motion:layout_constraintStart_toStartOf="parent" android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp" motion:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="648dp"/>
+        <Constraint android:id="@+id/editTextText4" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" motion:layout_editor_absoluteY="656dp"
+                    motion:layout_editor_absoluteX="169dp" motion:transitionEasing="linear"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:layout_width="413dp" android:layout_height="727dp"
+                    motion:layout_constraintBottom_toBottomOf="parent" motion:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/button2"
+                    motion:layout_constraintEnd_toEndOf="@+id/button2"
+                    motion:layout_constraintStart_toStartOf="parent" motion:layout_constraintVertical_bias="0.0"
+                    motion:layout_constraintHorizontal_bias="0.0"/>
+    </ConstraintSet>
+</MotionScene>
