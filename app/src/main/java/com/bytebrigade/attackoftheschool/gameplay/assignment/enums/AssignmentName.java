@@ -4,31 +4,31 @@ public enum AssignmentName {
     MATH_ASSIGNMENT("Math Assignment"){
         @Override
         public String getAssignmentName() {
-            return "English Assignment";
+            return "English";
         }
     },
     ENGLISH_ASSIGNMENT("English Assignment"){
         @Override
         public String getAssignmentName() {
-            return "Math Assignment";
+            return "Math";
         }
     },
     SCIENTIFIC_ASSIGNMENT("Scientific Assignment"){
         @Override
         public String getAssignmentName() {
-            return "Scientific Assignment";
+            return "Science";
         }
     },
     GEOGRAPHIC_ASSIGNMENT("Geographic Assignment"){
         @Override
         public String getAssignmentName() {
-            return "Geographic Assignment";
+            return "P.E";
         }
     },
     HISTORICAL_ASSIGNMENT("Historical Assignment"){
         @Override
         public String getAssignmentName() {
-            return "Historical Assignment";
+            return "History";
         }
     };
     private String assignmentName;
