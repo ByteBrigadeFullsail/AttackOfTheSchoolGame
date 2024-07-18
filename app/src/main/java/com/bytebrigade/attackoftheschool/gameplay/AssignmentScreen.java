@@ -1,6 +1,7 @@
 package com.bytebrigade.attackoftheschool.gameplay;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,17 +12,15 @@ import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBin
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
-import java.util.Random;
-
 public class AssignmentScreen extends AppCompatActivity {
 
-    private Assignment assignment = new Assignment(25L, AssignmentName.values()[new Random().nextInt(AssignmentName.values().length)]);
+    private Assignment assignment = new Assignment(10L, AssignmentName.values()[0]);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityAssignmentScreenBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_assignment_screen);
-
+        assignment.setBackgroundSetter(binding.clickableBlock);
         binding.setAssignment(assignment);
 
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
@@ -33,6 +32,8 @@ public class AssignmentScreen extends AppCompatActivity {
                 binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
                 binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
                 binding.nameEditText.setText(assignment.getAssignmentName());
+                Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
+
             }
         });
 
