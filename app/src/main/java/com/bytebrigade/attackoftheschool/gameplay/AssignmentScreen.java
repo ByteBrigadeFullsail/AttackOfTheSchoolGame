@@ -40,7 +40,10 @@ public class AssignmentScreen extends AppCompatActivity {
         binding.menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AssignmentScreen.this, "Menu button clicked", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(AssignmentScreen.this, "Menu button clicked", Toast.LENGTH_SHORT).show();
+                int menuscreen = R.layout.menuscreen;
+                setContentView(menuscreen);
+
             }
         });
     }
