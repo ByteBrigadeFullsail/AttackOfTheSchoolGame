@@ -1,8 +1,10 @@
 package com.bytebrigade.attackoftheschool;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
 
 public class MainMenu extends AppCompatActivity {
     Button newGameButton;
@@ -16,7 +18,9 @@ public class MainMenu extends AppCompatActivity {
         continueButton = findViewById(R.id.continueButton);
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
-            //new game button
+            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
+            startActivity(intent);
+            finish();
         });
         continueButton.setOnClickListener(v ->{
             //continue button
