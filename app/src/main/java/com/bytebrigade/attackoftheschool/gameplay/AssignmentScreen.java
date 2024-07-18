@@ -8,10 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import com.bytebrigade.attackoftheschool.R;
 import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBinding;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+
+import java.util.Random;
 
 public class AssignmentScreen extends AppCompatActivity {
 
-    private Assignment assignment = new Assignment(25L, "Assignment");
+    private Assignment assignment = new Assignment(25L, AssignmentName.values()[new Random().nextInt(AssignmentName.values().length)]);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

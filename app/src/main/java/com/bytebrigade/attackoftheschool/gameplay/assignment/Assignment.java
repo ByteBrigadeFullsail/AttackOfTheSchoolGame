@@ -1,12 +1,17 @@
-package com.bytebrigade.attackoftheschool.gameplay;
+package com.bytebrigade.attackoftheschool.gameplay.assignment;
+
+import com.bytebrigade.attackoftheschool.gameplay.Clickable;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+
+import java.util.Random;
 
 public class Assignment implements Clickable {
 
     private Long maxClickAmount;
     private Long currentClickAmount;
-    private String assignmentName;
+    private AssignmentName assignmentName;
 
-    public Assignment(Long clickAmount, String assignmentName) {
+    public Assignment(Long clickAmount, AssignmentName assignmentName) {
         this.currentClickAmount = 0L;
         this.maxClickAmount = clickAmount;
         this.assignmentName = assignmentName;
@@ -24,7 +29,7 @@ public class Assignment implements Clickable {
     @Override
     public void changeClickable() {
         this.maxClickAmount = (this.maxClickAmount * 4) / 2;
-        this.assignmentName = "Assignment";
+        this.assignmentName = AssignmentName.values()[new Random().nextInt(AssignmentName.values().length)];
         this.currentClickAmount = 0L;
     }
 
@@ -37,6 +42,6 @@ public class Assignment implements Clickable {
     }
 
     public String getAssignmentName() {
-        return assignmentName;
+        return assignmentName.getAssignmentName();
     }
 }
