@@ -1,11 +1,17 @@
 package com.bytebrigade.attackoftheschool.gameplay.assignment;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.util.Log;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
 import com.bytebrigade.attackoftheschool.R;
 import com.bytebrigade.attackoftheschool.gameplay.Clickable;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+import android.animation.ValueAnimator;
+
+import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.level;
 
@@ -15,11 +21,28 @@ public class Assignment implements Clickable {
     private Long currentClickAmount;
     private AssignmentName assignmentName;
     private LinearLayout background;
+    ValueAnimator animator;
 
     public Assignment(Long clickAmount, AssignmentName assignmentName) {
         this.currentClickAmount = 0L;
         this.maxClickAmount = clickAmount;
         this.assignmentName = assignmentName;
+
+        animator = ValueAnimator.ofFloat(-200f, 200f);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(1000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                background.setTranslationX(-200 + new Random().nextFloat() * 700);
+                background.setTranslationY(-200 + new Random().nextFloat() * 700);
+            }
+        });
+
     }
 
     @Override
@@ -40,8 +63,6 @@ public class Assignment implements Clickable {
         // Base taps calculation
         double baseTaps = 10 * Math.pow(1.0406, stage - 1);
         double health;
-
-        // Adjust for special stages
         if (stage % 1000 == 0) {
             // Final boss
             health = baseTaps * 10;
@@ -68,6 +89,19 @@ public class Assignment implements Clickable {
         this.assignmentName = AssignmentName.values()[(int)Math.ceil(level /200)];
         this.currentClickAmount = 0L;
         Log.i("CURRENTSTATS", this.maxClickAmount + "");
+        if (level % 1000 == 0) {
+            // Final boss
+            startAnimation(1000);
+        } else if (level % 200 == 0) {
+            // Professor boss
+            startAnimation(2000);
+        } else if (level % 50 == 0) {
+            // Test
+            startAnimation(4000);
+        } else if (level % 5 == 0)
+            // quiz/packet
+            startAnimation(6000);
+        else if(animator.isRunning()) stopAnimation();
     }
     public void setBackgroundSetter(LinearLayout b){
         this.background = b;
@@ -90,6 +124,7 @@ public class Assignment implements Clickable {
             // quiz/packet
             imgID = R.drawable.quiztemp;
         else {
+
             imgID = switch(completionPercentage){
                 case 0 -> R.drawable.assignmenttemp1;
                 case 1 -> R.drawable.assignmenttemp2;
@@ -119,5 +154,13 @@ public class Assignment implements Clickable {
 
     public String getAssignmentName() {
         return assignmentName.getAssignmentName();
+    }
+    public void startAnimation(int duration){
+        animator.setDuration(duration); // duration in milliseconds
+        animator.start();
+        Log.i("CURRENTSTATS", animator.getDuration() + " IS THE DURATION");
+    }
+    public void stopAnimation(){
+        animator.end();
     }
 }

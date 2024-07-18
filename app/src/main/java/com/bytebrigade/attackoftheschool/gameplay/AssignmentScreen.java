@@ -1,5 +1,6 @@
 package com.bytebrigade.attackoftheschool.gameplay;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
