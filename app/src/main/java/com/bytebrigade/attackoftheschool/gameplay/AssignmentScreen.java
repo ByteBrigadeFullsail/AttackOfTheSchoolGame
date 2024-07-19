@@ -29,34 +29,22 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
 
-        binding.clickableBlock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.clickableBlock.setOnClickListener(v->{
                 assignment.incrementClick();
                 binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
                 binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
                 binding.nameEditText.setText(new String("\n Level: " + level + assignment.getAssignmentName() ));
                 Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
                 changeMainBackground();
-
-            }
         });
 
-        binding.godMode.setOnClickListener(v->{
-            assignment.clickStrength += 1000000;
-        });
-        binding.plus49.setOnClickListener(v->{
-            level += 49;
-        });
+        binding.godMode.setOnClickListener(v-> assignment.clickStrength += 1000000 );
+        binding.plus49.setOnClickListener(v->level += 49);
 
-        binding.menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.menuButton.setOnClickListener(v->{
                // Toast.makeText(AssignmentScreen.this, "Menu button clicked", Toast.LENGTH_SHORT).show();
                 int menuscreen = R.layout.menuscreen;
                 setContentView(menuscreen);
-
-            }
         });
     }
     @Override
