@@ -16,13 +16,13 @@ public enum AssignmentName {
     SCIENTIFIC_ASSIGNMENT("Scientific Assignment"){
         @Override
         public String getAssignmentName() {
-            return "Science";
+            return "P.E";
         }
     },
     GEOGRAPHIC_ASSIGNMENT("Geographic Assignment"){
         @Override
         public String getAssignmentName() {
-            return "P.E";
+            return "Science";
         }
     },
     HISTORICAL_ASSIGNMENT("Historical Assignment"){
