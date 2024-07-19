@@ -14,22 +14,68 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+        <TextView
+                android:id="@+id/currentClassText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:textSize="80sp"
+                android:singleLine="false"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5" />
+
         <TextView
                 android:id="@+id/nameEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{assignment.assignmentName}"
-                android:textSize="60sp"
-                android:singleLine="true"
+                android:text="Level 1"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:singleLine="false"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="69dp"
+                android:layout_marginTop="120dp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="127dp"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/clickableBlock"
-                app:layout_constraintHorizontal_bias="0.0"/>
+                app:layout_constraintHorizontal_bias="0.5"
+        />
+        <Button
+                android:id="@+id/prevStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/nameEditText"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
+        <Button
+                android:id="@+id/nextStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:visibility="invisible"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/nameEditText"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
+        <Button
+                android:id="@+id/maxStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max"
+                android:visibility="invisible"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/nextStage"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
 
         <LinearLayout
                 android:id="@+id/clickableBlock"
@@ -40,7 +86,6 @@
                 android:paddingHorizontal="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:elevation="100dp"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints"
                 android:layout_marginTop="100dp"
