@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <Button
+            android:text="Character Stats"
+            android:layout_width="124dp"
+            android:layout_height="154dp" android:id="@+id/ImagePlaceHolder"
+            style="@style/Widget.AppCompat.Button"
+            tools:layout_editor_absoluteY="26dp" tools:layout_editor_absoluteX="50dp"/>
+    <Button
+            android:text="PGT-Botter"
+            android:layout_width="380dp"
+            android:layout_height="52dp" android:id="@+id/button4"
+            style="@style/Widget.AppCompat.Button"
+            tools:layout_editor_absoluteY="614dp" tools:layout_editor_absoluteX="15dp"/>
+    <Button
+            android:text="Challenge Teacher"
+            android:layout_width="379dp"
+            android:layout_height="48dp" android:id="@+id/button5"
+            style="@style/Widget.AppCompat.Button"
+            tools:layout_editor_absoluteY="536dp" tools:layout_editor_absoluteX="16dp"/>
+    <Button
+            android:text="Library Upgrades"
+            android:layout_width="379dp"
+            android:layout_height="53dp" android:id="@+id/LibraryUpgrades" tools:layout_editor_absoluteY="447dp"
+            style="@style/Widget.AppCompat.Button"
+            tools:layout_editor_absoluteX="16dp"/>
+    <Button
+            android:text="Classes"
+            android:layout_width="378dp"
+            android:layout_height="50dp" android:id="@+id/Classes"
+            style="@style/Widget.AppCompat.Button"
+            tools:layout_editor_absoluteY="372dp" tools:layout_editor_absoluteX="28dp"/>
+    <Button
+            android:text="Store"
+            android:layout_width="380dp"
+            android:layout_height="50dp" android:id="@+id/button3"
+            style="@style/Widget.AppCompat.Button"
+            tools:layout_editor_absoluteY="699dp" tools:layout_editor_absoluteX="15dp"/>
+    <Button
+            android:text="Image Placeholder"
+            android:layout_width="124dp"
+            android:layout_height="154dp" android:id="@+id/Stats"
+            app:cornerRadius="@null"
+            app:shapeAppearance="?android:attr/windowTitleStyle"
+            tools:layout_editor_absoluteY="16dp" tools:layout_editor_absoluteX="283dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
