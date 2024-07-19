@@ -14,6 +14,7 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.level;
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.playthroughs;
 
 public class AssignmentScreen extends AppCompatActivity implements Assignment.CallBack {
 
@@ -34,11 +35,18 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 assignment.incrementClick();
                 binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
                 binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-                binding.nameEditText.setText(new String(assignment.getAssignmentName() + " Level: " + level));
+                binding.nameEditText.setText(new String("\n Level: " + level + assignment.getAssignmentName() ));
                 Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
                 changeMainBackground();
 
             }
+        });
+
+        binding.godMode.setOnClickListener(v->{
+            assignment.clickStrength += 1000000;
+        });
+        binding.plus49.setOnClickListener(v->{
+            level += 49;
         });
 
         binding.menuButton.setOnClickListener(new View.OnClickListener() {
@@ -76,18 +84,79 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             int completionPercentage = (int)Math.floor((assignment.getCurrentClickAmount() / (double)assignment.getMaxClickAmount())*10);
             // Adjust for special stages
             int imgID;
-            if (level % 1000 == 0) {
+            if (level % 1001 == 0) {
                 // Final boss
                 imgID = R.drawable.assignmenttemp1;
             } else if (level % 200 == 0) {
                 // Professor boss
-                imgID = R.drawable.assignmenttemp2;
+                imgID = switch (level){
+                    //ENGLISH PROFESSOR BELOW
+                    case 200 -> switch (playthroughs){
+                        case 0 -> R.drawable.englishproff_0;
+                        case 1 -> R.drawable.englishproff_0;
+                        case 2 -> R.drawable.englishproff_0;
+                        default -> R.drawable.englishproff_0;
+                    };
+
+                    //MATH PROFESSOR BELOW
+                    case 400 -> switch (playthroughs){
+                        case 0 -> R.drawable.englishproff_0;
+                        case 1 -> R.drawable.englishproff_0;
+                        case 2 -> R.drawable.englishproff_0;
+                        default -> R.drawable.englishproff_0;
+                    };
+
+                    //PE PROFESSOR BELOW
+                    case 600 -> switch (playthroughs){
+                        case 0 -> R.drawable.englishproff_0;
+                        case 1 -> R.drawable.englishproff_0;
+                        case 2 -> R.drawable.englishproff_0;
+                        default -> R.drawable.englishproff_0;
+                    };
+
+                    //SCIENCE PROFESSOR BELOW
+                    case 800 -> switch (playthroughs){
+                        case 0 -> R.drawable.englishproff_0;
+                        case 1 -> R.drawable.englishproff_0;
+                        case 2 -> R.drawable.englishproff_0;
+                        default -> R.drawable.englishproff_0;
+                    };
+
+                    //HISTORY PROFESSOR BELOW
+                    case 1000 -> switch (playthroughs){
+                        case 0 -> R.drawable.englishproff_0;
+                        case 1 -> R.drawable.englishproff_0;
+                        case 2 -> R.drawable.englishproff_0;
+                        default -> R.drawable.englishproff_0;
+                    };
+
+                    default -> R.drawable.englishproff_0;
+                };
             } else if (level % 50 == 0) {
                 // Test
                 imgID = R.drawable.testtemp;
+
+
+                //test's picture animation
+
+
+
+
+
             } else if (level % 5 == 0)
                 // quiz/packet
                 imgID = R.drawable.quiztemp;
+
+
+
+            //more quiztemp's animation
+
+
+
+
+
+
+
             else {
                 imgID = switch(completionPercentage){
                     case 0 -> R.drawable.assignmenttemp1;

@@ -8,7 +8,7 @@ import static com.bytebrigade.attackoftheschool.gameplay.Profile.level;
 
 public class Assignment implements Clickable {
     private Long maxClickAmount;
-    private Long clickStrength = 1L;
+    public Long clickStrength = 1L;
     private Long currentClickAmount;
     private AssignmentName assignmentName;
     private CallBack caller;
