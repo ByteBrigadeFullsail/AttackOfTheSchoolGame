@@ -81,7 +81,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 break;
         }
     }
-
     @Override
     public void changeClickableBackground() {
             int completionPercentage = (int)Math.floor((assignment.getCurrentClickAmount() / (double)assignment.getMaxClickAmount())*10);
@@ -177,8 +176,5 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
             binding.clickableBlock.setBackground(ContextCompat.getDrawable(binding.clickableBlock.getContext(), imgID));
             //Log.i("CURRENTSTATS", completionPercentage + " " + imgID + " " + String.valueOf((currentClickAmount/(double)maxClickAmount)));
-
-
     }
-
 }
