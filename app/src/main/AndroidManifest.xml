@@ -24,10 +24,20 @@
             </intent-filter>
         </activity>
 
+        <activity
+                android:name=".gameplay.AssignmentScreen"
+                android:exported="true"
+                android:screenOrientation="sensorPortrait">
+        </activity>
+
 
         <activity android:name=".MainMenu" android:exported="true" android:screenOrientation="sensorPortrait">
         </activity>
-
+        <activity
+                android:name=".MenuSelectorScreen.Menuselector"
+                android:exported="true"
+                android:screenOrientation="sensorPortrait">
+        </activity>
 
     </application>
 </manifest>

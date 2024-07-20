@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
-    Button startButton;
-    @Override
+    Button startButton; @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_intro_screen);
         startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(v ->{
