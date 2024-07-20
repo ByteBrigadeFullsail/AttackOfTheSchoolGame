@@ -1,25 +1,27 @@
 package com.bytebrigade.attackoftheschool.gameplay.assignment;
 
 import android.util.Log;
-import android.widget.LinearLayout;
-import androidx.core.content.ContextCompat;
-import com.bytebrigade.attackoftheschool.R;
 import com.bytebrigade.attackoftheschool.gameplay.Clickable;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
-import static com.bytebrigade.attackoftheschool.gameplay.Profile.level;
+import java.math.BigDecimal;
+
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.CurrentLevel;
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.FurthestLevel;
 
 public class Assignment implements Clickable {
     private Long maxClickAmount;
-    private Long clickStrength = 1L;
+    public Long clickStrength = 1L;
     private Long currentClickAmount;
     private AssignmentName assignmentName;
-    private LinearLayout background;
+    private CallBack caller;
+    private String className;
 
     public Assignment(Long clickAmount, AssignmentName assignmentName) {
         this.currentClickAmount = 0L;
         this.maxClickAmount = clickAmount;
         this.assignmentName = assignmentName;
+        className = "English";
     }
 
     @Override
@@ -29,83 +31,69 @@ public class Assignment implements Clickable {
 
             Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
         } else {
-            changeClickable();
-        }
 
-        changeBackground();
+            if(CurrentLevel == FurthestLevel) {
+                progressToNextLevel();
+            } else{
+                defeatedClickableButNoProgression();
+            }
+        }
+        caller.changeClickableBackground();
+
+    }
+    public void currentLevelChanged(){
+        this.maxClickAmount = calculateHealth(CurrentLevel);
+        this.assignmentName = AssignmentName.values()[(int)Math.ceil(CurrentLevel /200)];
+        this.currentClickAmount = 0L;
+        caller.changeMainBackground();
+        caller.changeClickableBackground();
     }
 
-
+    //Defeated boss/assignment code here, while NOT progressing
+    //Also means While NOT at FurthestStage(they pressed the previous stage button)
+    public void defeatedClickableButNoProgression(){
+        this.maxClickAmount = calculateHealth(CurrentLevel);
+        this.currentClickAmount = 0L;
+    }
     public long calculateHealth(int stage) {
-        // Base taps calculation
-        double baseTaps = 10 * Math.pow(1.0406, stage - 1);
+        // Base health for regular stages
+        double baseHealth = 10;
         double health;
 
-        // Adjust for special stages
+        // Apply incremental increases based on stage type
         if (stage % 1000 == 0) {
             // Final boss
-            health = baseTaps * 10;
+            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 3 * 1.5 * 10;
         } else if (stage % 200 == 0) {
             // Professor boss
-            health = baseTaps * 2;
+            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 3;
         } else if (stage % 50 == 0) {
             // Test
-            health = baseTaps * 1.5;
+            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 1.5;
         } else if (stage % 5 == 0) {
-            // quiz/packet
-            health = baseTaps * 1.2;
+            // Quiz/packet
+            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 1.2;
         } else {
             // Regular stage
-            health = baseTaps;
+            health = baseHealth * Math.pow(1.12, (stage - 1) / 5);
         }
+
         return (long) health;
     }
 
     @Override
-    public void changeClickable() {
-        level++;
-        this.maxClickAmount = calculateHealth(level);
-        this.assignmentName = AssignmentName.values()[(int)Math.ceil(level /200)];
+    public void progressToNextLevel() {
+        Log.i("CURRENTSTATS", "PROGRESS WAS CALLED! " + CurrentLevel + " is current level then Furthest level: " + FurthestLevel);
+        FurthestLevel++;
+        CurrentLevel = FurthestLevel;
+        this.maxClickAmount = calculateHealth(FurthestLevel);
+        this.assignmentName = AssignmentName.values()[(int)Math.ceil(FurthestLevel /200)];
         this.currentClickAmount = 0L;
         Log.i("CURRENTSTATS", this.maxClickAmount + "");
+        caller.changeMainBackground();
     }
-    public void setBackgroundSetter(LinearLayout b){
-        this.background = b;
-    }
-
-    void changeBackground(){
-        int completionPercentage = (int)Math.floor((currentClickAmount / (double)maxClickAmount)*10);
-        // Adjust for special stages
-        int imgID;
-        if (level % 1000 == 0) {
-            // Final boss
-            imgID = R.drawable.assignmenttemp1;
-        } else if (level % 200 == 0) {
-            // Professor boss
-            imgID = R.drawable.assignmenttemp2;
-        } else if (level % 50 == 0) {
-            // Test
-            imgID = R.drawable.testtemp;
-        } else if (level % 5 == 0)
-            // quiz/packet
-            imgID = R.drawable.quiztemp;
-        else {
-            imgID = switch(completionPercentage){
-                case 0 -> R.drawable.assignmenttemp1;
-                case 1 -> R.drawable.assignmenttemp2;
-                case 2 -> R.drawable.assignmenttemp3;
-                case 3 -> R.drawable.assignmenttemp4;
-                case 4 -> R.drawable.assignmenttemp5;
-                case 5 -> R.drawable.assignmenttemp6;
-                case 6 -> R.drawable.assignmenttemp7;
-                case 7 -> R.drawable.assignmenttemp8;
-                case 8 -> R.drawable.assignmenttemp9;
-                case 9 -> R.drawable.assignmenttemp10;
-                default -> R.drawable.assignmenttemp1;
-            };
-        }
-        //Log.i("CURRENTSTATS", completionPercentage + " " + imgID + " " + String.valueOf((currentClickAmount/(double)maxClickAmount)));
-        background.setBackground(ContextCompat.getDrawable(background.getContext(), imgID));
+    public void setBackgroundSetter(CallBack b){
+        this.caller = b;
     }
 
     public Long getMaxClickAmount() {
@@ -116,8 +104,19 @@ public class Assignment implements Clickable {
     public Long getCurrentClickAmount() {
         return currentClickAmount;
     }
+    public void  setClassName(String s) {
+        className = s;
+    }
+    public String getClassName(){
+        return className;
+    }
 
     public String getAssignmentName() {
         return assignmentName.getAssignmentName();
+        //return "\n Level: " + level + assignmentName.getAssignmentName();
+    }
+    public interface CallBack {
+        void changeClickableBackground();
+        void changeMainBackground();
     }
 }

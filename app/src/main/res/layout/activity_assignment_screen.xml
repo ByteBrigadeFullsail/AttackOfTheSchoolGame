@@ -2,6 +2,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/english_0"
         xmlns:tools="http://schemas.android.com/tools">
 
 
@@ -15,22 +16,68 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+        <TextView
+                android:id="@+id/currentClassText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:textSize="80sp"
+                android:singleLine="false"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5" />
+
         <TextView
                 android:id="@+id/nameEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{assignment.assignmentName}"
-                android:textSize="30sp"
-                android:singleLine="true"
+                android:text="Level 1"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:singleLine="false"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="69dp"
+                android:layout_marginTop="120dp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="127dp"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/clickableBlock"
-                app:layout_constraintHorizontal_bias="0.0"/>
+                app:layout_constraintHorizontal_bias="0.5"
+        />
+        <Button
+                android:id="@+id/prevStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/nameEditText"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
+        <Button
+                android:id="@+id/nextStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:visibility="invisible"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/nameEditText"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
+        <Button
+                android:id="@+id/maxStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max"
+                android:visibility="invisible"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/nextStage"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
 
         <LinearLayout
                 android:id="@+id/clickableBlock"
@@ -96,5 +143,37 @@
                 app:layout_constraintBottom_toTopOf="@+id/menuButton"
                 android:layout_marginTop="35dp"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        <Button
+                android:id="@+id/godMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GOD MODE"
+                android:background="#04A1E8"
+                android:backgroundTint="#03A9F4"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="162dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="102dp"
+                app:layout_constraintBottom_toTopOf="@+id/menuButton"
+                android:layout_marginTop="35dp"
+                app:layout_constraintTop_toBottomOf="@+id/helper_button" />
+        <Button
+                android:id="@+id/plus49"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="plus 49 levels"
+                android:background="#04A1E8"
+                android:backgroundTint="#03A9F4"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="162dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="102dp"
+                app:layout_constraintBottom_toTopOf="@+id/menuButton"
+                android:layout_marginTop="35dp"
+                app:layout_constraintTop_toBottomOf="@+id/godMode" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
