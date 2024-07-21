@@ -18,13 +18,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     private Assignment assignment = new Assignment(10L, AssignmentName.values()[0]);
     public ActivityAssignmentScreenBinding binding;
+    AssignmentAnimationListener animator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_assignment_screen);
         assignment.setBackgroundSetter(this);
         binding.setAssignment(assignment);
-
+        animator = new AssignmentAnimationListener(binding.clickableBlock);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
         setButtonVisibility();
         binding.clickableBlock.setOnClickListener(v->{
@@ -127,12 +128,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     @Override
     public void changeClickableBackground() {
 
-            //BUTTON VIEWS CHANGING HERE
-
-            if(CurrentLevel == 1){}
-
-
-            //BUTTON VIEWS CHANGING HERE
 
             int completionPercentage = (int)Math.floor((assignment.getCurrentClickAmount() / (double)assignment.getMaxClickAmount())*10);
             // Adjust for special stages
@@ -140,11 +135,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             if (CurrentLevel % 1001 == 0) {
                 // Final boss
                 imgID = R.drawable.assignmenttemp1;
+                animator.start(100);
             } else if (CurrentLevel % 200 == 0) {
 
                 //EVERY 200 BOSS
 
                 // Professor boss
+
+                animator.start(150);
                 imgID = switch (CurrentLevel){
                     //ENGLISH PROFESSOR BELOW
                     case 200 -> switch (playthroughs){
@@ -193,6 +191,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             } else if (CurrentLevel % 50 == 0) {
                 // Test
+
+                animator.start(350);
                 imgID = R.drawable.testtemp;
 
 
@@ -202,21 +202,18 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
 
 
-            } else if (CurrentLevel % 5 == 0)
+            } else if (CurrentLevel % 5 == 0) {
                 // quiz/packet
+                animator.start(300);
                 imgID = R.drawable.quiztemp;
 
 
-
-            //more quiztemp's animation
-
+                //more quiztemp's animation
 
 
-
-
-
-
+            }
             else {
+                animator.stop();
                 imgID = switch(completionPercentage){
                     case 0 -> R.drawable.assignmenttemp1;
                     case 1 -> R.drawable.assignmenttemp2;
