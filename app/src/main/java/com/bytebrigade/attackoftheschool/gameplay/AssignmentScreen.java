@@ -135,14 +135,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             if (CurrentLevel % 1001 == 0) {
                 // Final boss
                 imgID = R.drawable.assignmenttemp1;
-                animator.start(100);
+                animator.start(100, 1.5F);
             } else if (CurrentLevel % 200 == 0) {
 
                 //EVERY 200 BOSS
 
                 // Professor boss
 
-                animator.start(150);
+                animator.start(150, 1.5F);
                 imgID = switch (CurrentLevel){
                     //ENGLISH PROFESSOR BELOW
                     case 200 -> switch (playthroughs){
@@ -192,7 +192,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             } else if (CurrentLevel % 50 == 0) {
                 // Test
 
-                animator.start(250);
+                animator.start(250, 1.5F);
                 imgID = R.drawable.testtemp;
 
 
@@ -204,7 +204,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             } else if (CurrentLevel % 5 == 0) {
                 // quiz/packet
-                animator.start(300);
+                animator.start(350, 1F);
                 imgID = R.drawable.quiztemp;
 
 
