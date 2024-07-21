@@ -192,7 +192,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             } else if (CurrentLevel % 50 == 0) {
                 // Test
 
-                animator.start(350);
+                animator.start(250);
                 imgID = R.drawable.testtemp;
 
 
