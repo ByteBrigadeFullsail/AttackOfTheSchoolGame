@@ -175,5 +175,114 @@
                 app:layout_constraintBottom_toTopOf="@+id/menuButton"
                 android:layout_marginTop="35dp"
                 app:layout_constraintTop_toBottomOf="@+id/godMode" />
+
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/menuLayout"
+        android:layout_width="match_parent"
+                android:background="#80000000"
+                android:visibility="gone"
+        android:layout_height="match_parent">
+
+            <Button
+                    android:text="Character Stats"
+                    android:layout_width="124dp"
+                    android:layout_height="154dp" android:id="@+id/ImagePlaceHolder"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.255"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="28dp"
+                    android:layout_marginEnd="259dp" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"/>
+            <Button
+                    android:text="PGT-Botter"
+                    android:layout_width="380dp"
+                    android:layout_height="52dp" android:id="@+id/botter"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.516"
+                    app:layout_constraintVertical_bias="0.804"/>
+            <Button
+                    android:text="Back"
+                    android:layout_width="380dp"
+                    android:layout_height="52dp" android:id="@+id/back"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.58"
+                    app:layout_constraintVertical_bias="0.959"/>
+            <Button
+                    android:text="Challenge Teacher"
+                    android:layout_width="379dp"
+                    android:layout_height="48dp" android:id="@+id/button5"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.721"
+            />
+            <Button
+                    android:text="Library Upgrades"
+                    android:layout_width="379dp"
+                    android:layout_height="53dp" android:id="@+id/LibraryUpgrades"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintVertical_bias="0.879" app:layout_constraintHorizontal_bias="0.562"/>
+            <Button
+                    android:text="Classes"
+                    android:layout_width="378dp"
+                    android:layout_height="50dp" android:id="@+id/Classes"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.454"
+                    app:layout_constraintVertical_bias="0.649"/>
+            <Button
+                    android:text="Store"
+                    android:layout_width="380dp"
+                    android:layout_height="50dp" android:id="@+id/button3"
+                    style="@style/Widget.AppCompat.Button"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_bias="0.483" app:layout_constraintVertical_bias="0.558"/>
+            <Button
+                    android:text="Image Placeholder"
+                    android:layout_width="124dp"
+                    android:layout_height="154dp" android:id="@+id/Stats"
+                    app:cornerRadius="@null"
+                    app:shapeAppearance="?android:attr/windowTitleStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.839"
+                    app:layout_constraintVertical_bias="0.255"/>
+            <ImageButton
+                    android:layout_width="146dp"
+                    android:layout_height="94dp" app:srcCompat="@android:drawable/arrow_down_float"
+                    android:id="@+id/imageView2"
+                    app:tint="#0B0A0A" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="797dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="132dp" android:layout_marginEnd="133dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
+        <!--aaaaaaaaaaaa-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

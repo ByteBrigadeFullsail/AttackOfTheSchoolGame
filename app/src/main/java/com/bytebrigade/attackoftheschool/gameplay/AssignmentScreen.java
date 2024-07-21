@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -18,13 +22,23 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     private Assignment assignment = new Assignment(10L, AssignmentName.values()[0]);
     public ActivityAssignmentScreenBinding binding;
+
+    private View menuLayout;
+    private boolean isMenuOpen = false;
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_assignment_screen);
         assignment.setBackgroundSetter(this);
         binding.setAssignment(assignment);
-
+        menuLayout = findViewById(R.id.menuLayout);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
         setButtonVisibility();
         binding.clickableBlock.setOnClickListener(v->{
@@ -41,9 +55,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.plus49.setOnClickListener(v-> FurthestLevel += 49);
 
         binding.menuButton.setOnClickListener(v->{
-            // Toast.makeText(AssignmentScreen.this, "Menu button clicked", Toast.LENGTH_SHORT).show();
-            int menuscreen = R.layout.menuscreen;
-            setContentView(menuscreen);
+            if (isMenuOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
         });
         binding.prevStage.setOnClickListener(v->{
             if(CurrentLevel > 1){
@@ -81,6 +97,52 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 setButtonVisibility();
             }
         });
+
+
+
+
+
+
+
+        Button backbutton = findViewById(R.id.back);
+        Button store = findViewById(R.id.button3);
+        Button classes  =  findViewById(R.id.Classes);
+        Button ChallengeTeahcer  =  findViewById(R.id.button5);
+        Button PGTBotter  =  findViewById(R.id.botter);
+        Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
+        ImageButton downArrow = findViewById(R.id.imageView2);
+
+
+        downArrow.setOnClickListener(view -> {
+            toggleMenu();
+        });
+        backbutton.setOnClickListener(v -> {
+            toggleMenu();
+        });
+        store.setOnClickListener(v -> {
+
+        });
+        classes.setOnClickListener(v -> {
+
+        });
+        ChallengeTeahcer.setOnClickListener(v -> {
+
+        });
+        PGTBotter.setOnClickListener(v -> {
+
+        });
+        LibraryUpgrades.setOnClickListener(v -> {
+
+        });
+
+
+
+
+
+
+
+
+
     }
     public void setButtonVisibility(){
 
@@ -233,5 +295,26 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
             binding.clickableBlock.setBackground(ContextCompat.getDrawable(binding.clickableBlock.getContext(), imgID));
             //Log.i("CURRENTSTATS", completionPercentage + " " + imgID + " " + String.valueOf((currentClickAmount/(double)maxClickAmount)));
+    }
+
+    private void toggleMenu(){
+        if (isMenuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+    private void openMenu() {
+        menuLayout.setVisibility(View.VISIBLE);
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        menuLayout.startAnimation(slideUp);
+        isMenuOpen = true;
+    }
+
+    private void closeMenu() {
+        Animation slideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        menuLayout.startAnimation(slideDown);
+        menuLayout.setVisibility(View.GONE);
+        isMenuOpen = false;
     }
 }
