@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -40,6 +42,38 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         binding.godMode.setOnClickListener(v-> assignment.clickStrength += 1000000 );
         binding.plus49.setOnClickListener(v-> FurthestLevel += 49);
+
+
+        Button backbutton = findViewById(R.id.back);
+        Button store = findViewById(R.id.button3);
+        Button classes  =  findViewById(R.id.Classes);
+        Button ChallengeTeahcer  =  findViewById(R.id.button5);
+        Button PGTBotter  =  findViewById(R.id.botter);
+        Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
+        ImageButton downArrow = findViewById(R.id.imageView2);
+
+
+        downArrow.setOnClickListener(view -> {
+            toggleMenu();
+        });
+        backbutton.setOnClickListener(v -> {
+            toggleMenu();
+        });
+        store.setOnClickListener(v -> {
+
+        });
+        classes.setOnClickListener(v -> {
+
+        });
+        ChallengeTeahcer.setOnClickListener(v -> {
+
+        });
+        PGTBotter.setOnClickListener(v -> {
+
+        });
+        LibraryUpgrades.setOnClickListener(v -> {
+
+        });
 
         binding.menuButton.setOnClickListener(v->{
             // Toast.makeText(AssignmentScreen.this, "Menu button clicked", Toast.LENGTH_SHORT).show();
