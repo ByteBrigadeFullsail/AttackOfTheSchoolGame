@@ -3,6 +3,7 @@ package com.bytebrigade.attackoftheschool.gameplay;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import android.view.GestureDetector;
@@ -17,7 +18,11 @@ import com.bytebrigade.attackoftheschool.MainActivity;
 import com.bytebrigade.attackoftheschool.R;
 import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBinding;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+
+import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
@@ -27,8 +32,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     public ActivityAssignmentScreenBinding binding;
     private View menuLayout;
     private boolean isMenuOpen = false;
+    private ImageView powerUp;
     private GestureDetector gestureDetector;
+    private Handler handler;
+    private Random random;
+    Button backtoDefaultButtons;
+    private Runnable runnable;
     AssignmentAnimationListener animator;
+    CheatSheetAnimator cheetSheetAnimator;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -40,6 +51,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         animator = new AssignmentAnimationListener(binding.clickableBlock);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
         setButtonVisibility();
+        powerUp = findViewById(R.id.cheatSheet);
+
+        handler = new Handler();
+        random = new Random();
+
+        startPowerUpGenerator();
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
@@ -50,7 +67,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             setButtonVisibility();
         });
 
-
+        cheetSheetAnimator = new CheatSheetAnimator(powerUp);
         binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
 
@@ -63,7 +80,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         Button PGTBotter = findViewById(R.id.botter);
         Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
         ImageView downArrow = findViewById(R.id.imageView2);
-
+        backtoDefaultButtons = findViewById(R.id.backtoDefaultButtons);
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -89,6 +106,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 }
                 return false;
             }
+        });
+        backtoDefaultButtons.setOnClickListener(v->{
+
+            binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
+            binding.libraryMenu.setVisibility(View.INVISIBLE);
         });
         menuLayout.setOnTouchListener((v, event) -> {
             gestureDetector.onTouchEvent(event);
@@ -123,9 +145,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         });
         LibraryUpgrades.setOnClickListener(v -> {
+            binding.bottomButtonsLayout.setVisibility(View.INVISIBLE);
+            binding.libraryMenu.setVisibility(View.VISIBLE);
 
         });
-
+        powerUp.setOnClickListener(v->{
+            clickedPowerUp();
+        });
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
         binding.prevStage.setOnClickListener(v -> {
@@ -167,6 +193,33 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         closeMenu();
     }
 
+    private void clickedPowerUp() {
+        cheetSheetAnimator.stop();
+        powerUp.setVisibility(View.GONE);
+
+        //CLICKED POWER UP CODE HERE
+
+
+    }
+
+
+    private void showPowerUp() {
+        cheetSheetAnimator.start(1000, 10);
+    }
+    private void startPowerUpGenerator() {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                // 50% chance to show power-up
+                if (random.nextBoolean() && powerUp.getVisibility() == View.GONE) {
+                    showPowerUp();
+                }
+                // Schedule the next run after 1 minute
+                handler.postDelayed(this, 60000);//60000); // 60000 milliseconds = 1 minute
+            }
+        };
+        handler.post(runnable);
+    }
     public void setButtonVisibility() {
 
         if (CurrentLevel != 1)
@@ -339,6 +392,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 .withEndAction(() -> {
                     menuLayout.setVisibility(View.GONE);
                     isMenuOpen = false;
+                    binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
+                    binding.libraryMenu.setVisibility(View.INVISIBLE);
                 });
     }
 }
