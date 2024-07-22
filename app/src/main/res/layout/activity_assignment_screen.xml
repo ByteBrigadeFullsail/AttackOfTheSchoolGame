@@ -187,7 +187,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/menuLayout"
                 android:layout_width="match_parent"
-                android:background="#80000000"
+                android:background="#D0000000"
                 android:visibility="gone"
                 android:layout_height="match_parent">
 
@@ -211,14 +211,12 @@
                     app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.516"
                     app:layout_constraintVertical_bias="0.804"/>
             <Button
-                    android:text="Back"
+                    android:text="Back to Main Menu"
                     android:layout_width="380dp"
-                    android:layout_height="52dp" android:id="@+id/back"
+                    android:layout_height="100dp" android:id="@+id/backtoMainMenu"
                     style="@style/Widget.AppCompat.Button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.58"
-                    app:layout_constraintVertical_bias="0.959"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
             <Button
                     android:text="Challenge Teacher"
                     android:layout_width="379dp"
@@ -264,7 +262,7 @@
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.839"
                     app:layout_constraintVertical_bias="0.255"/>
-            <ImageButton
+            <ImageView
                     android:layout_width="146dp"
                     android:layout_height="94dp" app:srcCompat="@android:drawable/arrow_down_float"
                     android:id="@+id/imageView2"
