@@ -11,6 +11,8 @@ public class Profile {
     public static int CurrentLevel = 1;
     //1-1000
 
+    public static long points = 0;
+
 
     public static int StudentLoansPoints = 0;
 

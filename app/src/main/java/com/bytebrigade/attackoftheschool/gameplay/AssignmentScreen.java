@@ -1,23 +1,36 @@
 package com.bytebrigade.attackoftheschool.gameplay;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import com.bytebrigade.attackoftheschool.MainActivity;
 import com.bytebrigade.attackoftheschool.R;
 import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBinding;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
@@ -27,8 +40,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     public ActivityAssignmentScreenBinding binding;
     private View menuLayout;
     private boolean isMenuOpen = false;
+    private ImageView powerUp;
     private GestureDetector gestureDetector;
+    private Handler handler;
+    private Random random;
+    Button backtoDefaultButtons;
+    private Runnable runnable;
     AssignmentAnimationListener animator;
+    CheatSheetAnimator cheetSheetAnimator;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -40,6 +59,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         animator = new AssignmentAnimationListener(binding.clickableBlock);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
         setButtonVisibility();
+        powerUp = findViewById(R.id.cheatSheet);
+
+        handler = new Handler();
+        random = new Random();
+
+        startPowerUpGenerator();
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
@@ -50,7 +75,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             setButtonVisibility();
         });
 
-
+        cheetSheetAnimator = new CheatSheetAnimator(powerUp);
         binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
 
@@ -63,7 +88,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         Button PGTBotter = findViewById(R.id.botter);
         Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
         ImageView downArrow = findViewById(R.id.imageView2);
-
+        backtoDefaultButtons = findViewById(R.id.backtoDefaultButtons);
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -89,6 +114,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 }
                 return false;
             }
+        });
+        backtoDefaultButtons.setOnClickListener(v -> {
+
+            binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
+            binding.libraryMenu.setVisibility(View.INVISIBLE);
         });
         menuLayout.setOnTouchListener((v, event) -> {
             gestureDetector.onTouchEvent(event);
@@ -123,9 +153,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         });
         LibraryUpgrades.setOnClickListener(v -> {
+            binding.bottomButtonsLayout.setVisibility(View.INVISIBLE);
+            binding.libraryMenu.setVisibility(View.VISIBLE);
 
         });
-
+        powerUp.setOnClickListener(v -> {
+            clickedPowerUp();
+        });
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
         binding.prevStage.setOnClickListener(v -> {
@@ -165,6 +199,84 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         });
         closeMenu();
+        refreshStats();
+    }
+
+    @Override
+    public void showAddedPoints(String message) {
+        // Create a new TextView
+        TextView textView = new TextView(this);
+        textView.setText(message);
+
+        // Add the TextView to the main layout
+        binding.clickableBlock.addView(textView, new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        // Get the starting Y position
+        float startY = textView.getY();
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(40);
+        // Set up the translation and fade-out animations
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(textView, "translationY", startY, startY - 200);
+        moveUp.setDuration(2000);
+
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(textView, "alpha", 1f, 0f);
+        fadeOut.setDuration(2000);
+
+        // Combine the animations into an AnimatorSet
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(moveUp, fadeOut);
+
+        // Remove the TextView after the animation ends
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                binding.clickableBlock.removeView(textView);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+            }
+        });
+
+        // Start the animation
+        animatorSet.start();
+    }
+    private void clickedPowerUp() {
+        cheetSheetAnimator.stop();
+        powerUp.setVisibility(View.GONE);
+
+        //CLICKED POWER UP CODE HERE
+
+
+    }
+
+
+    private void showPowerUp() {
+        cheetSheetAnimator.start(1000, 10);
+    }
+
+    private void startPowerUpGenerator() {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                // 50% chance to show power-up
+                if (random.nextBoolean() && powerUp.getVisibility() == View.GONE) {
+                    showPowerUp();
+                }
+                // Schedule the next run after 1 minute
+                handler.postDelayed(this, 60000);//60000); // 60000 milliseconds = 1 minute
+            }
+        };
+        handler.post(runnable);
     }
 
     public void setButtonVisibility() {
@@ -211,8 +323,22 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         Log.i("CURRENTSTATS", CurrentLevel + " is current level");
     }
 
+    private void refreshStats() {
+        String[] stats = binding.statsDisplay.getText().toString().split("\n");
+        stats[1] = "Points: " + points;
+        stats[2] = "Time: " + "00:00:00";
+        //stats[3] = "Time: " + "00:00:00";
+        StringBuilder updatedStats = new StringBuilder();
+        for (String stat : stats) {
+            updatedStats.append(stat).append("\n");
+        }
+        binding.statsDisplay.setText(updatedStats.toString().trim());
+    }
+
     @Override
     public void changeClickableBackground() {
+
+        refreshStats();
 
 
         int completionPercentage = (int) Math.floor((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 10);
@@ -339,6 +465,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 .withEndAction(() -> {
                     menuLayout.setVisibility(View.GONE);
                     isMenuOpen = false;
+                    binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
+                    binding.libraryMenu.setVisibility(View.INVISIBLE);
                 });
     }
 }
