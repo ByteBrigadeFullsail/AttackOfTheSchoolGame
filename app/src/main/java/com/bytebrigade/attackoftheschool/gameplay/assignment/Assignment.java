@@ -40,6 +40,7 @@ public class Assignment implements Clickable {
 
 
             if(CurrentLevel == FurthestLevel) {
+
                 progressToNextLevel();
             } else{
                 defeatedClickableButNoProgression();

@@ -327,6 +327,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         String[] stats = binding.statsDisplay.getText().toString().split("\n");
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
+        //stats[3] = "Time: " + "00:00:00";
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");

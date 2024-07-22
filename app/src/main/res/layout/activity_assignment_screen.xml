@@ -192,7 +192,7 @@
                 android:background="#D0000000"
                 android:visibility="gone">
             <TextView
-                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0"
+                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0\n\n\n\n\n\n"
                     android:layout_width="400dp"
                     android:textColor="@color/white"
                     android:textSize="20dp"
