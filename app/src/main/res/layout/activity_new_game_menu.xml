@@ -17,5 +17,27 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.856" app:layout_constraintHorizontal_bias="0.495"/>
+            app:layout_constraintVertical_bias="0.79" app:layout_constraintHorizontal_bias="0.495"/>
+    <Button
+            android:id="@+id/cancelButton"
+            android:text="Cancel"
+            android:layout_width="300dp"
+            android:layout_height="90dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.931" app:layout_constraintHorizontal_bias="0.495"
+            android:textAlignment="center" />
+    <EditText
+            android:id="@+id/characterNameInput"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Character Name"
+            android:background="@android:drawable/edit_text"
+            android:textAlignment="center" android:inputType="textPersonName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="292dp" app:layout_constraintHorizontal_bias="0.495"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
