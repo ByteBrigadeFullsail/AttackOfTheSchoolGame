@@ -37,11 +37,6 @@
         <activity android:name=".MainMenu" android:exported="true" android:screenOrientation="sensorPortrait">
         </activity>
         <activity
-                android:name=".MenuSelectorScreen.Menuselector"
-                android:exported="true"
-                android:screenOrientation="sensorPortrait">
-        </activity>
-        <activity
                 android:name=".CreditsActivity"
                 android:exported="true"
                 android:screenOrientation="sensorPortrait">
