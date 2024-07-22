@@ -13,6 +13,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainRootAssignmentScreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -191,13 +192,13 @@
                 android:background="#D0000000"
                 android:visibility="gone">
             <TextView
-                    android:text="Character Stats\nPoints: 0"
+                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0"
                     android:layout_width="400dp"
                     android:textColor="@color/white"
                     android:textSize="20dp"
                     android:layout_height="400dp"
                     android:background="#70000000"
-                    android:id="@+id/ImagePlaceHolder"
+                    android:id="@+id/statsDisplay"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.255"

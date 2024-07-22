@@ -13,7 +13,6 @@ public class CheatSheetAnimator {
     private Random random = new Random();
     private long duration = 1000;
     private int translationCount = 10;
-    private float movementRange = 1F;
 
     private View animatedObject;
 
@@ -80,9 +79,6 @@ public class CheatSheetAnimator {
         else stop();
     }
 
-    public void setMovementRange(float range) {
-        movementRange = range;
-    }
 
     public void setDuration(long duration) {
         this.duration = duration;
