@@ -4,8 +4,6 @@ import android.util.Log;
 import com.bytebrigade.attackoftheschool.gameplay.Clickable;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
-import java.math.BigDecimal;
-
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
 public class Assignment implements Clickable {
@@ -168,8 +166,8 @@ public class Assignment implements Clickable {
 
         void showAddedPoints(String message);
 
-        void start30SecondTimer();
+        void start30SecondBossTimer();
 
-        void stop30SecondTimer();
+        void stop30SecondBossTimer();
     }
 }

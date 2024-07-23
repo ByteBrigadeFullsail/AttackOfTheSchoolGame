@@ -15,8 +15,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -180,8 +178,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 binding.bossTimer.setProgress(30);
                 resetProgressBar();
                 assignment.currentLevelChanged();
-                stop30SecondTimer();
-                start30SecondTimer();
+                stop30SecondBossTimer();
+                start30SecondBossTimer();
             }
         };
         cheatSheetCountDownTimer = new CountDownTimer(30000, 1000) {
@@ -308,7 +306,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     }
 
     @Override
-    public void start30SecondTimer() {
+    public void start30SecondBossTimer() {
         if (!isBossTimerRunning) {
             binding.bossTimer.setVisibility(View.VISIBLE);
             countDownTimer.start();
@@ -317,7 +315,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     }
 
     @Override
-    public void stop30SecondTimer() {
+    public void stop30SecondBossTimer() {
         if (isBossTimerRunning) {
             countDownTimer.cancel();
             isBossTimerRunning = false;
@@ -380,8 +378,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
 
         if(CurrentLevel %5==0) {
-            start30SecondTimer();
-        }else stop30SecondTimer();
+            start30SecondBossTimer();
+        }else stop30SecondBossTimer();
 
 
 
