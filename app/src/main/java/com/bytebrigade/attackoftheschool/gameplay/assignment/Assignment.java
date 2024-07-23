@@ -6,8 +6,7 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentNam
 
 import java.math.BigDecimal;
 
-import static com.bytebrigade.attackoftheschool.gameplay.Profile.CurrentLevel;
-import static com.bytebrigade.attackoftheschool.gameplay.Profile.FurthestLevel;
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
 public class Assignment implements Clickable {
     private Long maxClickAmount;
@@ -30,9 +29,18 @@ public class Assignment implements Clickable {
             this.currentClickAmount+= clickStrength;
 
             Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
-        } else {
+        } else { //defeated clickable below
+
+
+
+            long pointsToAdd = CurrentLevel;
+            points += pointsToAdd;
+            caller.showAddedPoints("+" + pointsToAdd + " Points");
+
+
 
             if(CurrentLevel == FurthestLevel) {
+
                 progressToNextLevel();
             } else{
                 defeatedClickableButNoProgression();
@@ -118,5 +126,6 @@ public class Assignment implements Clickable {
     public interface CallBack {
         void changeClickableBackground();
         void changeMainBackground();
+        void showAddedPoints(String message);
     }
 }

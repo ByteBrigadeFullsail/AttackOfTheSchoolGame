@@ -10,6 +10,7 @@ public class MainMenu extends AppCompatActivity {
     Button newGameButton;
     Button continueButton;
     Button storeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +19,7 @@ public class MainMenu extends AppCompatActivity {
         continueButton = findViewById(R.id.continueButton);
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
-            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
+            Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
             startActivity(intent);
             finish();
         });
