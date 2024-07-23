@@ -63,6 +63,11 @@ public class Assignment implements Clickable {
         this.maxClickAmount = calculateHealth(CurrentLevel);
         this.currentClickAmount = 0L;
     }
+
+    public long getUpgradePrice() {
+        long basePrice = 50; // Initial price for the first upgrade
+        return (long) (basePrice * Math.pow(1.15, amountOfClickIncreasedUpgrades));
+    }
     public long calculateHealth(int stage) {
         // Base health for regular stages
         double baseHealth = 10;

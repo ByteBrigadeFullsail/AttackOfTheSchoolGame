@@ -9,6 +9,7 @@ public class Profile {
 
     public static int FurthestLevel =1;
     public static int CurrentLevel = 1;
+    public static int amountOfClickIncreasedUpgrades = 0;
     //1-1000
 
     public static long points = 0;

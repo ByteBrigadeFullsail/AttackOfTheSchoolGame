@@ -1,5 +1,40 @@
 
+<!--
+mainRootAssignmentScreen: Lowest constrained layout
+currentClassText: Class text display
+nameEditText: Level text display
+prevStage: Prevoius level button
+nextStage: next level button
+maxStage: Skip to max level
+clickableBlock: The clickable object to play the game.
+progressBar: Progress of current level
+menuButton: Button to open game menu
+helper_button: Mom activation button
+godMode: God mode button
+plus49: Button to add 49 levels to FurthestLevel
+menuLayout: outer ConstrainedLayout of in game menu
+statsDisplay: current statistics TextView in menu
 
+bottomButtonsLayout: Inner LinearLayout of DEFAULT buttons for in-game menu
+backtoMainMenu: Button to go to main menu and leave the game
+Stats: Non functional
+
+DEFAULT BUTTONS:
+storeButton: Button to open in-game store
+Classes: Non functional
+skipToTeacher: Button to skip to furthestlevel
+botter: Button to activate PGT-botter
+LibraryUpgrades: Button to open Library menu for upgrades
+imageView2: Button to close ingame menu
+
+LIBRARY MENU BUTTONS:
+libraryMenu: Main LinearLayout for library buttons
+upgradeCheatSheet: Button to upgrade cheatsheet value
+upgradeClick: Button to upgrade click value for each click
+backtoDefaultButtons: Switch ingame menu back to default buttons
+
+cheatSheet: The main cheatsheet object.
+-->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@drawable/english_0"
@@ -224,7 +259,7 @@
                         android:text="Store"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:id="@+id/button3"
+                        android:id="@+id/storeButton"
                         android:layout_marginBottom="16dp"
                         style="@style/Widget.AppCompat.Button"/>
 
@@ -241,7 +276,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginBottom="16dp"
-                        android:id="@+id/button5"
+                        android:id="@+id/skipToTeacher"
                         style="@style/Widget.AppCompat.Button"/>
 
                 <Button

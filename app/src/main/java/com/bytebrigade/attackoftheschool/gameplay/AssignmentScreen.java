@@ -29,7 +29,6 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.Assignme
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
@@ -40,14 +39,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     public ActivityAssignmentScreenBinding binding;
     private View menuLayout;
     private boolean isMenuOpen = false;
-    private ImageView powerUp;
     private GestureDetector gestureDetector;
     private Handler handler;
     private Random random;
-    Button backtoDefaultButtons;
     private Runnable runnable;
     AssignmentAnimationListener animator;
-    CheatSheetAnimator cheetSheetAnimator;
+    CheatSheetAnimator cheatSheetAnimator;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -57,10 +54,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         assignment.setBackgroundSetter(this);
         binding.setAssignment(assignment);
         animator = new AssignmentAnimationListener(binding.clickableBlock);
-        binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-        setButtonVisibility();
-        powerUp = findViewById(R.id.cheatSheet);
-
+        cheatSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
+        menuLayout = binding.menuLayout;
         handler = new Handler();
         random = new Random();
 
@@ -75,20 +70,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             setButtonVisibility();
         });
 
-        cheetSheetAnimator = new CheatSheetAnimator(powerUp);
-        binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
-        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
 
 
-        menuLayout = findViewById(R.id.menuLayout);
-        Button store = findViewById(R.id.button3);
-        Button backtoMainMenu = findViewById(R.id.backtoMainMenu);
-        Button classes = findViewById(R.id.Classes);
-        Button ChallengeTeahcer = findViewById(R.id.button5);
-        Button PGTBotter = findViewById(R.id.botter);
-        Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
-        ImageView downArrow = findViewById(R.id.imageView2);
-        backtoDefaultButtons = findViewById(R.id.backtoDefaultButtons);
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -115,7 +98,10 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 return false;
             }
         });
-        backtoDefaultButtons.setOnClickListener(v -> {
+
+        binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
+        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
+        binding.backtoDefaultButtons.setOnClickListener(v -> {
 
             binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
             binding.libraryMenu.setVisibility(View.INVISIBLE);
@@ -132,32 +118,20 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             gestureDetector.onTouchEvent(event);
             return true;
         });
-/*        downArrow.setOnClickListener(view -> {
-            toggleMenu();
-        });*/
-        store.setOnClickListener(v -> {
-
-        });
-        backtoMainMenu.setOnClickListener(v -> {
+        binding.backtoMainMenu.setOnClickListener(v -> {
             Intent intent = new Intent(AssignmentScreen.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
-        classes.setOnClickListener(v -> {
+        binding.upgradeClick.setOnClickListener(v -> {
 
         });
-        ChallengeTeahcer.setOnClickListener(v -> {
-
-        });
-        PGTBotter.setOnClickListener(v -> {
-
-        });
-        LibraryUpgrades.setOnClickListener(v -> {
+        binding.LibraryUpgrades.setOnClickListener(v -> {
             binding.bottomButtonsLayout.setVisibility(View.INVISIBLE);
             binding.libraryMenu.setVisibility(View.VISIBLE);
 
         });
-        powerUp.setOnClickListener(v -> {
+        binding.cheatSheet.setOnClickListener(v -> {
             clickedPowerUp();
         });
 
@@ -165,11 +139,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
                 CurrentLevel--;
-                assignment.currentLevelChanged();
-                binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
-                binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-                binding.nameEditText.setText(new String("Level " + CurrentLevel));
-                Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
+                resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
             }
@@ -177,11 +147,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.nextStage.setOnClickListener(v -> {
             if (CurrentLevel < FurthestLevel) {
                 CurrentLevel++;
-                assignment.currentLevelChanged();
-                binding.progressBar.setProgress(0);
-                binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-                binding.nameEditText.setText(new String("Level " + CurrentLevel));
-                Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
+                resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
             }
@@ -189,19 +155,22 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.maxStage.setOnClickListener(v -> {
             if (CurrentLevel < FurthestLevel) {
                 CurrentLevel = FurthestLevel;
-                assignment.currentLevelChanged();
-                binding.progressBar.setProgress(0);
-                binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-                binding.nameEditText.setText(new String("Level " + CurrentLevel));
-                Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
                 changeMainBackground();
                 setButtonVisibility();
+                resetProgressBar();
             }
         });
         closeMenu();
         refreshStats();
+        resetProgressBar();
+        setButtonVisibility();
     }
-
+    public void resetProgressBar(){
+        binding.progressBar.setProgress(0);
+        binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
+        binding.nameEditText.setText(new String("Level " + CurrentLevel));
+        assignment.currentLevelChanged();
+    }
     @Override
     public void showAddedPoints(String message) {
         // Create a new TextView
@@ -251,8 +220,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         animatorSet.start();
     }
     private void clickedPowerUp() {
-        cheetSheetAnimator.stop();
-        powerUp.setVisibility(View.GONE);
+        cheatSheetAnimator.stop();
+        binding.cheatSheet.setVisibility(View.GONE);
 
         //CLICKED POWER UP CODE HERE
 
@@ -261,7 +230,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
 
     private void showPowerUp() {
-        cheetSheetAnimator.start(1000, 10);
+        cheatSheetAnimator.start(1000, 10);
     }
 
     private void startPowerUpGenerator() {
@@ -269,7 +238,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             @Override
             public void run() {
                 // 50% chance to show power-up
-                if (random.nextBoolean() && powerUp.getVisibility() == View.GONE) {
+                if (random.nextBoolean() && binding.cheatSheet.getVisibility() == View.GONE) {
                     showPowerUp();
                 }
                 // Schedule the next run after 1 minute
