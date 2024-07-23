@@ -10,9 +10,9 @@ import java.util.List;
 public class Helper {
     private HelperType helperType;
     private Integer noOfAssignments;
-    private List<Assignment> currentAssignment;
+    private Assignment currentAssignment;
 
-    public Helper(SchoolType schoolType, List<Assignment> assignment) {
+    public Helper(SchoolType schoolType, Assignment assignment) {
         this.currentAssignment = assignment;
         switch (schoolType) {
             case ELEMENTARY:
@@ -38,23 +38,28 @@ public class Helper {
         this.helperType = helperType;
     }
 
-    public void activeHelper(SchoolType schoolType) {
+    public void activeHelper(SchoolType schoolType, Clickable clickable) {
         switch (schoolType) {
             case ELEMENTARY:
                 setHelperType(HelperType.MOM);
+                activeHelper(clickable);
                 break;
             case HIGH_SCHOOL:
                 setHelperType(HelperType.ANSWER_SHEET);
+                activeHelper(clickable);
                 break;
             case COLLAGE:
                 setHelperType(HelperType.PGT_BOTTER);
+                activeHelper(clickable);
                 break;
 
         }
     }
 
     private void activeHelper(Clickable clickable) {
-
+        for (int i = 0; i < noOfAssignments; i++) {
+            this.currentAssignment.progressToNextLevel();
+        }
     }
 
 }
