@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 
@@ -39,9 +40,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     public ActivityAssignmentScreenBinding binding;
     private View menuLayout;
     private boolean isMenuOpen = false;
+    private boolean isBossTimerRunning = false;
     private GestureDetector gestureDetector;
     private Handler handler;
     private Random random;
+    private CountDownTimer countDownTimer;
+    private CountDownTimer cheatSheetCountDownTimer;
     private Runnable runnable;
     AssignmentAnimationListener animator;
     CheatSheetAnimator cheatSheetAnimator;
@@ -59,7 +63,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         handler = new Handler();
         random = new Random();
 
-        startPowerUpGenerator();
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
@@ -69,8 +72,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             changeMainBackground();
             setButtonVisibility();
         });
-
-
 
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -124,7 +125,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             finish();
         });
         binding.upgradeClick.setOnClickListener(v -> {
-
+            if (points >= assignment.getUpgradePrice()) {
+                points -= assignment.getUpgradePrice();
+                amountOfClickIncreasedUpgrades++;
+                assignment.clickStrength += 1;
+                refreshStats();
+            }
         });
         binding.LibraryUpgrades.setOnClickListener(v -> {
             binding.bottomButtonsLayout.setVisibility(View.INVISIBLE);
@@ -160,17 +166,52 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 resetProgressBar();
             }
         });
+
+        countDownTimer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                // Calculate the remaining time in seconds
+                int secondsRemaining = (int) (millisUntilFinished / 1000);
+                // Update the progress bar (reverse it to count down)
+                binding.bossTimer.setProgress(secondsRemaining);
+            }
+            public void onFinish() {
+                // Timer finished
+                binding.bossTimer.setProgress(30);
+                resetProgressBar();
+                assignment.currentLevelChanged();
+                stop30SecondTimer();
+                start30SecondTimer();
+            }
+        };
+        cheatSheetCountDownTimer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                int secondsRemaining = (int) (millisUntilFinished / 1000);
+                binding.cheatSheetTimer.setProgress(secondsRemaining);
+            }
+            public void onFinish() {
+                binding.cheatSheetTimer.setProgress(0);
+                binding.cheatSheetTimer.setVisibility(View.INVISIBLE);
+                assignment.endCheatSheet();
+                cheatSheetCountDownTimer.cancel();
+
+            }
+        };
+        startPowerUpGenerator();
         closeMenu();
         refreshStats();
         resetProgressBar();
         setButtonVisibility();
     }
-    public void resetProgressBar(){
+
+    public void resetProgressBar() {
         binding.progressBar.setProgress(0);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
         binding.nameEditText.setText(new String("Level " + CurrentLevel));
         assignment.currentLevelChanged();
     }
+
     @Override
     public void showAddedPoints(String message) {
         // Create a new TextView
@@ -219,12 +260,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         // Start the animation
         animatorSet.start();
     }
+
     private void clickedPowerUp() {
         cheatSheetAnimator.stop();
         binding.cheatSheet.setVisibility(View.GONE);
 
-        //CLICKED POWER UP CODE HERE
-
+        assignment.startCheatSheet();
+        cheatSheetCountDownTimer.start();
+        binding.cheatSheetTimer.setVisibility(View.VISIBLE);
+        refreshStats();
 
     }
 
@@ -264,6 +308,24 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     }
 
     @Override
+    public void start30SecondTimer() {
+        if (!isBossTimerRunning) {
+            binding.bossTimer.setVisibility(View.VISIBLE);
+            countDownTimer.start();
+            isBossTimerRunning = true;
+        }
+    }
+
+    @Override
+    public void stop30SecondTimer() {
+        if (isBossTimerRunning) {
+            countDownTimer.cancel();
+            isBossTimerRunning = false;
+            binding.bossTimer.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
     public void changeMainBackground() {
         switch (CurrentLevel) {
             //starts with english
@@ -296,12 +358,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         String[] stats = binding.statsDisplay.getText().toString().split("\n");
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
-        //stats[3] = "Time: " + "00:00:00";
+        stats[3] = "Click Strength: " + assignment.clickStrength * assignment.getClickStrengthMultiplier();
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");
         }
         binding.statsDisplay.setText(updatedStats.toString().trim());
+        String s = "Price: " + assignment.getUpgradePrice() + " points";
+        binding.upgradeClick.setText(s);
     }
 
     @Override
@@ -313,10 +377,19 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         int completionPercentage = (int) Math.floor((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 10);
         // Adjust for special stages
         int imgID;
+
+
+        if(CurrentLevel %5==0) {
+            start30SecondTimer();
+        }else stop30SecondTimer();
+
+
+
         if (CurrentLevel % 1001 == 0) {
             // Final boss
             imgID = R.drawable.assignmenttemp1;
             animator.start(100, 1.5F);
+
         } else if (CurrentLevel % 200 == 0) {
 
             //EVERY 200 BOSS

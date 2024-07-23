@@ -3,11 +3,13 @@
 mainRootAssignmentScreen: Lowest constrained layout
 currentClassText: Class text display
 nameEditText: Level text display
+cheatSheetTimer: Timer for cheat sheet powerup
 prevStage: Prevoius level button
 nextStage: next level button
 maxStage: Skip to max level
 clickableBlock: The clickable object to play the game.
 progressBar: Progress of current level
+bossTimer: Timer for the boss
 menuButton: Button to open game menu
 helper_button: Mom activation button
 godMode: God mode button
@@ -84,6 +86,17 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintBottom_toTopOf="@+id/clickableBlock"
                 app:layout_constraintHorizontal_bias="0.5"
         />
+
+        <ProgressBar
+                android:id="@+id/cheatSheetTimer"
+                android:layout_width="229dp"
+                android:layout_height="40dp"
+                android:progress="30"
+                android:max="30"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toBottomOf="@+id/nameEditText"
+                android:visibility="invisible"/>
         <Button
                 android:id="@+id/prevStage"
                 android:layout_width="wrap_content"
@@ -149,6 +162,16 @@ cheatSheet: The main cheatsheet object.
                 android:layout_marginTop="36dp"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/clickableBlock"/>
+        <ProgressBar
+                android:id="@+id/bossTimer"
+                android:layout_width="229dp"
+                android:layout_height="20dp"
+                android:progress="0"
+                android:max="30"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        android:visibility="invisible"/>
 
         <Button
                 android:id="@+id/menuButton"
@@ -227,7 +250,7 @@ cheatSheet: The main cheatsheet object.
                 android:background="#D0000000"
                 android:visibility="gone">
             <TextView
-                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0\n\n\n\n\n\n"
+                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0\nClick strength: 1\n\n\n\n\n"
                     android:layout_width="400dp"
                     android:textColor="@color/white"
                     android:textSize="20dp"
