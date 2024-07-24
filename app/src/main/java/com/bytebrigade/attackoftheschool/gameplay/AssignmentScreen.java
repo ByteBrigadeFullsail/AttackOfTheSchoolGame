@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -30,9 +31,6 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatShe
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 import com.bytebrigade.attackoftheschool.gameplay.helper.enums.SchoolType;
 import com.bytebrigade.attackoftheschool.gameplay.helper.Helper;
-import com.bytebrigade.attackoftheschool.helper.Helper;
-import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
-
 import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
@@ -53,6 +51,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     AssignmentAnimationListener animator;
     CheatSheetAnimator cheatSheetAnimator;
     CheatSheetAnimator cheetSheetAnimator;
+    Button backtoDefaultButtons;
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
 
@@ -80,21 +79,20 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
         Button helperButton = binding.helperButton;
-        cheetSheetAnimator = new CheatSheetAnimator(powerUp);
+        cheetSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
         binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
 
 
         menuLayout = findViewById(R.id.menuLayout);
-        Button store = findViewById(R.id.button3);
+        Button store = binding.storeButton;
         Button backtoMainMenu = findViewById(R.id.backtoMainMenu);
         Button classes = findViewById(R.id.Classes);
-        Button ChallengeTeahcer = findViewById(R.id.button5);
+        Button skipToTeacher = binding.skipToTeacher;
         Button PGTBotter = findViewById(R.id.botter);
         Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
         ImageView downArrow = findViewById(R.id.imageView2);
         backtoDefaultButtons = findViewById(R.id.backtoDefaultButtons);
-        Button helperButton = findViewById(R.id.helper_button);
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
