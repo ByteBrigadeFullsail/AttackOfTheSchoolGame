@@ -11,7 +11,7 @@ clickableBlock: The clickable object to play the game.
 progressBar: Progress of current level
 bossTimer: Timer for the boss
 menuButton: Button to open game menu
-helper_button: Mom activation button
+helperButton: Mom activation button
 godMode: God mode button
 plus49: Button to add 49 levels to FurthestLevel
 menuLayout: outer ConstrainedLayout of in game menu
