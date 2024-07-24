@@ -14,7 +14,7 @@ public class Assignment implements Clickable {
     private CallBack caller;
     private String className;
     private int clickStrengthMultiplier = 1;
-
+    //aaa
     public Assignment(Long clickAmount, AssignmentName assignmentName) {
         this.currentClickAmount = 0L;
         this.maxClickAmount = clickAmount;
