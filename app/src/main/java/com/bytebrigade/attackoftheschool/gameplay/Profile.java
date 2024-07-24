@@ -13,7 +13,7 @@ public class Profile {
     public static int amountOfClickIncreasedUpgrades = 0;
     //1-1000
 
-    public static Long clickStrength = 1L;
+    public static Long clickStrength = 10L;
     public static int clickStrengthMultiplier = 1;
     public static long points = 0;
 

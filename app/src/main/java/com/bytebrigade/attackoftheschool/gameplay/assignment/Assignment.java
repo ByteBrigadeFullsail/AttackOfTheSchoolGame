@@ -90,12 +90,12 @@ public class Assignment implements Clickable {
 
     public long getUpgradePrice() {
         long basePrice = 50; // Initial price for the first upgrade
-        return (long) (basePrice * Math.pow(1.15, amountOfClickIncreasedUpgrades));
+        return (long) (basePrice * Math.pow(1.1, amountOfClickIncreasedUpgrades));
     }
 
     public long calculateHealth(int stage) {
         // Base health for regular stages
-        double baseHealth = 10;
+        double baseHealth = 100;
         double health;
 
         // Apply incremental increases based on stage type

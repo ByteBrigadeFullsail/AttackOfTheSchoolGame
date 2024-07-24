@@ -109,7 +109,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
                 amountOfClickIncreasedUpgrades++;
-                clickStrength += (long) Math.pow(1.1, (double) (amountOfClickIncreasedUpgrades - 1) / 5);
+                clickStrength += ((long) Math.pow(1.1, (double) (amountOfClickIncreasedUpgrades) / 5)) + 3;
+                Log.i("CURR", "curr: " + clickStrength + " added: " + Math.pow(1.1, (double) (amountOfClickIncreasedUpgrades) / 5) + " amtofupgrades: " + amountOfClickIncreasedUpgrades);
                 refreshStats();
             }
         });
@@ -134,6 +135,17 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
                 CurrentLevel--;
+                resetProgressBar();
+                changeMainBackground();
+                setButtonVisibility();
+            }
+        });
+        binding.prev10Stages.setOnClickListener(v -> {
+            if (CurrentLevel > 9) {
+                if (CurrentLevel - 10 < 0)
+                    CurrentLevel = 1;
+                else
+                    CurrentLevel-=10;
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -334,9 +346,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     public void setButtonVisibility() {
 
-        if (CurrentLevel != 1)
+        if (CurrentLevel != 1) {
             binding.prevStage.setVisibility(View.VISIBLE);
-        else if (binding.prevStage.getVisibility() == View.VISIBLE) binding.prevStage.setVisibility(View.INVISIBLE);
+            if (CurrentLevel > 9) binding.prev10Stages.setVisibility(View.VISIBLE);
+            else if (binding.prev10Stages.getVisibility() == View.VISIBLE) binding.prev10Stages.setVisibility(View.INVISIBLE);
+        }else if (binding.prevStage.getVisibility() == View.VISIBLE) binding.prevStage.setVisibility(View.INVISIBLE);
         if (CurrentLevel < FurthestLevel) {
             binding.nextStage.setVisibility(View.VISIBLE);
             binding.maxStage.setVisibility(View.VISIBLE);

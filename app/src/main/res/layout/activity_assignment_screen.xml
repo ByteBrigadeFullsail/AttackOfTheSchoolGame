@@ -108,6 +108,16 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
         />
         <Button
+                android:id="@+id/prev10Stages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back 10"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/prevStage"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+        />
+        <Button
                 android:id="@+id/nextStage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
