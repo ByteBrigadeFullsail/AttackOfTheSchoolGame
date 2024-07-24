@@ -28,6 +28,8 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+import com.bytebrigade.attackoftheschool.helper.Helper;
+import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -48,6 +50,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Runnable runnable;
     AssignmentAnimationListener animator;
     CheatSheetAnimator cheetSheetAnimator;
+    private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
+    private SchoolType schoolType = SchoolType.ELEMENTARY;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -89,6 +93,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
         ImageView downArrow = findViewById(R.id.imageView2);
         backtoDefaultButtons = findViewById(R.id.backtoDefaultButtons);
+        Button helperButton = findViewById(R.id.helper_button);
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -161,6 +166,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             clickedPowerUp();
         });
 
+        helperButton.setOnClickListener(v -> {
+            helper.activeHelper(schoolType, assignment);
+            assignment.incrementPoints();
+            binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
+            binding.nameEditText.setText(new String("Level " + CurrentLevel));
+            binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
+            changeMainBackground();
+        });
+
         binding.menuButton.setOnClickListener(v -> toggleMenu());
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
@@ -198,6 +212,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 setButtonVisibility();
             }
         });
+
         closeMenu();
         refreshStats();
     }
