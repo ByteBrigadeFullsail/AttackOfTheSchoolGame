@@ -53,6 +53,9 @@ public class Assignment implements Clickable {
         points += pointsToAdd;
         caller.showAddedPoints("+" + pointsToAdd + " Points");
 
+            Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
+        } else { //defeated clickable below
+            incrementPoints();
 
     }
     @Override
@@ -76,6 +79,13 @@ public class Assignment implements Clickable {
     }
 
     public void currentLevelChanged() {
+    public void incrementPoints() {
+        long pointsToAdd = CurrentLevel;
+        points += pointsToAdd;
+        caller.showAddedPoints("+" + pointsToAdd + " Points");
+    }
+
+    public void currentLevelChanged(){
         this.maxClickAmount = calculateHealth(CurrentLevel);
         this.assignmentName = AssignmentName.values()[(int) Math.ceil(CurrentLevel / 200)];
         this.currentClickAmount = 0L;
