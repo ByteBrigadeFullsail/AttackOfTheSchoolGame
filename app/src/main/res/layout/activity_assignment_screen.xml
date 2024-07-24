@@ -160,6 +160,7 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="183dp"
                 android:layout_marginTop="36dp"
+                android:progressDrawable="@drawable/assignment_progressbar"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/clickableBlock"/>
         <ProgressBar

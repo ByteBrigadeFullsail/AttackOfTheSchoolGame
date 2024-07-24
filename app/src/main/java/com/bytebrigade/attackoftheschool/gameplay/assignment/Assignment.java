@@ -8,12 +8,10 @@ import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
 public class Assignment implements Clickable {
     private Long maxClickAmount;
-    public Long clickStrength = 1L;
-    private Long currentClickAmount;
+    public Long currentClickAmount;
     private AssignmentName assignmentName;
     private CallBack caller;
     private String className;
-    private int clickStrengthMultiplier = 1;
     //aaa
     public Assignment(Long clickAmount, AssignmentName assignmentName) {
         this.currentClickAmount = 0L;
@@ -152,9 +150,6 @@ public class Assignment implements Clickable {
 
     public String getClassName() {
         return className;
-    }
-    public int getClickStrengthMultiplier(){
-        return clickStrengthMultiplier;
     }
     public String getAssignmentName() {
         return assignmentName.getAssignmentName();
