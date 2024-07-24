@@ -1,5 +1,42 @@
 
+<!--
+mainRootAssignmentScreen: Lowest constrained layout
+currentClassText: Class text display
+nameEditText: Level text display
+cheatSheetTimer: Timer for cheat sheet powerup
+prevStage: Prevoius level button
+nextStage: next level button
+maxStage: Skip to max level
+clickableBlock: The clickable object to play the game.
+progressBar: Progress of current level
+bossTimer: Timer for the boss
+menuButton: Button to open game menu
+helper_button: Mom activation button
+godMode: God mode button
+plus49: Button to add 49 levels to FurthestLevel
+menuLayout: outer ConstrainedLayout of in game menu
+statsDisplay: current statistics TextView in menu
 
+bottomButtonsLayout: Inner LinearLayout of DEFAULT buttons for in-game menu
+backtoMainMenu: Button to go to main menu and leave the game
+Stats: Non functional
+
+DEFAULT BUTTONS:
+storeButton: Button to open in-game store
+Classes: Non functional
+skipToTeacher: Button to skip to furthestlevel
+botter: Button to activate PGT-botter
+LibraryUpgrades: Button to open Library menu for upgrades
+imageView2: Button to close ingame menu
+
+LIBRARY MENU BUTTONS:
+libraryMenu: Main LinearLayout for library buttons
+upgradeCheatSheet: Button to upgrade cheatsheet value
+upgradeClick: Button to upgrade click value for each click
+backtoDefaultButtons: Switch ingame menu back to default buttons
+
+cheatSheet: The main cheatsheet object.
+-->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@drawable/english_0"
@@ -49,6 +86,17 @@
                 app:layout_constraintBottom_toTopOf="@+id/clickableBlock"
                 app:layout_constraintHorizontal_bias="0.5"
         />
+
+        <ProgressBar
+                android:id="@+id/cheatSheetTimer"
+                android:layout_width="229dp"
+                android:layout_height="40dp"
+                android:progress="30"
+                android:max="30"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toBottomOf="@+id/nameEditText"
+                android:visibility="invisible"/>
         <Button
                 android:id="@+id/prevStage"
                 android:layout_width="wrap_content"
@@ -114,6 +162,16 @@
                 android:layout_marginTop="36dp"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/clickableBlock"/>
+        <ProgressBar
+                android:id="@+id/bossTimer"
+                android:layout_width="229dp"
+                android:layout_height="20dp"
+                android:progress="0"
+                android:max="30"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        android:visibility="invisible"/>
 
         <Button
                 android:id="@+id/menuButton"
@@ -192,7 +250,7 @@
                 android:background="#D0000000"
                 android:visibility="gone">
             <TextView
-                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0\n\n\n\n\n\n"
+                    android:text="Character Stats\nPoints: 0\nTime: 0:0:0\nClick strength: 1\n\n\n\n\n"
                     android:layout_width="400dp"
                     android:textColor="@color/white"
                     android:textSize="20dp"
@@ -224,7 +282,7 @@
                         android:text="Store"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:id="@+id/button3"
+                        android:id="@+id/storeButton"
                         android:layout_marginBottom="16dp"
                         style="@style/Widget.AppCompat.Button"/>
 
@@ -241,7 +299,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginBottom="16dp"
-                        android:id="@+id/button5"
+                        android:id="@+id/skipToTeacher"
                         style="@style/Widget.AppCompat.Button"/>
 
                 <Button

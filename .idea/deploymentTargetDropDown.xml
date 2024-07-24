@@ -5,21 +5,8 @@
       <entry key="NewGameMenu">
         <State />
       </entry>
-      <entry key="app">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\curti\.android\avd\Medium_Phone_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-07-22T22:06:55.119278300Z" />
-        </State>
+      <entry key="StartAssignmentScreen">
+        <State />
       </entry>
     </value>
   </component>
