@@ -58,7 +58,7 @@ public class Helper {
 
     private void activeHelper(Clickable clickable) {
         for (int i = 0; i < noOfAssignments; i++) {
-            this.currentAssignment.progressToNextLevel();
+            //this.currentAssignment.progressToNextLevel();
         }
     }
 

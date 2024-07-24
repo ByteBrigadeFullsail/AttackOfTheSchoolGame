@@ -29,8 +29,8 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
-import com.bytebrigade.attackoftheschool.gameplay.helper.enums.SchoolType;
-import com.bytebrigade.attackoftheschool.gameplay.helper.Helper;
+import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
+import com.bytebrigade.attackoftheschool.helper.Helper;
 import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
@@ -51,7 +51,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     AssignmentAnimationListener animator;
     CheatSheetAnimator cheatSheetAnimator;
     CheatSheetAnimator cheetSheetAnimator;
-    Button backtoDefaultButtons;
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
 
@@ -72,55 +71,18 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             assignment.incrementClick();
             binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
             binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-            binding.nameEditText.setText(new String("Level " + CurrentLevel));
             Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
             changeMainBackground();
             setButtonVisibility();
         });
 
-        Button helperButton = binding.helperButton;
         cheetSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
-        binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
-        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
+        //binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
+        //binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
 
+        gestureDetector = gestureDectorSetter();
 
-        menuLayout = findViewById(R.id.menuLayout);
-        Button store = binding.storeButton;
-        Button backtoMainMenu = findViewById(R.id.backtoMainMenu);
-        Button classes = findViewById(R.id.Classes);
-        Button skipToTeacher = binding.skipToTeacher;
-        Button PGTBotter = findViewById(R.id.botter);
-        Button LibraryUpgrades = findViewById(R.id.LibraryUpgrades);
-        ImageView downArrow = findViewById(R.id.imageView2);
-        backtoDefaultButtons = findViewById(R.id.backtoDefaultButtons);
-
-        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-
-            @Override
-            public boolean onDown(MotionEvent e) {
-                return true;
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                float diffY = e2.getY() - e1.getY();
-                Log.i("CURRENTSTAS", "ACTION distance: " + diffY + " Velocity: " + velocityY);
-                if (Math.abs(diffY) > 250 && Math.abs(velocityY) > 100) {
-
-                    if (diffY > 0 && isMenuOpen) {
-                        // Swipe down
-                        closeMenu();
-                    } else if (diffY < 0 && !isMenuOpen) {
-                        // Swipe up
-                        openMenu();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
+        binding.godMode.setOnClickListener(v -> clickStrength += 1000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
@@ -148,7 +110,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
                 amountOfClickIncreasedUpgrades++;
-                assignment.clickStrength += 1;
+                clickStrength *= (long)Math.pow(1.1, (double) (amountOfClickIncreasedUpgrades - 1) / 5);
                 refreshStats();
             }
         });
@@ -161,13 +123,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             clickedPowerUp();
         });
 
-        helperButton.setOnClickListener(v -> {
-            helper.activeHelper(schoolType, assignment);
-            assignment.incrementPoints();
-            binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-            binding.nameEditText.setText(new String("Level " + CurrentLevel));
-            binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
+        binding.helperButton.setOnClickListener(v -> {
+            assignment.currentClickAmount = assignment.getMaxClickAmount();
+            assignment.incrementClick();
+            resetProgressBar();
             changeMainBackground();
+            setButtonVisibility();
         });
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
@@ -196,7 +157,17 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         });
 
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        countDownTimer = getBossCountDownTimer();
+        cheatSheetCountDownTimer = getCheatSheetCountDownTimer();
+        startPowerUpGenerator();
+        closeMenu();
+        refreshStats();
+        resetProgressBar();
+        setButtonVisibility();
+        checkStartBossTimer();
+    }
+    public CountDownTimer getBossCountDownTimer() {
+        return new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 // Calculate the remaining time in seconds
@@ -213,7 +184,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 start30SecondBossTimer();
             }
         };
-        cheatSheetCountDownTimer = new CountDownTimer(30000, 1000) {
+    }
+    public CountDownTimer getCheatSheetCountDownTimer() {
+        return new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 int secondsRemaining = (int) (millisUntilFinished / 1000);
@@ -227,13 +200,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             }
         };
-        startPowerUpGenerator();
-        closeMenu();
-        refreshStats();
-        resetProgressBar();
-        setButtonVisibility();
     }
-
+    public void checkStartBossTimer(){
+        if(CurrentLevel %5==0) {
+            start30SecondBossTimer();
+        }else stop30SecondBossTimer();
+    }
     public void resetProgressBar() {
         binding.progressBar.setProgress(0);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
@@ -289,7 +261,33 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         // Start the animation
         animatorSet.start();
     }
+    private GestureDetector gestureDectorSetter(){
+        return new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                float diffY = e2.getY() - e1.getY();
+                Log.i("CURRENTSTAS", "ACTION distance: " + diffY + " Velocity: " + velocityY);
+                if (Math.abs(diffY) > 250 && Math.abs(velocityY) > 100) {
+
+                    if (diffY > 0 && isMenuOpen) {
+                        // Swipe down
+                        closeMenu();
+                    } else if (diffY < 0 && !isMenuOpen) {
+                        // Swipe up
+                        openMenu();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     private void clickedPowerUp() {
         cheatSheetAnimator.stop();
         binding.cheatSheet.setVisibility(View.GONE);
@@ -387,7 +385,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         String[] stats = binding.statsDisplay.getText().toString().split("\n");
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
-        stats[3] = "Click Strength: " + assignment.clickStrength * assignment.getClickStrengthMultiplier();
+        stats[3] = "Click Strength: " + clickStrength * clickStrengthMultiplier;
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");
@@ -399,25 +397,23 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     @Override
     public void changeClickableBackground() {
-
+        checkStartBossTimer();
         refreshStats();
 
+        binding.nameEditText.setText(new String("Level " + CurrentLevel));
 
         int completionPercentage = (int) Math.floor((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 10);
         // Adjust for special stages
         int imgID;
 
 
-        if(CurrentLevel %5==0) {
-            start30SecondBossTimer();
-        }else stop30SecondBossTimer();
 
 
 
         if (CurrentLevel % 1001 == 0) {
             // Final boss
             imgID = R.drawable.assignmenttemp1;
-            animator.start(100, 1.5F);
+            animator.start(100, 2.5F);
 
         } else if (CurrentLevel % 200 == 0) {
 
@@ -425,10 +421,10 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             // Professor boss
 
-            animator.start(150, 1.5F);
+            animator.start(150, 2F);
             imgID = switch (CurrentLevel) {
                 //ENGLISH PROFESSOR BELOW
-                case 200 -> switch (playthroughs) {
+                case 200 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -436,7 +432,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 };
 
                 //MATH PROFESSOR BELOW
-                case 400 -> switch (playthroughs) {
+                case 400 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -444,7 +440,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 };
 
                 //PE PROFESSOR BELOW
-                case 600 -> switch (playthroughs) {
+                case 600 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -452,7 +448,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 };
 
                 //SCIENCE PROFESSOR BELOW
-                case 800 -> switch (playthroughs) {
+                case 800 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -460,7 +456,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 };
 
                 //HISTORY PROFESSOR BELOW
-                case 1000 -> switch (playthroughs) {
+                case 1000 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -476,19 +472,39 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             // Test
 
             animator.start(250, 1.5F);
-            imgID = R.drawable.testtemp;
-
+            imgID = switch (completionPercentage) {
+                case 0 -> R.drawable.testtemp1;
+                case 1 -> R.drawable.testtemp2;
+                case 2 -> R.drawable.testtemp3;
+                case 3 -> R.drawable.testtemp4;
+                case 4 -> R.drawable.testtemp5;
+                case 5 -> R.drawable.testtemp6;
+                case 6 -> R.drawable.testtemp7;
+                case 7 -> R.drawable.testtemp8;
+                case 8 -> R.drawable.testtemp9;
+                case 9 -> R.drawable.testtemp10;
+                default -> R.drawable.testtemp1;
+            };
 
             //test's picture animation
 
 
         } else if (CurrentLevel % 5 == 0) {
             // quiz/packet
-            animator.start(350, 1F);
-            imgID = R.drawable.quiztemp;
-
-
-            //more quiztemp's animation
+            animator.start(350, 1.5F);
+            imgID = switch (completionPercentage) {
+                case 0 -> R.drawable.quiztemp1;
+                case 1 -> R.drawable.quiztemp2;
+                case 2 -> R.drawable.quiztemp3;
+                case 3 -> R.drawable.quiztemp4;
+                case 4 -> R.drawable.quiztemp5;
+                case 5 -> R.drawable.quiztemp6;
+                case 6 -> R.drawable.quiztemp7;
+                case 7 -> R.drawable.quiztemp8;
+                case 8 -> R.drawable.quiztemp9;
+                case 9 -> R.drawable.quiztemp10;
+                default -> R.drawable.quiztemp1;
+            };
 
 
         } else {

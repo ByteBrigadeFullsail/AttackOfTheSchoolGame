@@ -8,11 +8,12 @@
         android:background="@drawable/mainlogo"
         tools:context=".MainActivity">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/startButton"
             android:layout_width="400dp"
             android:layout_height="120dp"
             android:text="Start"
+            style="@style/MainButtonStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
