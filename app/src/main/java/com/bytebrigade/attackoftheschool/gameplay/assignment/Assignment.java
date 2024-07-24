@@ -47,7 +47,14 @@ public class Assignment implements Clickable {
 
         return (long) points;
     }
+    public void incrementPoints(){
 
+        long pointsToAdd = calculatePoints(CurrentLevel);
+        points += pointsToAdd;
+        caller.showAddedPoints("+" + pointsToAdd + " Points");
+
+
+    }
     @Override
     public void incrementClick() {
         if (this.currentClickAmount + clickStrength*clickStrengthMultiplier < this.maxClickAmount) {
@@ -55,11 +62,6 @@ public class Assignment implements Clickable {
 
             Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
         } else { //defeated clickable below
-
-
-            long pointsToAdd = calculatePoints(CurrentLevel);
-            points += pointsToAdd;
-            caller.showAddedPoints("+" + pointsToAdd + " Points");
 
 
             if (CurrentLevel == FurthestLevel) {

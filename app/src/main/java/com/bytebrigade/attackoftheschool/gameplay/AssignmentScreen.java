@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,6 +28,8 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
+import com.bytebrigade.attackoftheschool.gameplay.helper.enums.SchoolType;
+import com.bytebrigade.attackoftheschool.gameplay.helper.Helper;
 
 import java.util.Random;
 
@@ -47,6 +50,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Runnable runnable;
     AssignmentAnimationListener animator;
     CheatSheetAnimator cheatSheetAnimator;
+    private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
+    private SchoolType schoolType = SchoolType.ELEMENTARY;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -71,7 +76,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             setButtonVisibility();
         });
 
-
+        Button helperButton = binding.helperButton;
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
@@ -137,6 +142,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
         binding.cheatSheet.setOnClickListener(v -> {
             clickedPowerUp();
+        });
+
+        helperButton.setOnClickListener(v -> {
+            helper.activeHelper(schoolType, assignment);
+            assignment.incrementPoints();
+            binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
+            binding.nameEditText.setText(new String("Level " + CurrentLevel));
+            binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
+            changeMainBackground();
         });
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
