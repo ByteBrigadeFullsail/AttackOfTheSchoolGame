@@ -15,8 +15,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,6 +29,7 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatShe
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
 import com.bytebrigade.attackoftheschool.helper.Helper;
+
 import java.util.Random;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
@@ -110,7 +109,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
                 amountOfClickIncreasedUpgrades++;
-                clickStrength *= (long)Math.pow(1.1, (double) (amountOfClickIncreasedUpgrades - 1) / 5);
+                clickStrength += (long) Math.pow(1.1, (double) (amountOfClickIncreasedUpgrades - 1) / 5);
                 refreshStats();
             }
         });
@@ -166,6 +165,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         setButtonVisibility();
         checkStartBossTimer();
     }
+
     public CountDownTimer getBossCountDownTimer() {
         return new CountDownTimer(30000, 1000) {
 
@@ -175,6 +175,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 // Update the progress bar (reverse it to count down)
                 binding.bossTimer.setProgress(secondsRemaining);
             }
+
             public void onFinish() {
                 // Timer finished
                 binding.bossTimer.setProgress(30);
@@ -185,6 +186,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         };
     }
+
     public CountDownTimer getCheatSheetCountDownTimer() {
         return new CountDownTimer(30000, 1000) {
 
@@ -192,6 +194,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 int secondsRemaining = (int) (millisUntilFinished / 1000);
                 binding.cheatSheetTimer.setProgress(secondsRemaining);
             }
+
             public void onFinish() {
                 binding.cheatSheetTimer.setProgress(0);
                 binding.cheatSheetTimer.setVisibility(View.INVISIBLE);
@@ -201,42 +204,50 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         };
     }
-    public void checkStartBossTimer(){
-        if(CurrentLevel %5==0) {
+
+    public void checkStartBossTimer() {
+        if (CurrentLevel % 5 == 0) {
             start30SecondBossTimer();
-        }else stop30SecondBossTimer();
+        } else stop30SecondBossTimer();
     }
+
     public void resetProgressBar() {
         binding.progressBar.setProgress(0);
         binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-        binding.nameEditText.setText(new String("Level " + CurrentLevel));
+        String crrntlvl = "Level " + CurrentLevel;
+        binding.nameEditText.setText(crrntlvl);
         assignment.currentLevelChanged();
     }
 
     @Override
     public void showAddedPoints(String message) {
-        // Create a new TextView
         TextView textView = new TextView(this);
         textView.setText(message);
-
-        // Add the TextView to the main layout
-        binding.clickableBlock.addView(textView, new ConstraintLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        // Get the starting Y position
-        float startY = textView.getY();
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(40);
-        // Set up the translation and fade-out animations
-        ObjectAnimator moveUp = ObjectAnimator.ofFloat(textView, "translationY", startY, startY - 200);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        params.bottomToBottom = binding.clickableBlock.getId();
+        params.startToStart = binding.clickableBlock.getId();
+        textView.setLayoutParams(params);
+        binding.mainRootAssignmentScreen.addView(textView);
+
+        // Move up animation
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(textView, "translationY", textView.getY(), textView.getY() - 400);
         moveUp.setDuration(2000);
 
+        // Fade out animation
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(textView, "alpha", 1f, 0f);
         fadeOut.setDuration(2000);
 
+        ObjectAnimator moveSide = ObjectAnimator.ofFloat(textView, "translationX", textView.getX(), random.nextFloat() * 200 - 100);
+        moveSide.setDuration(2000);
+
         // Combine the animations into an AnimatorSet
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(moveUp, fadeOut);
+        animatorSet.playTogether(moveUp, fadeOut, moveSide);
 
         // Remove the TextView after the animation ends
         animatorSet.addListener(new Animator.AnimatorListener() {
@@ -246,7 +257,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                binding.clickableBlock.removeView(textView);
+                binding.mainRootAssignmentScreen.removeView(textView);
             }
 
             @Override
@@ -261,7 +272,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         // Start the animation
         animatorSet.start();
     }
-    private GestureDetector gestureDectorSetter(){
+
+    private GestureDetector gestureDectorSetter() {
         return new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
@@ -288,6 +300,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         });
     }
+
     private void clickedPowerUp() {
         cheatSheetAnimator.stop();
         binding.cheatSheet.setVisibility(View.GONE);
@@ -399,15 +412,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     public void changeClickableBackground() {
         checkStartBossTimer();
         refreshStats();
-
-        binding.nameEditText.setText(new String("Level " + CurrentLevel));
+        String crrntlvl = "Level " + CurrentLevel;
+        binding.nameEditText.setText(crrntlvl);
 
         int completionPercentage = (int) Math.floor((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 10);
         // Adjust for special stages
         int imgID;
-
-
-
 
 
         if (CurrentLevel % 1001 == 0) {
