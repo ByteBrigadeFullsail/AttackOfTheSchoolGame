@@ -2,13 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MainStartScreen">
-        <State />
-      </entry>
-      <entry key="NewGameMenu">
-        <State />
-      </entry>
-      <entry key="StartAssignmentScreen">
+      <entry key="app">
         <State />
       </entry>
     </value>
