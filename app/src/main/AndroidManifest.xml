@@ -3,7 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools">
 
     <application
-
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:fullBackupContent="@xml/backup_rules"
@@ -13,36 +12,39 @@
             android:supportsRtl="true"
             android:theme="@style/Base.Theme.AttackOfTheSchool"
             tools:targetApi="31">
-
-
+        <activity
+                android:name=".MainMenuCreditsActivity"
+                android:exported="false"/>
         <activity
                 android:name=".MainActivity"
                 android:exported="true"
                 android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
                 android:name=".gameplay.AssignmentScreen"
                 android:exported="true"
                 android:screenOrientation="sensorPortrait">
         </activity>
-
-        <activity android:name=".NewGameMenu" android:exported="true" android:screenOrientation="sensorPortrait">
+        <activity
+                android:name=".NewGameMenu"
+                android:exported="true"
+                android:screenOrientation="sensorPortrait">
         </activity>
-
         <activity
                 android:name=".CreditsActivity"
                 android:exported="true"
                 android:screenOrientation="sensorPortrait">
         </activity>
-
-
-        <activity android:name=".MainMenu" android:exported="true" android:screenOrientation="sensorPortrait">
+        <activity
+                android:name=".MainMenu"
+                android:exported="true"
+                android:screenOrientation="sensorPortrait">
         </activity>
-
     </application>
+
 </manifest>
