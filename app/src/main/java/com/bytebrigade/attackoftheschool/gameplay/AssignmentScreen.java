@@ -20,8 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import com.bytebrigade.attackoftheschool.MainActivity;
-import com.bytebrigade.attackoftheschool.R;
+import com.bytebrigade.attackoftheschool.*;
 import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBinding;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
@@ -66,22 +65,46 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         handler = new Handler();
         random = new Random();
 
-        binding.clickableBlock.setOnClickListener(v -> {
-            assignment.incrementClick();
-            binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
-            binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
-            changeMainBackground();
-            setButtonVisibility();
-        });
-
         cheetSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
         //binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
         //binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
 
         gestureDetector = gestureDectorSetter();
 
-        binding.godMode.setOnClickListener(v -> clickStrength += 1000000);
+
+
+        countDownTimer = getBossCountDownTimer();
+        cheatSheetCountDownTimer = getCheatSheetCountDownTimer();
+        setupAllButtons();
+        startPowerUpGenerator();
+        closeMenu();
+        refreshStats();
+        resetProgressBar();
+        setButtonVisibility();
+        checkStartBossTimer();
+    }
+    public void setupAllButtons() {
+        binding.to1000.setOnClickListener(v->{
+            CurrentLevel = 1001;
+            FurthestLevel = CurrentLevel;
+            resetProgressBar();
+            refreshStats();
+            setButtonVisibility();
+            changeClickableBackground();
+            changeMainBackground();
+        });
+        binding.clickableBlock.setOnClickListener(v -> {
+            assignment.incrementClick();
+            double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+            binding.progressBar.setProgress((int)progress);
+            binding.progressBar.setMax(1000);
+            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
+            Log.i("CURRENTSTATS", "Health: " + (int)((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000));
+            changeMainBackground();
+            setButtonVisibility();
+        });
+
+        binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
@@ -132,6 +155,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
+
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
                 CurrentLevel--;
@@ -167,17 +191,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 resetProgressBar();
             }
         });
-
-        countDownTimer = getBossCountDownTimer();
-        cheatSheetCountDownTimer = getCheatSheetCountDownTimer();
-        startPowerUpGenerator();
-        closeMenu();
-        refreshStats();
-        resetProgressBar();
-        setButtonVisibility();
-        checkStartBossTimer();
     }
-
     public CountDownTimer getBossCountDownTimer() {
         return new CountDownTimer(30000, 1000) {
 
@@ -381,31 +395,26 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     @Override
     public void changeMainBackground() {
-        switch (CurrentLevel) {
-            //starts with english
-            case 201:// switch to math
-                binding.getRoot().setBackgroundResource(R.drawable.math_0);
-                assignment.setClassName("Math");
-                break;
-            case 401:// switch to PE
-                binding.getRoot().setBackgroundResource(R.drawable.pe_0);
-                assignment.setClassName("P.E");
-                break;
-            case 601: // switch to Science
-                binding.getRoot().setBackgroundResource(R.drawable.science_0);
-                assignment.setClassName("Science");
-                break;
-            case 801: // switch to History
-                binding.getRoot().setBackgroundResource(R.drawable.history_0);
-                assignment.setClassName("History");
-                break;
-            case 1000: // switch to final boss
-                binding.getRoot().setBackgroundResource(R.drawable.math_0);
-                assignment.setClassName("Department Of Education");
-                break;
+        if(CurrentLevel <= 200) {
+            binding.getRoot().setBackgroundResource(R.drawable.english_0);
+            assignment.setClassName("English");
+        } else if(CurrentLevel <= 400) {
+            binding.getRoot().setBackgroundResource(R.drawable.math_0);
+            assignment.setClassName("Math");
+        } else if(CurrentLevel <= 600) {
+            binding.getRoot().setBackgroundResource(R.drawable.pe_0);
+            assignment.setClassName("P.E");
+        } else if(CurrentLevel <= 800 ) {
+            binding.getRoot().setBackgroundResource(R.drawable.science_0);
+            assignment.setClassName("Science");
+        } else if(CurrentLevel <= 999 ) {
+            binding.getRoot().setBackgroundResource(R.drawable.history_0);
+            assignment.setClassName("History");
+        } else if(CurrentLevel == 1000 ) {
+            binding.getRoot().setBackgroundResource(R.drawable.history_0);
+            assignment.setClassName("Department Of Education");
         }
         binding.currentClassText.setText(assignment.getClassName());
-        Log.i("CURRENTSTATS", CurrentLevel + " is current level");
     }
 
     private void refreshStats() {
@@ -436,8 +445,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         if (CurrentLevel % 1001 == 0) {
             // Final boss
-            imgID = R.drawable.assignmenttemp1;
-            animator.start(100, 2.5F);
+            imgID = R.drawable.doe;
+            animator.start(1000, 2.5F);
 
         } else if (CurrentLevel % 200 == 0) {
 
@@ -481,6 +490,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
                 //HISTORY PROFESSOR BELOW
                 case 1000 -> switch (playthroughs.ordinal()) {
+                    case 0 -> R.drawable.englishproff_0;
+                    case 1 -> R.drawable.englishproff_0;
+                    case 2 -> R.drawable.englishproff_0;
+                    default -> R.drawable.englishproff_0;
+                };
+                //DOE BOSS
+                case 1001 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -579,5 +595,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                     binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
                     binding.libraryMenu.setVisibility(View.INVISIBLE);
                 });
+    }
+
+    @Override
+    public void sendToCredits() {
+        Intent intent = new Intent(this, CreditsActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

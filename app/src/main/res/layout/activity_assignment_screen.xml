@@ -230,6 +230,19 @@ cheatSheet: The main cheatsheet object.
                 android:layout_marginTop="35dp"
                 app:layout_constraintTop_toBottomOf="@+id/helper_button" />
         <Button
+                android:id="@+id/to_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="to 1000"
+                android:background="#04A1E8"
+                android:backgroundTint="#03A9F4"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="162dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/godMode" />
+        <Button
                 android:id="@+id/plus49"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
