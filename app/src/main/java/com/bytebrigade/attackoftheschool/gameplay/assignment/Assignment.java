@@ -171,6 +171,10 @@ public class Assignment implements Clickable {
         //return "\n Level: " + level + assignmentName.getAssignmentName();
     }
 
+    public void incrementClickBy(int additionalClicks) {
+        this.currentClickAmount += additionalClicks;
+    }
+
     public interface CallBack {
         void changeClickableBackground();
 
