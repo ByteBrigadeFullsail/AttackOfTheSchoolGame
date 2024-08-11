@@ -51,6 +51,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     CheatSheetAnimator cheetSheetAnimator;
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
+    private Handler critSpotHandler = new Handler();
+    private Runnable critSpotRunnable;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -64,6 +66,19 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler();
         random = new Random();
+        critSpotRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                if (binding.clickableBlock.getChildCount() > 0) {
+                    binding.clickableBlock.removeAllViews();
+                }
+
+                addRandomPointToAssignment();
+
+                critSpotHandler.postDelayed(this, 10000);
+            }
+        };
 
         cheetSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
         //binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
@@ -71,7 +86,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         gestureDetector = gestureDectorSetter();
 
-
+        binding.clickableBlock.post(this::addRandomPointToAssignment);
 
         countDownTimer = getBossCountDownTimer();
         cheatSheetCountDownTimer = getCheatSheetCountDownTimer();
@@ -82,6 +97,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         resetProgressBar();
         setButtonVisibility();
         checkStartBossTimer();
+        startCritSpotRunnable();
     }
     public void setupAllButtons() {
         binding.to1000.setOnClickListener(v->{
@@ -211,6 +227,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 start30SecondBossTimer();
             }
         };
+
     }
 
     public CountDownTimer getCheatSheetCountDownTimer() {
@@ -602,5 +619,65 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         Intent intent = new Intent(this, CreditsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void addRandomPointToAssignment() {
+        if (binding.clickableBlock == null){
+            Log.e("AssignmentScreen", "clickableBlock is null");
+            return;
+        }
+        int blockWidth = binding.clickableBlock.getWidth();
+        int blockHeight = binding.clickableBlock.getHeight();
+
+        // Check if blockWidth or blockHeight is zero, which means the layout might not be ready yet
+        if (blockWidth <= 0 || blockHeight <= 0) {
+            Log.e("AssignmentScreen", "clickableBlock dimensions are not ready or invalid!");
+            return; // Avoid crashing by returning early
+        }
+
+        // Generate random coordinates within the bounds of clickableBlock
+        int randomX = random.nextInt(blockWidth);
+        int randomY = random.nextInt(blockHeight);
+
+        // Create a new View to represent the random point (crit spot)
+        View pointView = new View(this);
+        pointView.setBackground(ContextCompat.getDrawable(this, R.drawable.star_shape)); // Set the color of the crit spot
+        int pointSize = 50; // Set the size of the crit spot (20x20 pixels)
+
+        // Set the layout parameters for the crit spot
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(pointSize, pointSize);
+        params.leftToLeft = binding.clickableBlock.getId();
+        params.topToTop = binding.clickableBlock.getId();
+        params.setMargins(randomX, randomY, 0, 0);
+
+        pointView.setLayoutParams(params);
+
+        // Add the crit spot to the clickableBlock
+        binding.clickableBlock.addView(pointView);
+
+        // Set a click listener on the crit spot
+        pointView.setOnClickListener(v -> {
+            int additionalClicks =(int) (assignment.getMaxClickAmount() * 0.10); // Set the number of additional clicks awarded
+
+            // Award the additional clicks to the player
+            assignment.incrementClickBy(additionalClicks);
+            double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+            binding.progressBar.setProgress((int) progress);
+
+            // Remove the crit spot after it's clicked
+            binding.clickableBlock.removeView(pointView);
+
+            // Optionally, show feedback to the player
+            showAddedPoints("Critical Hit! +" + additionalClicks + " clicks!");
+        });
+    }
+    private void startCritSpotRunnable() {
+        // Start immediately, then every 30 seconds
+        critSpotHandler.post(critSpotRunnable);
+    }
+
+    private void stopCritSpotRunnable() {
+        // Stop the Runnable from running
+        critSpotHandler.removeCallbacks(critSpotRunnable);
     }
 }
