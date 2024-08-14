@@ -97,7 +97,7 @@ public class Assignment implements Clickable {
     }
 
     public long getUpgradePrice() {
-        long basePrice = 50; // Initial price for the first upgrade
+        long basePrice = 20; // Initial price for the first upgrade
         return (long) (basePrice * Math.pow(1.1, amountOfClickIncreasedUpgrades));
     }
 
@@ -105,7 +105,11 @@ public class Assignment implements Clickable {
         // Base health for regular stages
         double baseHealth = 100;
         double health;
-        double basePercent = 1.04;
+        double basePercent = switch (playthroughs){
+            case ELEMENTARY -> 1.035;
+            case HIGH_SCHOOL -> 1.05;
+            case COLLAGE -> 1.065;
+        };
         // Apply incremental increases based on stage type
         if (stage % 1001 == 0) {
             // Final boss
@@ -172,7 +176,22 @@ public class Assignment implements Clickable {
     }
 
     public void incrementClickBy(int additionalClicks) {
-        this.currentClickAmount += additionalClicks;
+        if (this.currentClickAmount + additionalClicks < this.maxClickAmount) {
+            this.currentClickAmount += additionalClicks;
+
+            Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
+        } else { //defeated clickable below
+
+            incrementPoints();
+            if (CurrentLevel == FurthestLevel) {
+
+                progressToNextLevel();
+            } else {
+                defeatedClickableButNoProgression();
+            }
+        }
+        caller.changeClickableBackground();
+
     }
 
     public interface CallBack {
