@@ -182,7 +182,7 @@ cheatSheet: The main cheatsheet object.
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 app:layout_constraintStart_toStartOf="@+id/progressBar"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        android:visibility="invisible"/>
+                android:visibility="invisible"/>
 
         <Button
                 android:id="@+id/menuButton"
