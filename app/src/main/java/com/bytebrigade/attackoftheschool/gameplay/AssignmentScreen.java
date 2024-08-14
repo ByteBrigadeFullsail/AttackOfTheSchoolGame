@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -207,6 +208,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 resetProgressBar();
             }
         });
+        binding.storeButton.setOnClickListener(v ->
+        {
+            binding.StoreLayout.setVisibility(View.VISIBLE);
+        }
+        );
     }
     public CountDownTimer getBossCountDownTimer() {
         return new CountDownTimer(30000, 1000) {
