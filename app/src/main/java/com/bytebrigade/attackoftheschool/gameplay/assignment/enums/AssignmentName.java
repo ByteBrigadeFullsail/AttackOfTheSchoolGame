@@ -1,36 +1,12 @@
 package com.bytebrigade.attackoftheschool.gameplay.assignment.enums;
 
 public enum AssignmentName {
-    MATH_ASSIGNMENT("Math Assignment"){
-        @Override
-        public String getAssignmentName() {
-            return "English";
-        }
-    },
-    ENGLISH_ASSIGNMENT("English Assignment"){
-        @Override
-        public String getAssignmentName() {
-            return "Math";
-        }
-    },
-    SCIENTIFIC_ASSIGNMENT("Scientific Assignment"){
-        @Override
-        public String getAssignmentName() {
-            return "P.E";
-        }
-    },
-    GEOGRAPHIC_ASSIGNMENT("Geographic Assignment"){
-        @Override
-        public String getAssignmentName() {
-            return "Science";
-        }
-    },
-    HISTORICAL_ASSIGNMENT("Historical Assignment"){
-        @Override
-        public String getAssignmentName() {
-            return "History";
-        }
-    };
+    ENGLISH_ASSIGNMENT("English"),
+    MATH_ASSIGNMENT("Math"),
+    PE_ASSIGNMENT("P.E"),
+    SCIENCE_ASSIGNMENT("Science"),
+    HISTORY_ASSIGNMENT("History"),
+    DOE("Department Of Education");
     private String assignmentName;
     AssignmentName(String assignmentName){
         this.assignmentName = assignmentName;
