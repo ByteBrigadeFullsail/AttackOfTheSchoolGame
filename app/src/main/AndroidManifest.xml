@@ -46,6 +46,7 @@
                 android:exported="true"
                 android:screenOrientation="sensorPortrait">
         </activity>
+
     </application>
 
 </manifest>
