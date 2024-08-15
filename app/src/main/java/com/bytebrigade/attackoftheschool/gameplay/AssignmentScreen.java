@@ -20,8 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import com.bytebrigade.attackoftheschool.MainActivity;
-import com.bytebrigade.attackoftheschool.R;
+import com.bytebrigade.attackoftheschool.*;
 import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBinding;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
@@ -52,6 +51,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     CheatSheetAnimator cheetSheetAnimator;
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
+    private Handler critSpotHandler = new Handler();
+    private Runnable critSpotRunnable;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -65,15 +66,19 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler();
         random = new Random();
+        critSpotRunnable = new Runnable() {
 
-        binding.clickableBlock.setOnClickListener(v -> {
-            assignment.incrementClick();
-            binding.progressBar.setProgress(assignment.getCurrentClickAmount().intValue());
-            binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
-            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
-            changeMainBackground();
-            setButtonVisibility();
-        });
+            @Override
+            public void run() {
+                if (binding.clickableBlock.getChildCount() > 0) {
+                    binding.clickableBlock.removeAllViews();
+                }
+
+                addRandomPointToAssignment();
+
+                critSpotHandler.postDelayed(this, 10000);
+            }
+        };
 
         cheetSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
         //binding.godMode.setOnClickListener(v -> assignment.clickStrength += 1000000);
@@ -81,7 +86,41 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         gestureDetector = gestureDectorSetter();
 
-        binding.godMode.setOnClickListener(v -> clickStrength += 1000000);
+        binding.clickableBlock.post(this::addRandomPointToAssignment);
+
+        countDownTimer = getBossCountDownTimer();
+        cheatSheetCountDownTimer = getCheatSheetCountDownTimer();
+        setupAllButtons();
+        startPowerUpGenerator();
+        closeMenu();
+        refreshStats();
+        resetProgressBar();
+        setButtonVisibility();
+        checkStartBossTimer();
+        startCritSpotRunnable();
+    }
+    public void setupAllButtons() {
+        binding.to1000.setOnClickListener(v->{
+            CurrentLevel = 1001;
+            FurthestLevel = CurrentLevel;
+            resetProgressBar();
+            refreshStats();
+            setButtonVisibility();
+            changeClickableBackground();
+            changeMainBackground();
+        });
+        binding.clickableBlock.setOnClickListener(v -> {
+            assignment.incrementClick();
+            double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+            binding.progressBar.setProgress((int)progress);
+            binding.progressBar.setMax(1000);
+            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
+            Log.i("CURRENTSTATS", "Health: " + (int)((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000));
+            changeMainBackground();
+            setButtonVisibility();
+        });
+
+        binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
@@ -132,6 +171,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
+
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
                 CurrentLevel--;
@@ -167,17 +207,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 resetProgressBar();
             }
         });
-
-        countDownTimer = getBossCountDownTimer();
-        cheatSheetCountDownTimer = getCheatSheetCountDownTimer();
-        startPowerUpGenerator();
-        closeMenu();
-        refreshStats();
-        resetProgressBar();
-        setButtonVisibility();
-        checkStartBossTimer();
     }
-
     public CountDownTimer getBossCountDownTimer() {
         return new CountDownTimer(30000, 1000) {
 
@@ -197,6 +227,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 start30SecondBossTimer();
             }
         };
+
     }
 
     public CountDownTimer getCheatSheetCountDownTimer() {
@@ -381,31 +412,26 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     @Override
     public void changeMainBackground() {
-        switch (CurrentLevel) {
-            //starts with english
-            case 201:// switch to math
-                binding.getRoot().setBackgroundResource(R.drawable.math_0);
-                assignment.setClassName("Math");
-                break;
-            case 401:// switch to PE
-                binding.getRoot().setBackgroundResource(R.drawable.pe_0);
-                assignment.setClassName("P.E");
-                break;
-            case 601: // switch to Science
-                binding.getRoot().setBackgroundResource(R.drawable.science_0);
-                assignment.setClassName("Science");
-                break;
-            case 801: // switch to History
-                binding.getRoot().setBackgroundResource(R.drawable.history_0);
-                assignment.setClassName("History");
-                break;
-            case 1000: // switch to final boss
-                binding.getRoot().setBackgroundResource(R.drawable.math_0);
-                assignment.setClassName("Department Of Education");
-                break;
+        if(CurrentLevel <= 200) {
+            binding.getRoot().setBackgroundResource(R.drawable.english_0);
+            assignment.setClassName("English");
+        } else if(CurrentLevel <= 400) {
+            binding.getRoot().setBackgroundResource(R.drawable.math_0);
+            assignment.setClassName("Math");
+        } else if(CurrentLevel <= 600) {
+            binding.getRoot().setBackgroundResource(R.drawable.pe_0);
+            assignment.setClassName("P.E");
+        } else if(CurrentLevel <= 800 ) {
+            binding.getRoot().setBackgroundResource(R.drawable.science_0);
+            assignment.setClassName("Science");
+        } else if(CurrentLevel <= 999 ) {
+            binding.getRoot().setBackgroundResource(R.drawable.history_0);
+            assignment.setClassName("History");
+        } else if(CurrentLevel == 1000 ) {
+            binding.getRoot().setBackgroundResource(R.drawable.history_0);
+            assignment.setClassName("Department Of Education");
         }
         binding.currentClassText.setText(assignment.getClassName());
-        Log.i("CURRENTSTATS", CurrentLevel + " is current level");
     }
 
     private void refreshStats() {
@@ -436,8 +462,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         if (CurrentLevel % 1001 == 0) {
             // Final boss
-            imgID = R.drawable.assignmenttemp1;
-            animator.start(100, 2.5F);
+            imgID = R.drawable.doe;
+            animator.start(1000, 2.5F);
 
         } else if (CurrentLevel % 200 == 0) {
 
@@ -481,6 +507,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
                 //HISTORY PROFESSOR BELOW
                 case 1000 -> switch (playthroughs.ordinal()) {
+                    case 0 -> R.drawable.englishproff_0;
+                    case 1 -> R.drawable.englishproff_0;
+                    case 2 -> R.drawable.englishproff_0;
+                    default -> R.drawable.englishproff_0;
+                };
+                //DOE BOSS
+                case 1001 -> switch (playthroughs.ordinal()) {
                     case 0 -> R.drawable.englishproff_0;
                     case 1 -> R.drawable.englishproff_0;
                     case 2 -> R.drawable.englishproff_0;
@@ -579,5 +612,72 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                     binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
                     binding.libraryMenu.setVisibility(View.INVISIBLE);
                 });
+    }
+
+    @Override
+    public void sendToCredits() {
+        Intent intent = new Intent(this, CreditsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void addRandomPointToAssignment() {
+        if (binding.clickableBlock == null){
+            Log.e("AssignmentScreen", "clickableBlock is null");
+            return;
+        }
+        int blockWidth = binding.clickableBlock.getWidth();
+        int blockHeight = binding.clickableBlock.getHeight();
+
+        // Check if blockWidth or blockHeight is zero, which means the layout might not be ready yet
+        if (blockWidth <= 0 || blockHeight <= 0) {
+            Log.e("AssignmentScreen", "clickableBlock dimensions are not ready or invalid!");
+            return; // Avoid crashing by returning early
+        }
+
+        // Generate random coordinates within the bounds of clickableBlock
+        int randomX = random.nextInt(blockWidth);
+        int randomY = random.nextInt(blockHeight);
+
+        // Create a new View to represent the random point (crit spot)
+        View pointView = new View(this);
+        pointView.setBackground(ContextCompat.getDrawable(this, R.drawable.star_shape)); // Set the color of the crit spot
+        int pointSize = 50; // Set the size of the crit spot (20x20 pixels)
+
+        // Set the layout parameters for the crit spot
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(pointSize, pointSize);
+        params.leftToLeft = binding.clickableBlock.getId();
+        params.topToTop = binding.clickableBlock.getId();
+        params.setMargins(randomX, randomY, 0, 0);
+
+        pointView.setLayoutParams(params);
+
+        // Add the crit spot to the clickableBlock
+        binding.clickableBlock.addView(pointView);
+
+        // Set a click listener on the crit spot
+        pointView.setOnClickListener(v -> {
+            int additionalClicks =(int) (assignment.getMaxClickAmount() * 0.10); // Set the number of additional clicks awarded
+
+            // Award the additional clicks to the player
+            assignment.incrementClickBy(additionalClicks);
+            double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+            binding.progressBar.setProgress((int) progress);
+
+            // Remove the crit spot after it's clicked
+            binding.clickableBlock.removeView(pointView);
+
+            // Optionally, show feedback to the player
+            showAddedPoints("Critical Hit! +" + additionalClicks + " clicks!");
+        });
+    }
+    private void startCritSpotRunnable() {
+        // Start immediately, then every 30 seconds
+        critSpotHandler.post(critSpotRunnable);
+    }
+
+    private void stopCritSpotRunnable() {
+        // Stop the Runnable from running
+        critSpotHandler.removeCallbacks(critSpotRunnable);
     }
 }
