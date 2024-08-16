@@ -10,6 +10,8 @@ public class MainMenu extends AppCompatActivity {
     Button newGameButton;
     Button continueButton;
     Button storeButton;
+    Button BackButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,17 @@ public class MainMenu extends AppCompatActivity {
         });
         storeButton.setOnClickListener(v ->{
             //Store button
+
+            setContentView(R.layout.store_menu);
+            BackButton = findViewById(R.id.goback);
+            BackButton.setOnClickListener(v1 -> {
+                Intent intent = new Intent(MainMenu.this, MainMenu.class);
+                startActivity(intent);
+                finish();
+            });
+
+
+
         });
     }
 
