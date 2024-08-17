@@ -10,7 +10,7 @@
     <Button
             android:text="X2 Clicks 200Pts"
             android:layout_width="124dp"
-            android:layout_height="61dp" android:id="@+id/button42"
+            android:layout_height="61dp" android:id="@+id/button101"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="217dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="613dp"
@@ -19,7 +19,7 @@
     <Button
             android:text="cheat"
             android:layout_width="124dp"
-            android:layout_height="61dp" android:id="@+id/button41"
+            android:layout_height="61dp" android:id="@+id/button102"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="217dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="613dp"
@@ -28,7 +28,7 @@
     <Button
             android:text="STORE"
             android:layout_width="369dp"
-            android:layout_height="66dp" android:id="@+id/button43"
+            android:layout_height="66dp" android:id="@+id/button103"
             style="@style/Widget.AppCompat.Button" android:clickable="false"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="28dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="797dp"
@@ -37,7 +37,7 @@
     <Button
             android:text="Mom Help 500pts"
             android:layout_width="126dp"
-            android:layout_height="52dp" android:id="@+id/button55"
+            android:layout_height="52dp" android:id="@+id/button104"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="515dp"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="324dp"
@@ -46,34 +46,35 @@
     <Button
             android:text="Go Back"
             android:layout_width="356dp"
-            android:layout_height="53dp" android:id="@+id/button66"
+            android:layout_height="53dp" android:id="@+id/button105"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="822dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="16dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="27dp"
             android:layout_marginEnd="28dp" app:layout_constraintEnd_toEndOf="parent"/>
     <Button
-            android:text="X5 Clicks 2,000pts"
+            android:text="@string/x5_clicks_2_000pts"
             android:layout_width="129dp"
-            android:layout_height="61dp" android:id="@+id/button77"
+            android:layout_height="61dp" android:id="@+id/button106"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="315dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="515dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="27dp"
             android:layout_marginEnd="255dp" app:layout_constraintEnd_toEndOf="parent"/>
     <Button
-            android:text="Button"
+            android:text="+Pt Per Page"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button8"
+            android:layout_height="wrap_content" android:id="@+id/button107"
             style="@style/Widget.AppCompat.Button"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="613dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="230dp"
-            android:layout_marginEnd="292dp" app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="548dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="295dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="15dp" android:layout_marginEnd="254dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button9"
+            android:layout_height="wrap_content" android:id="@+id/button108"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="613dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="230dp"
@@ -82,7 +83,7 @@
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button10"
+            android:layout_height="wrap_content" android:id="@+id/button109"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="613dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="230dp"
@@ -91,7 +92,7 @@
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button11"
+            android:layout_height="wrap_content" android:id="@+id/button110"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="720dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="123dp"
@@ -100,7 +101,7 @@
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button12"
+            android:layout_height="wrap_content" android:id="@+id/button111"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="720dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="123dp"
@@ -109,7 +110,7 @@
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button13"
+            android:layout_height="wrap_content" android:id="@+id/button112"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="720dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="123dp"
@@ -118,7 +119,7 @@
     <Button
             android:text="x10 Clicks 10,000pts"
             android:layout_width="129dp"
-            android:layout_height="58dp" android:id="@+id/button15"
+            android:layout_height="58dp" android:id="@+id/button113"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="396dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="437dp"
@@ -127,7 +128,7 @@
     <Button
             android:text="Skip Stage 5,000Pts"
             android:layout_width="126dp"
-            android:layout_height="53dp" android:id="@+id/button16"
+            android:layout_height="53dp" android:id="@+id/button114"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="396dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="442dp"
