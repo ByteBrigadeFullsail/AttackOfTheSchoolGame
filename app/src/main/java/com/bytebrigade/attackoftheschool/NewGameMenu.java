@@ -31,6 +31,7 @@ public class NewGameMenu extends AppCompatActivity {
             if (isProfileNameValid(characterName)) {
                 Profile.profileName = characterName;
                 Intent intent = new Intent(NewGameMenu.this, AssignmentScreen.class);
+                intent.putExtra("Uniqid","From_NewGameMenu");
                 startActivity(intent);
                 finish();
             } else {

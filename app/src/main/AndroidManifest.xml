@@ -46,6 +46,11 @@
                 android:exported="true"
                 android:screenOrientation="sensorPortrait">
         </activity>
+        <activity
+                android:name=".StoreFunctionality"
+                android:exported="true"
+                android:screenOrientation="sensorPortrait">
+        </activity>
 
     </application>
 

@@ -55,6 +55,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Handler critSpotHandler = new Handler();
     private Runnable critSpotRunnable;
 
+
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler();
         random = new Random();
+
+
         critSpotRunnable = new Runnable() {
 
             @Override
@@ -99,8 +104,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         setButtonVisibility();
         checkStartBossTimer();
         startCritSpotRunnable();
+        String intentData = getIntent().getExtras().getString("Uniqid");
+        if(intentData.equals("From_Store"))
+        {
+            toggleMenu();
+        }
     }
-    public void setupAllButtons() {
+    public void setupAllButtons()
+    {
+
         binding.to1000.setOnClickListener(v->{
             CurrentLevel = 1001;
             FurthestLevel = CurrentLevel;
@@ -210,7 +222,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
         binding.storeButton.setOnClickListener(v ->
         {
-            binding.StoreLayout.setVisibility(View.VISIBLE);
+            Intent intent = new Intent();
+            intent.setClass(AssignmentScreen.this, StoreFunctionality.class);
+            intent.putExtra("Uniqid","From_Activity_B");
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
         }
         );
     }

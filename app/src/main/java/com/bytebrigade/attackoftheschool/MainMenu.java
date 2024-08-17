@@ -23,6 +23,7 @@ public class MainMenu extends AppCompatActivity {
         newGameButton.setOnClickListener(v ->{
             Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
         continueButton.setOnClickListener(v ->{
@@ -30,17 +31,12 @@ public class MainMenu extends AppCompatActivity {
         });
         storeButton.setOnClickListener(v ->{
             //Store button
-
-            setContentView(R.layout.store_menu);
-            BackButton = findViewById(R.id.goback);
-            BackButton.setOnClickListener(v1 -> {
-                Intent intent = new Intent(MainMenu.this, MainMenu.class);
-                startActivity(intent);
-                finish();
-            });
-
-
-
+            Intent intent = new Intent();
+            intent.setClass(MainMenu.this, StoreFunctionality.class);
+            intent.putExtra("Uniqid","From_Activity_A");
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            finish();
         });
     }
 
