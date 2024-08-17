@@ -13,9 +13,9 @@ public class MainMenu extends AppCompatActivity {
     Button newGameButton;
     Button continueButton;
     Button storeButton;
-    Button BackButton;
     int x5Tracker;
     int x2Tracker;
+    int x10Tracker;
 
 
 
@@ -50,12 +50,16 @@ public class MainMenu extends AppCompatActivity {
             {
                 String x5changetext= x5.getString("x5name");
                 String x2changetext= x5.getString("x2name");
+                String x10changetext= x5.getString("x10name");
                 intent.putExtra("x5",x5changetext);
                 intent.putExtra("x2",x2changetext);
+                intent.putExtra("x10",x10changetext);
                 x5Tracker = x5.getInt("x5Tracker");
                 x2Tracker = x5.getInt("x2Tracker");
+                x10Tracker = x5.getInt("x10Tracker");
                 intent.putExtra("x5Tracker",x5Tracker);
                 intent.putExtra("x2Tracker",x2Tracker);
+                intent.putExtra("x10Tracker",x10Tracker);
 
             }
             startActivity(intent);
