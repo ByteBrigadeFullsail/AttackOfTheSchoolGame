@@ -45,6 +45,7 @@ public class MainMenu extends AppCompatActivity {
         int x5Tracker;
         int x2Tracker;
         int x10Tracker;
+
         //Store button
         Bundle x5 = getIntent().getExtras();
 
