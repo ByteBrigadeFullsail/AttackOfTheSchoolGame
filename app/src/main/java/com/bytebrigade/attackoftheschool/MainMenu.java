@@ -11,6 +11,7 @@ public class MainMenu extends AppCompatActivity {
     Button continueButton;
     Button storeButton;
     Button BackButton;
+    Button momButton;
 
 
     @Override
@@ -32,7 +33,8 @@ public class MainMenu extends AppCompatActivity {
             //Store button
 
             setContentView(R.layout.store_menu);
-            BackButton = findViewById(R.id.goback);
+            BackButton = findViewById(R.id.button66);
+            momButton = findViewById(R.id.button5);
             BackButton.setOnClickListener(v1 -> {
                 Intent intent = new Intent(MainMenu.this, MainMenu.class);
                 startActivity(intent);
