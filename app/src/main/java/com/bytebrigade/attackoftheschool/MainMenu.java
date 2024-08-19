@@ -6,6 +6,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
 
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.profileName;
+
 public class MainMenu extends AppCompatActivity {
     Button newGameButton;
     Button continueButton;
@@ -20,6 +22,9 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         newGameButton = findViewById(R.id.newGameButton);
         continueButton = findViewById(R.id.continueButton);
+        if(profileName != null){
+            continueButton.setEnabled(true);
+        }
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
             Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
@@ -27,7 +32,9 @@ public class MainMenu extends AppCompatActivity {
             finish();
         });
         continueButton.setOnClickListener(v ->{
-            //continue button
+            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
+            startActivity(intent);
+            finish();
         });
         storeButton.setOnClickListener(v ->{
             //Store button

@@ -18,6 +18,12 @@ public class Profile {
             case HIGH_SCHOOL -> SchoolType.COLLAGE;
             default -> SchoolType.COLLAGE;
         };
+        FurthestLevel = 1;
+        CurrentLevel = 1;
+        amountOfClickIncreasedUpgrades = 0;
+        clickStrength = 10L;
+        clickStrengthMultiplier = 1;
+        points = 0;
     }
     public static Long clickStrength = 10L;
     public static int clickStrengthMultiplier = 1;
@@ -26,6 +32,6 @@ public class Profile {
 
     public static int StudentLoansPoints = 0;
 
-    public static String profileName;
+    public static String profileName = null;
 
 }
