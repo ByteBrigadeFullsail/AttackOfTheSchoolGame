@@ -51,7 +51,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     CheatSheetAnimator cheatSheetAnimator;
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
-    private Handler critSpotHandler = new Handler();
+    private Handler critSpotHandler = new Handler(Looper.getMainLooper());
     private Runnable critSpotRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
@@ -67,7 +67,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         animator = new AssignmentAnimationListener(binding.clickableBlock);
         cheatSheetAnimator = new CheatSheetAnimator(binding.cheatSheet);
         menuLayout = binding.menuLayout;
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         random = new Random();
 
         critSpotRunnable = new Runnable() {
