@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
 import com.bytebrigade.attackoftheschool.gameplay.Profile;
+import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
 
 public class NewGameMenu extends AppCompatActivity {
     Button startGameButton;
@@ -30,6 +31,13 @@ public class NewGameMenu extends AppCompatActivity {
             // Check profile name is valid and update Profile class w/ name
             if (isProfileNameValid(characterName)) {
                 Profile.profileName = characterName;
+                Profile.FurthestLevel = 1;
+                Profile.CurrentLevel = 1;
+                Profile.amountOfClickIncreasedUpgrades = 0;
+                Profile.clickStrength = 10L;
+                Profile.clickStrengthMultiplier = 1;
+                Profile.points = 0;
+                Profile.playthroughs = SchoolType.ELEMENTARY;
                 Intent intent = new Intent(NewGameMenu.this, AssignmentScreen.class);
                 startActivity(intent);
                 finish();
