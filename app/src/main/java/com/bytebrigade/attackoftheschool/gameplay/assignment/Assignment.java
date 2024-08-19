@@ -24,14 +24,6 @@ public class Assignment implements Clickable {
         className = "English";
     }
 
-    public void startCheatSheet() {
-        clickStrengthMultiplier = 2;
-    }
-
-    public void endCheatSheet() {
-        clickStrengthMultiplier = 1;
-    }
-
     public long calculatePoints(int stage) {
         double basePoints = 5;
         double points;

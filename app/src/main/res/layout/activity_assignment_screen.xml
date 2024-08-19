@@ -174,9 +174,8 @@ cheatSheet: The main cheatsheet object.
                 android:layout_height="0dp"
                 app:layout_constraintHeight_percent="0.035"
                 app:layout_constraintWidth_percent="0.6"
-                android:progress="@{assignment.currentClickAmount.intValue()}"
-                android:max="@{assignment.maxClickAmount.intValue()}"
-                tools:ignore="MissingConstraints"
+                android:progress="0"
+                android:max="1000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
@@ -212,7 +211,6 @@ cheatSheet: The main cheatsheet object.
                 android:text="Mom"
                 android:background="#04A1E8"
                 android:backgroundTint="#03A9F4"
-                tools:ignore="MissingConstraints"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/menuButton"
@@ -531,6 +529,8 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintWidth_percent="0.15"
                 android:src="@drawable/cheatsheet"
                 app:layout_constraintDimensionRatio="1:2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

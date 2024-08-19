@@ -3,11 +3,11 @@ package com.bytebrigade.attackoftheschool.gameplay;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -16,8 +16,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -53,7 +53,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private SchoolType schoolType = SchoolType.ELEMENTARY;
     private Handler critSpotHandler = new Handler();
     private Runnable critSpotRunnable;
-    ObjectAnimator bossBarAnimation;
+    ObjectAnimator bossTimerAnimation;
+    ObjectAnimator progressBarAnimator;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -86,9 +88,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         binding.clickableBlock.post(this::addRandomPointToAssignment);
 
-        bossBarAnimation = ObjectAnimator.ofInt(binding.bossTimer, "progress", 0, 1000);
-        bossBarAnimation.setDuration(30000);
-        bossBarAnimation.setInterpolator(new LinearInterpolator());
+        bossTimerAnimation = ObjectAnimator.ofInt(binding.bossTimer, "progress", 0, 1000);
+        bossTimerAnimation.setDuration(30000);
+        bossTimerAnimation.setInterpolator(new LinearInterpolator());
+
+
 
         setupAllButtons();
         startPowerUpGenerator();
@@ -99,7 +103,20 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         checkStartBossTimer();
         startCritSpotRunnable();
 
+    }
 
+    private void animateProgress(int end) {
+        if (progressBarAnimator != null && progressBarAnimator.isRunning()) {
+            progressBarAnimator.cancel();
+        }
+        int start = binding.progressBar.getProgress();
+        if(start<end) {
+            progressBarAnimator = ObjectAnimator.ofInt(binding.progressBar, "progress", binding.progressBar.getProgress(), end);
+            progressBarAnimator.setDuration(250);
+            progressBarAnimator.start();
+        }else{
+            binding.progressBar.setProgress(0);
+        }
     }
 
     public void setupAllButtons() {
@@ -115,9 +132,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
-            binding.progressBar.setProgress((int) progress);
-            binding.progressBar.setMax(1000);
-            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount());
+            animateProgress((int)progress);
+            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount() + " " + (int)progress);
             Log.i("CURRENTSTATS", "Health: " + (int) ((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000));
             changeMainBackground();
             setButtonVisibility();
@@ -241,7 +257,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     public void resetProgressBar() {
         binding.progressBar.setProgress(0);
-        binding.progressBar.setMax(assignment.getMaxClickAmount().intValue());
         String crrntlvl = "Level " + CurrentLevel;
         binding.nameEditText.setText(crrntlvl);
         assignment.currentLevelChanged();
@@ -333,7 +348,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         cheatSheetAnimator.stop();
         binding.cheatSheet.setVisibility(View.GONE);
 
-        assignment.startCheatSheet();
         startCheatSheetCountDownTimer();
         binding.cheatSheetTimer.setVisibility(View.VISIBLE);
         refreshStats();
@@ -384,11 +398,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         if (!isBossTimerRunning) {
             binding.bossTimer.setVisibility(View.VISIBLE);
-            bossBarAnimation.start();
+            bossTimerAnimation.start();
             isBossTimerRunning = true;
             handler.postDelayed(() -> {
                 binding.cheatSheetTimer.setVisibility(View.INVISIBLE);
-                if (isBossTimerRunning) bossBarAnimation.start();
+                if (isBossTimerRunning) bossTimerAnimation.start();
                 resetProgressBar();
                 assignment.currentLevelChanged();
             }, 30000);
@@ -400,7 +414,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     @Override
     public void stop30SecondBossTimer() {
         if (isBossTimerRunning) {
-            bossBarAnimation.cancel();
+            bossTimerAnimation.cancel();
             binding.bossTimer.clearAnimation();
             binding.bossTimer.setVisibility(View.INVISIBLE);
             isBossTimerRunning = false;
@@ -658,7 +672,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             // Award the additional clicks to the player
             assignment.incrementClickBy(additionalClicks);
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
-            binding.progressBar.setProgress((int) progress);
+            animateProgress((int)progress);
 
             // Remove the crit spot after it's clicked
             binding.clickableBlock.removeView(pointView);
