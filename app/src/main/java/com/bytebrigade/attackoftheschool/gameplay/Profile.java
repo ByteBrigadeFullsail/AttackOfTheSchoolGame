@@ -25,7 +25,9 @@ public class Profile {
         clickStrengthMultiplier = 1;
         points = 0;
     }
+
     public static Long clickStrength = 10L;
+
     public static int clickStrengthMultiplier = 1;
     public static long points = 0;
 

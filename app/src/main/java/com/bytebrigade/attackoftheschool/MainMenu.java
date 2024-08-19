@@ -6,6 +6,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
 
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.FurthestLevel;
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.profileName;
 
 public class MainMenu extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class MainMenu extends AppCompatActivity {
         continueButton = findViewById(R.id.continueButton);
         if(profileName != null){
             continueButton.setEnabled(true);
+            continueButton.setText("Continue: Level " + FurthestLevel);
         }
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
