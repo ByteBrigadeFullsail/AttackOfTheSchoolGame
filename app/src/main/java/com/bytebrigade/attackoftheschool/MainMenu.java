@@ -9,14 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
 
 
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.FurthestLevel;
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.profileName;
+
 
 public class MainMenu extends AppCompatActivity {
     Button newGameButton;
     Button continueButton;
     Button storeButton;
 
-
-
+    Button BackButton;
+    Button momButton;
+ 
 
 
     @Override
@@ -28,6 +32,10 @@ public class MainMenu extends AppCompatActivity {
 
         newGameButton = findViewById(R.id.newGameButton);
         continueButton = findViewById(R.id.continueButton);
+        if(profileName != null){
+            continueButton.setEnabled(true);
+            continueButton.setText("Continue: Level " + FurthestLevel);
+        }
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
             Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
@@ -36,15 +44,28 @@ public class MainMenu extends AppCompatActivity {
             finish();
         });
         continueButton.setOnClickListener(v ->{
-            //continue button
+            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
+            startActivity(intent);
+            finish();
         });
         storeButton.setOnClickListener(this::onClick);
     }
+
 
     private void onClick(View v) {
         int x5Tracker;
         int x2Tracker;
         int x10Tracker;
+
+            setContentView(R.layout.store_menu);
+            BackButton = findViewById(R.id.button66);
+            momButton = findViewById(R.id.button5);
+            BackButton.setOnClickListener(v1 -> {
+                Intent intent = new Intent(MainMenu.this, MainMenu.class);
+                startActivity(intent);
+                finish();
+            });
+
 
         //Store button
         Bundle x5 = getIntent().getExtras();
