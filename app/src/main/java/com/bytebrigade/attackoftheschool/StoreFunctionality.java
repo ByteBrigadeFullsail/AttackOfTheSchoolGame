@@ -197,13 +197,7 @@ public class StoreFunctionality extends AppCompatActivity
             {
 
                 Intent intent = new Intent(StoreFunctionality.this, MainMenu.class);
-                intent.putExtra("x5name",x5.getText());
-                intent.putExtra("x2name",x2.getText());
-                intent.putExtra("x10name",x10.getText());
-                intent.putExtra("x5Tracker",x5Tracker.get());
-                intent.putExtra("x2Tracker",x2Tracker.get());
-                intent.putExtra("x10Tracker",x10Tracker.get());
-                startActivity(intent);
+                updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
             }
             else if(intentData.equals("From_Activity_B"))
             {
@@ -211,18 +205,22 @@ public class StoreFunctionality extends AppCompatActivity
 
                Intent intent = new Intent(StoreFunctionality.this, AssignmentScreen.class);
                 intent.putExtra("Uniqid","From_Store");
-                intent.putExtra("x5name",x5.getText());
-                intent.putExtra("x2name",x2.getText());
-               intent.putExtra("x10name",x10.getText());
-                intent.putExtra("x5Tracker",x5Tracker.get());
-                intent.putExtra("x2Tracker",x2Tracker.get());
-               intent.putExtra("x10Tracker",x10Tracker.get());
-                startActivity(intent);
+                updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
             }
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
 
 
+    }
+
+    private void updateIntent(AtomicInteger x2Tracker, AtomicInteger x5Tracker, AtomicInteger x10Tracker, Button x2, Button x5, Button x10, Intent intent) {
+        intent.putExtra("x5name",x5.getText());
+        intent.putExtra("x2name",x2.getText());
+        intent.putExtra("x10name",x10.getText());
+        intent.putExtra("x5Tracker",x5Tracker.get());
+        intent.putExtra("x2Tracker",x2Tracker.get());
+        intent.putExtra("x10Tracker",x10Tracker.get());
+        startActivity(intent);
     }
 }
