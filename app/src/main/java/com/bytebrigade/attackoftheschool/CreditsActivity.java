@@ -17,6 +17,7 @@ public class CreditsActivity extends AppCompatActivity {
         endGameBackButton.setOnClickListener(v -> {
             Intent intent = new Intent(CreditsActivity.this, MainMenu.class);
             startActivity(intent);
+
         });
     }
 }

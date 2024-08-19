@@ -19,11 +19,14 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(v ->{
             Intent intent = new Intent(MainActivity.this, MainMenu.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
         creditsButton.setOnClickListener(v ->{
             Intent intent = new Intent(MainActivity.this, MainMenuCreditsActivity.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
         });
     }
 }

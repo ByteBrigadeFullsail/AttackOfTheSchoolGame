@@ -37,4 +37,19 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus vestibulum. Fusce
         dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="x5_clicks_2_000pts">X5 Clicks 2,000pts</string>
+    <string name="string_x5_clicks_3_000pts">x5 clicks 3,000pts</string>
+    <string name="string_x5_clicks_4_000pts">x5 clicks 4,000pts</string>
+    <string name="string_x5_clicks_5_000pts">x5 clicks 5,000pts</string>
+    <string name="string_x_clicks_800pts">x2 clicks 800pts</string>
+    <string name="string_x_clicks_400pts">x2 clicks 400pts</string>
+    <string name="string_x_clicks_1000pts">x2 clicks 1000pts</string>
+    <string name="string_x_clicks_2000pts">x2 clicks 2000pts</string>
+    <string name="x10_clicks_6_000pts">x10 Clicks 6,000pts</string>
+    <string name="x10_clicks_7_000pts">x10 Clicks 7,000pts</string>
+    <string name="x10_clicks_8_000pts">x10 Clicks 8,000pts</string>
+    <string name="x10_clicks_9_000pts">x10 Clicks 9,000pts</string>
+    <string name="x10_clicks_10_000pts">x10 Clicks 10,000pts</string>
+
+
 </resources>

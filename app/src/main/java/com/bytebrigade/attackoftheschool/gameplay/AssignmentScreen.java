@@ -57,6 +57,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     ObjectAnimator progressBarAnimator;
 
 
+    int x5Tracker;
+    int x2Tracker;
+    int x10Tracker;
+
+
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +110,19 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         checkStartBossTimer();
         startCritSpotRunnable();
 
+        String intentData = getIntent().getExtras().getString("Uniqid");
+        if(intentData.equals("From_Store"))
+        {
+            toggleMenu();
+
+        }
+    }
+    public void setupAllButtons()
+    {
+
+        binding.to1000.setOnClickListener(v->{
+
+
     }
 
     private void animateProgress(int end) {
@@ -121,6 +141,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     public void setupAllButtons() {
         binding.to1000.setOnClickListener(v -> {
+
             CurrentLevel = 1001;
             FurthestLevel = CurrentLevel;
             resetProgressBar();
@@ -226,10 +247,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 resetProgressBar();
             }
         });
+
+        binding.storeButton.setOnClickListener(this::onClick
+
         binding.storeButton.setOnClickListener(v ->
                 {
                     binding.StoreLayout.setVisibility(View.VISIBLE);
                 }
+
         );
     }
 
@@ -690,5 +715,33 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private void stopCritSpotRunnable() {
         // Stop the Runnable from running
         critSpotHandler.removeCallbacks(critSpotRunnable);
+    }
+
+    private void onClick(View v) {
+        Bundle x5 = getIntent().getExtras();
+        Intent intent = new Intent();
+        intent.setClass(AssignmentScreen.this, StoreFunctionality.class);
+        intent.putExtra("Uniqid", "From_Activity_B");
+
+        if (x5 != null) {
+            String x5changetext = x5.getString("x5name");
+            String x2changetext = x5.getString("x2name");
+            String x10changetext = x5.getString("x10name");
+            intent.putExtra("x5", x5changetext);
+            intent.putExtra("x2", x2changetext);
+            intent.putExtra("x10", x10changetext);
+            x5Tracker = x5.getInt("x5Tracker");
+            x2Tracker = x5.getInt("x2Tracker");
+            x10Tracker = x5.getInt("x10Tracker");
+            intent.putExtra("x5Tracker", x5Tracker);
+            intent.putExtra("x2Tracker", x2Tracker);
+            intent.putExtra("x10Tracker", x10Tracker);
+
+        }
+
+
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
     }
 }

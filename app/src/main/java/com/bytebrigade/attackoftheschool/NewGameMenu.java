@@ -39,7 +39,9 @@ public class NewGameMenu extends AppCompatActivity {
                 Profile.points = 0;
                 Profile.playthroughs = SchoolType.ELEMENTARY;
                 Intent intent = new Intent(NewGameMenu.this, AssignmentScreen.class);
+                intent.putExtra("Uniqid","From_NewGameMenu");
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             } else {
                 Toast.makeText(NewGameMenu.this, "Please enter a valid character name.", Toast.LENGTH_SHORT).show();
