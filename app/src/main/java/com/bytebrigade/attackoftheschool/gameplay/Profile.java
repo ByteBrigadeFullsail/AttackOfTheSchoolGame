@@ -29,7 +29,7 @@ public class Profile {
     public static Long clickStrength = 10L;
 
     public static int clickStrengthMultiplier = 1;
-    public static long points = 100000000;
+    public static long points = 0;
 
 
     public static int StudentLoansPoints = 0;

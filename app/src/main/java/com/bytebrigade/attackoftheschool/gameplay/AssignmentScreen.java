@@ -62,8 +62,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     int x10Tracker;
 
 
-
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +98,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         bossTimerAnimation.setInterpolator(new LinearInterpolator());
 
 
-
         setupAllButtons();
         startPowerUpGenerator();
         closeMenu();
@@ -111,18 +108,10 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         startCritSpotRunnable();
 
         String intentData = getIntent().getExtras().getString("Uniqid");
-        if(intentData.equals("From_Store"))
-        {
+        if (intentData.equals("From_Store")) {
             toggleMenu();
 
         }
-    }
-    public void setupAllButtons()
-    {
-
-        binding.to1000.setOnClickListener(v->{
-
-
     }
 
     private void animateProgress(int end) {
@@ -130,11 +119,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             progressBarAnimator.cancel();
         }
         int start = binding.progressBar.getProgress();
-        if(start<end) {
+        if (start < end) {
             progressBarAnimator = ObjectAnimator.ofInt(binding.progressBar, "progress", binding.progressBar.getProgress(), end);
             progressBarAnimator.setDuration(250);
             progressBarAnimator.start();
-        }else{
+        } else {
             binding.progressBar.setProgress(0);
         }
     }
@@ -153,8 +142,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
-            animateProgress((int)progress);
-            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount() + " " + (int)progress);
+            animateProgress((int) progress);
+            Log.i("CURRENTSTATS", "Health: " + assignment.getCurrentClickAmount() + "/" + assignment.getMaxClickAmount() + " " + (int) progress);
             Log.i("CURRENTSTATS", "Health: " + (int) ((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000));
             changeMainBackground();
             setButtonVisibility();
@@ -248,14 +237,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         });
 
-        binding.storeButton.setOnClickListener(this::onClick
+        binding.storeButton.setOnClickListener(this::onClick);
 
-        binding.storeButton.setOnClickListener(v ->
-                {
-                    binding.StoreLayout.setVisibility(View.VISIBLE);
-                }
 
-        );
     }
 
 
@@ -407,7 +391,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             if (CurrentLevel > 9) binding.prev10Stages.setVisibility(View.VISIBLE);
             else if (binding.prev10Stages.getVisibility() == View.VISIBLE)
                 binding.prev10Stages.setVisibility(View.INVISIBLE);
-        } else if (binding.prevStage.getVisibility() == View.VISIBLE) binding.prevStage.setVisibility(View.INVISIBLE);
+        } else if (binding.prevStage.getVisibility() == View.VISIBLE)
+            binding.prevStage.setVisibility(View.INVISIBLE);
         if (CurrentLevel < FurthestLevel) {
             binding.nextStage.setVisibility(View.VISIBLE);
             binding.maxStage.setVisibility(View.VISIBLE);
@@ -445,6 +430,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             isBossTimerRunning = false;
         }
     }
+
     @Override
     public void changeMainBackground() {
         if (CurrentLevel <= 200) {
@@ -697,7 +683,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             // Award the additional clicks to the player
             assignment.incrementClickBy(additionalClicks);
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
-            animateProgress((int)progress);
+            animateProgress((int) progress);
 
             // Remove the crit spot after it's clicked
             binding.clickableBlock.removeView(pointView);

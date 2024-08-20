@@ -149,9 +149,14 @@ public class StoreFunctionality extends AppCompatActivity
         {
             if(x2Tracker.get() == 0)
             {
-                points = points -200;
-                clickStrength = clickStrength*2;
-                x2.setText(R.string.string_x_clicks_400pts);
+                if(points < 0)
+                {
+                    points = points -200;
+                    clickStrength = clickStrength*2;
+                    x2.setText(R.string.string_x_clicks_400pts);
+                    x2Tracker.getAndIncrement();
+                }
+
 
 
             }
@@ -160,33 +165,33 @@ public class StoreFunctionality extends AppCompatActivity
                 points = points -400;
                 clickStrength = clickStrength*2;
                 x2.setText(R.string.string_x_clicks_800pts);
-
+                x2Tracker.getAndIncrement();
             }
             else if (x2Tracker.get() == 2)
             {
                 points = points -800;
                 clickStrength = clickStrength*2;
                 x2.setText(R.string.string_x_clicks_1000pts);
-
+                x2Tracker.getAndIncrement();
 
             } else if (x2Tracker.get() == 3)
             {
                 points = points -1000;
                 clickStrength = clickStrength*2;
                 x2.setText(R.string.string_x_clicks_2000pts);
-
+                x2Tracker.getAndIncrement();
             }
             else if(x2Tracker.get() >= 4)
             {
                 points = points -2000;
                 clickStrength = clickStrength*2;
-
+                x2Tracker.getAndIncrement();
             }
             else
             {
                System.out.println("Sorry You Dont Have Enough Points.");
             }
-            x2Tracker.getAndIncrement();
+
         });
 
        // BackButton Functionality
