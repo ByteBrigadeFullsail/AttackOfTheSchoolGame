@@ -112,8 +112,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         {
             if (intentData.equals("From_Store")) {
                 toggleMenu();
-
             }
+
         }
 
     }
