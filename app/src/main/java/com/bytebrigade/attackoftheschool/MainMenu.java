@@ -53,19 +53,9 @@ public class MainMenu extends AppCompatActivity {
 
 
     private void onClick(View v) {
-        int x5Tracker;
         int x2Tracker;
+        int x5Tracker;
         int x10Tracker;
-
-
-            setContentView(R.layout.store_menu);
-            BackButton = findViewById(R.id.button105);
-            BackButton.setOnClickListener(v1 -> {
-                Intent intent = new Intent(MainMenu.this, MainMenu.class);
-                startActivity(intent);
-                finish();
-            });
-
         //Store button
         Bundle x5 = getIntent().getExtras();
 
@@ -88,7 +78,7 @@ public class MainMenu extends AppCompatActivity {
 
         }
         startActivity(intent);
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+       // overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
        finish();
 
     }

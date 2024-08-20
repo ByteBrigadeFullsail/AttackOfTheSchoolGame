@@ -32,7 +32,7 @@ public class StoreFunctionality extends AppCompatActivity
 
 
         //buttons
-        Button BackButton = findViewById(R.id.button105);
+        Button goBack = findViewById(R.id.button105);
         Button x2 = findViewById(R.id.button101);
         Button x5 = findViewById(R.id.button106);
         Button x10 =findViewById(R.id.button113);
@@ -63,7 +63,7 @@ public class StoreFunctionality extends AppCompatActivity
         }
 
         //x10 Button Function
-        x10.setOnClickListener(v ->
+        x10.setOnClickListener(v3 ->
         {
           if(x10Tracker.get() == 0)
           {
@@ -115,7 +115,7 @@ public class StoreFunctionality extends AppCompatActivity
         });
 
         //x5 button Function
-         x5.setOnClickListener(v ->
+         x5.setOnClickListener(v1 ->
          {
              if(x5Tracker.get() == 0)
              {
@@ -155,7 +155,7 @@ public class StoreFunctionality extends AppCompatActivity
                  if(points > 5000)
                  {
                  points = points -5000;
-                 clickStrength = clickStrength*5;
+                     clickStrength = clickStrength * 5;
                  x5Tracker.getAndIncrement();
 
 
@@ -169,14 +169,14 @@ public class StoreFunctionality extends AppCompatActivity
 
 
        //x2 button Functionality
-        x2.setOnClickListener(v1 ->
+        x2.setOnClickListener(v ->
         {
             if(x2Tracker.get() == 0)
             {
                 if(points > 200)
                 {
                         points = points - 200;
-                        clickStrength = clickStrength * 2;
+                    clickStrength = clickStrength* 2;
                         x2.setText(R.string.string_x_clicks_400pts);
                         x2Tracker.getAndIncrement();
                 }
@@ -229,15 +229,17 @@ public class StoreFunctionality extends AppCompatActivity
         });
 
        // BackButton Functionality
-        BackButton.setOnClickListener(v1 ->
+        goBack.setOnClickListener(v2 ->
         {
             String intentData = getIntent().getExtras().getString("Uniqid");
-            if(intentData.equals("From_Activity_A"))
-            {
+           if(intentData.equals("From_Activity_A"))
+           {
 
                 Intent intent = new Intent(StoreFunctionality.this, MainMenu.class);
                 updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
-                finish();
+                startActivity(intent);
+               overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+               finish();
             }
             else if(intentData.equals("From_Activity_B"))
             {
@@ -246,15 +248,19 @@ public class StoreFunctionality extends AppCompatActivity
                Intent intent = new Intent(StoreFunctionality.this, AssignmentScreen.class);
                 intent.putExtra("Uniqid","From_Store");
                 updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
             }
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-           // finish();
+
+
         });
 
 
     });
 
 }
+
 
     private void updateIntent(AtomicInteger x2Tracker, AtomicInteger x5Tracker, AtomicInteger x10Tracker, Button x2, Button x5, Button x10, Intent intent) {
         intent.putExtra("x5name",x5.getText());
