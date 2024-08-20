@@ -107,11 +107,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         checkStartBossTimer();
         startCritSpotRunnable();
 
+
         String intentData = getIntent().getExtras().getString("Uniqid");
         if (intentData.equals("From_Store")) {
             toggleMenu();
 
         }
+
     }
 
     private void animateProgress(int end) {
