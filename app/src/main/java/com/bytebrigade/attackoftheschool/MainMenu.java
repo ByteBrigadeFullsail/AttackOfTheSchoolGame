@@ -58,8 +58,7 @@ public class MainMenu extends AppCompatActivity {
         int x10Tracker;
 
             setContentView(R.layout.store_menu);
-            BackButton = findViewById(R.id.button66);
-            momButton = findViewById(R.id.button5);
+            BackButton = findViewById(R.id.button105);
             BackButton.setOnClickListener(v1 -> {
                 Intent intent = new Intent(MainMenu.this, MainMenu.class);
                 startActivity(intent);
