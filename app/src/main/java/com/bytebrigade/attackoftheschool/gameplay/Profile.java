@@ -11,6 +11,8 @@ public class Profile {
     public static int FurthestLevel =1;
     public static int CurrentLevel = 1;
     public static int amountOfClickIncreasedUpgrades = 0;
+    public static boolean hasTutor = false;
+    public static int tutorLevel = 1;
     //1-1000
     public static  void finishedPlaythrough(){
         playthroughs = switch (playthroughs){
