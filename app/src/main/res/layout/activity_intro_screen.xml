@@ -19,4 +19,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.75" />
+
+<!--    Shawn's Credits Button code starts here-->
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/creditsButton"
+            android:layout_width="400dp"
+            android:layout_height="120dp"
+            android:text="Credits"
+            style="@style/MainButtonStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.92" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

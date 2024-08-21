@@ -12,14 +12,28 @@ public class Profile {
     public static int CurrentLevel = 1;
     public static int amountOfClickIncreasedUpgrades = 0;
     //1-1000
+    public static  void finishedPlaythrough(){
+        playthroughs = switch (playthroughs){
+            case ELEMENTARY -> SchoolType.HIGH_SCHOOL;
+            case HIGH_SCHOOL -> SchoolType.COLLAGE;
+            default -> SchoolType.COLLAGE;
+        };
+        FurthestLevel = 1;
+        CurrentLevel = 1;
+        amountOfClickIncreasedUpgrades = 0;
+        clickStrength = 10L;
+        clickStrengthMultiplier = 1;
+        points = 0;
+    }
 
     public static Long clickStrength = 10L;
+
     public static int clickStrengthMultiplier = 1;
     public static long points = 0;
 
 
     public static int StudentLoansPoints = 0;
 
-    public static String profileName;
+    public static String profileName = null;
 
 }

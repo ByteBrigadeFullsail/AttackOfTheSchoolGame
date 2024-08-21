@@ -1,37 +1,34 @@
 package com.bytebrigade.attackoftheschool.gameplay.assignment;
 
+import android.content.Intent;
 import android.util.Log;
+import com.bytebrigade.attackoftheschool.MainMenu;
+import com.bytebrigade.attackoftheschool.NewGameMenu;
 import com.bytebrigade.attackoftheschool.gameplay.Clickable;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
 public class Assignment implements Clickable {
-    private Long maxClickAmount;
-    public Long currentClickAmount;
+    private long maxClickAmount;
+    public long currentClickAmount;
     private AssignmentName assignmentName;
     private CallBack caller;
     private String className;
+
     //aaa
-    public Assignment(Long clickAmount, AssignmentName assignmentName) {
+    public Assignment(long clickAmount, AssignmentName assignmentName) {
         this.currentClickAmount = 0L;
         this.maxClickAmount = clickAmount;
         this.assignmentName = assignmentName;
         className = "English";
     }
 
-    public void startCheatSheet() {
-        clickStrengthMultiplier = 2;
-    }
-    public void endCheatSheet() {
-        clickStrengthMultiplier = 1;
-    }
-
     public long calculatePoints(int stage) {
         double basePoints = 5;
         double points;
 
-        if (stage % 1000 == 0) {
+        if (stage % 1001 == 0) {
             points = basePoints * Math.pow(1.1, (stage - 1) / 5) * 3 * 1.5 * 10;
         } else if (stage % 200 == 0) {
             points = basePoints * Math.pow(1.1, (stage - 1) / 5) * 3;
@@ -45,17 +42,19 @@ public class Assignment implements Clickable {
 
         return (long) points;
     }
-    public void incrementPoints(){
+
+    public void incrementPoints() {
 
         long pointsToAdd = calculatePoints(CurrentLevel);
         points += pointsToAdd;
         caller.showAddedPoints("+" + pointsToAdd + " Points");
 
     }
+
     @Override
     public void incrementClick() {
-        if (this.currentClickAmount + clickStrength*clickStrengthMultiplier < this.maxClickAmount) {
-            this.currentClickAmount += clickStrength*clickStrengthMultiplier;
+        if (this.currentClickAmount + clickStrength * clickStrengthMultiplier < this.maxClickAmount) {
+            this.currentClickAmount += clickStrength * clickStrengthMultiplier;
 
             Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
         } else { //defeated clickable below
@@ -73,9 +72,10 @@ public class Assignment implements Clickable {
     }
 
 
-    public void currentLevelChanged(){
+    public void currentLevelChanged() {
         this.maxClickAmount = calculateHealth(CurrentLevel);
-        this.assignmentName = AssignmentName.values()[(int) Math.ceil(CurrentLevel / 200)];
+
+        this.assignmentName = AssignmentName.values()[(CurrentLevel / 200)];
         this.currentClickAmount = 0L;
         caller.changeMainBackground();
         caller.changeClickableBackground();
@@ -97,23 +97,27 @@ public class Assignment implements Clickable {
         // Base health for regular stages
         double baseHealth = 100;
         double health;
-
+        double basePercent = switch (playthroughs) {
+            case ELEMENTARY -> 1.04;
+            case HIGH_SCHOOL -> 1.06;
+            case COLLAGE -> 1.09;
+        };
         // Apply incremental increases based on stage type
-        if (stage % 1000 == 0) {
+        if (stage % 1001 == 0) {
             // Final boss
-            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 3 * 1.5 * 10;
+            health = baseHealth * Math.pow(basePercent, (stage - 1) / 5) * 3 * 1.5 * 10;
         } else if (stage % 200 == 0) {
             // Professor boss
-            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 3;
+            health = baseHealth * Math.pow(basePercent, (stage - 1) / 5) * 3;
         } else if (stage % 50 == 0) {
             // Test
-            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 1.5;
+            health = baseHealth * Math.pow(basePercent, (stage - 1) / 5) * 1.5;
         } else if (stage % 5 == 0) {
             // Quiz/packet
-            health = baseHealth * Math.pow(1.12, (stage - 1) / 5) * 1.2;
+            health = baseHealth * Math.pow(basePercent, (stage - 1) / 5) * 1.2;
         } else {
             // Regular stage
-            health = baseHealth * Math.pow(1.12, (stage - 1) / 5);
+            health = baseHealth * Math.pow(basePercent, (stage - 1) / 5);
         }
 
         return (long) health;
@@ -121,14 +125,21 @@ public class Assignment implements Clickable {
 
     @Override
     public void progressToNextLevel() {
-        Log.i("CURRENTSTATS", "PROGRESS WAS CALLED! " + CurrentLevel + " is current level then Furthest level: " + FurthestLevel);
-        FurthestLevel++;
-        CurrentLevel = FurthestLevel;
-        this.maxClickAmount = calculateHealth(FurthestLevel);
-        this.assignmentName = AssignmentName.values()[(int) Math.ceil(FurthestLevel / 200)];
-        this.currentClickAmount = 0L;
-        Log.i("CURRENTSTATS", this.maxClickAmount + "");
-        caller.changeMainBackground();
+        if (FurthestLevel != 1001) {
+            Log.i("CURRENTSTATS", "PROGRESS WAS CALLED! " + CurrentLevel + " is current level then Furthest level: " + FurthestLevel);
+            FurthestLevel++;
+            CurrentLevel = FurthestLevel;
+            this.maxClickAmount = calculateHealth(FurthestLevel);
+            this.assignmentName = AssignmentName.values()[(FurthestLevel / 200)];
+            this.currentClickAmount = 0L;
+            Log.i("CURRENTSTATS", this.maxClickAmount + "");
+            caller.changeMainBackground();
+        } else {
+
+            finishedPlaythrough();
+
+            caller.sendToCredits();
+        }
     }
 
     public void setBackgroundSetter(CallBack b) {
@@ -151,9 +162,14 @@ public class Assignment implements Clickable {
     public String getClassName() {
         return className;
     }
+
     public String getAssignmentName() {
         return assignmentName.getAssignmentName();
         //return "\n Level: " + level + assignmentName.getAssignmentName();
+    }
+
+    public void incrementClickBy(int additionalClicks) {
+        this.currentClickAmount += additionalClicks;
     }
 
     public interface CallBack {
@@ -166,5 +182,6 @@ public class Assignment implements Clickable {
         void start30SecondBossTimer();
 
         void stop30SecondBossTimer();
+        void sendToCredits();
     }
 }
