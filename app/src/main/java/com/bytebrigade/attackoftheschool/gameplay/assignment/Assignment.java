@@ -24,14 +24,6 @@ public class Assignment implements Clickable {
         className = "English";
     }
 
-    public void startCheatSheet() {
-        clickStrengthMultiplier = 2;
-    }
-
-    public void endCheatSheet() {
-        clickStrengthMultiplier = 1;
-    }
-
     public long calculatePoints(int stage) {
         double basePoints = 5;
         double points;
@@ -105,7 +97,11 @@ public class Assignment implements Clickable {
         // Base health for regular stages
         double baseHealth = 100;
         double health;
-        double basePercent = 1.04;
+        double basePercent = switch (playthroughs) {
+            case ELEMENTARY -> 1.04;
+            case HIGH_SCHOOL -> 1.06;
+            case COLLAGE -> 1.09;
+        };
         // Apply incremental increases based on stage type
         if (stage % 1001 == 0) {
             // Final boss
@@ -141,6 +137,7 @@ public class Assignment implements Clickable {
         } else {
 
             finishedPlaythrough();
+
             caller.sendToCredits();
         }
     }
