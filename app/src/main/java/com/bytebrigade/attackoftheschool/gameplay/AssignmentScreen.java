@@ -168,7 +168,10 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
         binding.tutorButton.setOnClickListener(v -> {
-            startTutorRunnable();
+            if(!hasTutor){
+                hasTutor = true;
+                startTutorRunnable();
+            }
         });
 
         binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
