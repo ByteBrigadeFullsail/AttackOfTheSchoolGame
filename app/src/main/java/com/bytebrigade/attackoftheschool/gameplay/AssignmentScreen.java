@@ -107,13 +107,16 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         checkStartBossTimer();
         startCritSpotRunnable();
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null)
+        {
+            String intentData = getIntent().getExtras().getString("Uniqid");
+            if (intentData.equals("From_Store")) {
+                toggleMenu();
 
-        String intentData = getIntent().getExtras().getString("Uniqid");
-        if (intentData.equals("From_Store")) {
-            toggleMenu();
-
+            }
         }
-
+//
     }
 
     private void animateProgress(int end) {
@@ -170,11 +173,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             gestureDetector.onTouchEvent(event);
             return true;
         });
-        binding.backtoMainMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(AssignmentScreen.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        binding.backtoMainMenu.setOnClickListener(this::onClick);
+
+
         binding.upgradeClick.setOnClickListener(v -> {
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
@@ -706,30 +707,42 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     }
 
     private void onClick(View v) {
-        Bundle x5 = getIntent().getExtras();
+        Bundle x5B = getIntent().getExtras();
         Intent intent = new Intent();
-        intent.setClass(AssignmentScreen.this, StoreFunctionality.class);
-        intent.putExtra("Uniqid", "From_Activity_B");
+        if(v == binding.storeButton)
+        {
+            intent.setClass(AssignmentScreen.this, StoreFunctionality.class);
+        }
+        else if (v == binding.backtoMainMenu)
+        {
+            intent.setClass(AssignmentScreen.this, MainMenu.class);
 
-        if (x5 != null) {
-            String x5changetext = x5.getString("x5name");
-            String x2changetext = x5.getString("x2name");
-            String x10changetext = x5.getString("x10name");
-            intent.putExtra("x5", x5changetext);
+
+        }
+
+
+
+        if (x5B != null) {
+            intent.putExtra("Uniqid", "From_Activity_B");
+            String x5changetext = x5ButtonText;
+            String x2changetext = x2ButtonText;
+            String x10changetext =x10ButtonText;
+            intent.putExtra("x5B", x5changetext);
             intent.putExtra("x2", x2changetext);
             intent.putExtra("x10", x10changetext);
-            x5Tracker = x5.getInt("x5Tracker");
-            x2Tracker = x5.getInt("x2Tracker");
-            x10Tracker = x5.getInt("x10Tracker");
+            x5Tracker = x5B.getInt("x5Tracker");
+            x2Tracker = x5B.getInt("x2Tracker");
+            x10Tracker = x5B.getInt("x10Tracker");
             intent.putExtra("x5Tracker", x5Tracker);
             intent.putExtra("x2Tracker", x2Tracker);
             intent.putExtra("x10Tracker", x10Tracker);
 
         }
-
+        x5B = getIntent().getExtras();
 
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
+
 }
