@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,6 +32,7 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatShe
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
 import com.bytebrigade.attackoftheschool.helper.Helper;
+
 
 import java.util.Random;
 
@@ -134,6 +136,12 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     }
 
     public void setupAllButtons() {
+        
+        Button helperButton = findViewById(R.id.helper_button);
+        helperButton.setText(("Mom Uses: " + Integer.toString(momUses)));
+
+        
+        
         binding.to1000.setOnClickListener(v -> {
 
             CurrentLevel = 1001;
@@ -197,6 +205,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
         binding.helperButton.setOnClickListener(v -> {
+            helperButton.setText(("Mom Uses: " + Integer.toString(momUses--)));
             assignment.currentClickAmount = assignment.getMaxClickAmount();
             assignment.incrementClick();
             resetProgressBar();

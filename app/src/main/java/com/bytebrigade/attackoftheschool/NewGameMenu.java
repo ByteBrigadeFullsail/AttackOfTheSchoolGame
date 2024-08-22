@@ -23,14 +23,14 @@ public class NewGameMenu extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancelButton);
         characterNameInput = findViewById(R.id.characterNameInput);
 
-
-
         startGameButton.setOnClickListener(v ->{
             // Capture the input from the user
             String characterName = characterNameInput.getText().toString();
+            Profile.profileName = characterName;
+
             // Check profile name is valid and update Profile class w/ name
             if (isProfileNameValid(characterName)) {
-                Profile.profileName = characterName;
+
                 Profile.FurthestLevel = 1;
                 Profile.CurrentLevel = 1;
                 Profile.amountOfClickIncreasedUpgrades = 0;
@@ -44,10 +44,15 @@ public class NewGameMenu extends AppCompatActivity {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             } else {
-                Toast.makeText(NewGameMenu.this, "Please enter a valid character name.", Toast.LENGTH_SHORT).show();
+                if (Profile.profileName == null) {
+                    Toast.makeText(NewGameMenu.this, "Please enter a valid character name that is not null.", Toast.LENGTH_SHORT).show();
+                } else if (Profile.profileName.trim().isEmpty()) {
+                    Toast.makeText(NewGameMenu.this, "Please enter a character name.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(NewGameMenu.this, "Please enter a character name that is greater than 3 characters.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
 
         cancelButton.setOnClickListener(v ->{
             Intent intent = new Intent(NewGameMenu.this, MainMenu.class);

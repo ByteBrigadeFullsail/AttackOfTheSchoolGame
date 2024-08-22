@@ -18,9 +18,9 @@ public class StoreFunctionality extends AppCompatActivity
         AtomicInteger x2Tracker = new AtomicInteger();
         AtomicInteger x5Tracker = new AtomicInteger();
         AtomicInteger x10Tracker = new AtomicInteger();
-        int x5T;
-        int x2T;
-        int x10T;
+        int x5T = 0;
+        int x2T = 0;
+        int x10T = 0;
 
 
 
@@ -32,7 +32,7 @@ public class StoreFunctionality extends AppCompatActivity
 
 
         //buttons
-        Button goBack = findViewById(R.id.button105);
+        Button BackButton = findViewById(R.id.button105);
         Button x2 = findViewById(R.id.button101);
         Button x5 = findViewById(R.id.button106);
         Button x10 =findViewById(R.id.button113);
@@ -43,7 +43,9 @@ public class StoreFunctionality extends AppCompatActivity
         x2T = x5Text.getInt("x2Tracker");
        x10T = x5Text.getInt("x10Tracker");
 
-
+        String x5string =x5.getText().toString();
+        String x2string =x2.getText().toString();
+        String x10String =x10.getText().toString();
         if(x5T > 0)
         {
           x5.setText(x5Text.getString("x5"));
@@ -65,42 +67,30 @@ public class StoreFunctionality extends AppCompatActivity
         {
           if(x10Tracker.get() == 0)
           {
-              if(points > 0) {
-                  points = points - 6000;
-                  clickStrength = clickStrength * 10;
-                  x10.setText(R.string.x10_clicks_7_000pts);
-                  x10Tracker.getAndIncrement();
-              }
+              points = points -6000;
+              clickStrength = clickStrength*10;
+              x10.setText(R.string.x10_clicks_7_000pts);
 
           }
            else if(x10Tracker.get() == 1)
             {
-                if(points > 0) {
-                    points = points - 7000;
-                    clickStrength = clickStrength * 10;
-                    x10.setText(R.string.x10_clicks_8_000pts);
-                    x10Tracker.getAndIncrement();
-                }
+                points = points -7000;
+                clickStrength = clickStrength*10;
+                x10.setText(R.string.x10_clicks_8_000pts);
 
             }
            else if(x10Tracker.get() == 2)
             {
-                if(points > 0) {
-                    points = points - 8000;
-                    clickStrength = clickStrength * 10;
-                    x10.setText(R.string.x10_clicks_9_000pts);
-                    x10Tracker.getAndIncrement();
-                }
+                points = points -8000;
+                clickStrength = clickStrength*10;
+                x10.setText(R.string.x10_clicks_9_000pts);
 
             }
           else if(x10Tracker.get() >= 3)
             {
-                if(points > 9000) {
-                    points = points - 9000;
-                    clickStrength = clickStrength * 10;
-                    x10.setText(R.string.x10_clicks_10_000pts);
-                    x10Tracker.getAndIncrement();
-                }
+                points = points -9000;
+                clickStrength = clickStrength*10;
+                x10.setText(R.string.x10_clicks_10_000pts);
 
             }
             else
@@ -108,7 +98,7 @@ public class StoreFunctionality extends AppCompatActivity
               System.out.println("Sorry You Dont Have Enough Points.");
           }
 
-
+            x10Tracker.getAndIncrement();
 
         });
 
@@ -117,99 +107,52 @@ public class StoreFunctionality extends AppCompatActivity
          {
              if(x5Tracker.get() == 0)
              {
-                 if(points > 2000) {
-                     points = points - 2000;
-                     clickStrength = clickStrength * 5;
-                     x5.setText(R.string.string_x5_clicks_3_000pts);
-                     x5Tracker.getAndIncrement();
-                 }
+                 points = points -2000;
+                 clickStrength = clickStrength*5;
+                 x5.setText(R.string.string_x5_clicks_3_000pts);
 
 
 
              }
              else if(x5Tracker.get() == 1)
              {
-                 if(points > 3000) {
-                     points = points - 3000;
-                     clickStrength = clickStrength * 5;
-                     x5.setText(R.string.string_x5_clicks_4_000pts);
-                     x5Tracker.getAndIncrement();
-                 }
+                 points = points -3000;
+                 clickStrength = clickStrength*5;
+                 x5.setText(R.string.string_x5_clicks_4_000pts);
 
              }
              else if (x5Tracker.get() == 2)
              {
-                 if(points > 4000) {
-                     points = points - 4000;
-                     clickStrength = clickStrength * 5;
-                     x5.setText(R.string.string_x5_clicks_5_000pts);
-                     x5Tracker.getAndIncrement();
-                 }
+                 points = points -4000;
+                 clickStrength = clickStrength*5;
+                 x5.setText(R.string.string_x5_clicks_5_000pts);
 
 
              }
              else if(x5Tracker.get() >= 3)
              {
-                 if(points > 5000)
-                 {
                  points = points -5000;
-                     clickStrength = clickStrength * 5;
-                 x5Tracker.getAndIncrement();
-
+                 clickStrength = clickStrength*5;
+                ;
 
              }
              else
              {
                  System.out.println("Sorry You Dont Have Enough Points.");
              }
-
-         }
-
-
+             x5Tracker.getAndIncrement();
+         });
 
 
-       // BackButton Functionality
-
-
-    });
-
-        goBack.setOnClickListener(v ->
-        {
-            String intentData = getIntent().getExtras().getString("Uniqid");
-            if(intentData.equals("From_Activity_A"))
-            {
-
-                Intent intent = new Intent(StoreFunctionality.this, MainMenu.class);
-                updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                startActivity(intent);
-
-                finish();
-            }
-            else if(intentData.equals("From_Activity_B"))
-            {
-
-
-                Intent intent = new Intent(StoreFunctionality.this, AssignmentScreen.class);
-                intent.putExtra("Uniqid","From_Store");
-                updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                startActivity(intent);
-
-                finish();
-            }
-
-
-        });
-        //x2 button Functionality
-        x2.setOnClickListener(v ->
+       //x2 button Functionality
+        x2.setOnClickListener(v1 ->
         {
             if(x2Tracker.get() == 0)
             {
-                if(points > 200)
+                if(points < 0)
                 {
-                    points = points - 200;
-                    clickStrength = clickStrength* 2;
+                    points = points -200;
+                    clickStrength = clickStrength*2;
                     x2.setText(R.string.string_x_clicks_400pts);
                     x2Tracker.getAndIncrement();
                 }
@@ -219,50 +162,62 @@ public class StoreFunctionality extends AppCompatActivity
             }
             else if(x2Tracker.get() == 1)
             {
-                if(points > 400) {
-                    points = points - 400;
-                    clickStrength = clickStrength * 2;
-                    x2.setText(R.string.string_x_clicks_800pts);
-                    x2Tracker.getAndIncrement();
-                }
+                points = points -400;
+                clickStrength = clickStrength*2;
+                x2.setText(R.string.string_x_clicks_800pts);
+                x2Tracker.getAndIncrement();
             }
             else if (x2Tracker.get() == 2)
             {
-                if(points > 800) {
-                    points = points - 800;
-                    clickStrength = clickStrength * 2;
-                    x2.setText(R.string.string_x_clicks_1000pts);
-                    x2Tracker.getAndIncrement();
-                }
+                points = points -800;
+                clickStrength = clickStrength*2;
+                x2.setText(R.string.string_x_clicks_1000pts);
+                x2Tracker.getAndIncrement();
 
             } else if (x2Tracker.get() == 3)
             {
-                if(points > 1000)
-                {
-                    points = points - 1000;
-                    clickStrength = clickStrength * 2;
-                    x2.setText(R.string.string_x_clicks_2000pts);
-                    x2Tracker.getAndIncrement();
-                }
-
+                points = points -1000;
+                clickStrength = clickStrength*2;
+                x2.setText(R.string.string_x_clicks_2000pts);
+                x2Tracker.getAndIncrement();
             }
             else if(x2Tracker.get() >= 4)
             {
-                if(points > 2000) {
-                    points = points - 2000;
-                    clickStrength = clickStrength * 2;
-                    x2Tracker.getAndIncrement();
-                }
+                points = points -2000;
+                clickStrength = clickStrength*2;
+                x2Tracker.getAndIncrement();
             }
             else
             {
-                System.out.println("Sorry You Dont Have Enough Points.");
+               System.out.println("Sorry You Dont Have Enough Points.");
             }
 
         });
 
-    }
+       // BackButton Functionality
+        BackButton.setOnClickListener(v1 ->
+        {
+            String intentData = getIntent().getExtras().getString("Uniqid");
+            if(intentData.equals("From_Activity_A"))
+            {
 
+                Intent intent = new Intent(StoreFunctionality.this, MainMenu.class);
+                updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
+            }
+            else if(intentData.equals("From_Activity_B"))
+            {
+
+
+               Intent intent = new Intent(StoreFunctionality.this, AssignmentScreen.class);
+                intent.putExtra("Uniqid","From_Store");
+                updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
+            }
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
+        });
+
+
+    }
 
     private void updateIntent(AtomicInteger x2Tracker, AtomicInteger x5Tracker, AtomicInteger x10Tracker, Button x2, Button x5, Button x10, Intent intent) {
         intent.putExtra("x5name",x5.getText());
@@ -273,4 +228,4 @@ public class StoreFunctionality extends AppCompatActivity
         intent.putExtra("x10Tracker",x10Tracker.get());
         startActivity(intent);
     }
-    }
+}
