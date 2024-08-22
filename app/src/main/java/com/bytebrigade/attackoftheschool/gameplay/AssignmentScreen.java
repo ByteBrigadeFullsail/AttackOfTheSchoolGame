@@ -52,7 +52,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
     private Handler critSpotHandler = new Handler(Looper.getMainLooper());
+    private Handler tutorHandler = new Handler(Looper.getMainLooper());
     private Runnable critSpotRunnable;
+    private Runnable tutorRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
 
@@ -86,6 +88,20 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 addRandomPointToAssignment();
 
                 critSpotHandler.postDelayed(this, 10000);
+            }
+        };
+
+        tutorRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                assignment.incrementClick();
+                double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+                animateProgress((int) progress);
+                changeMainBackground();
+                setButtonVisibility();
+
+                tutorHandler.postDelayed(this, 5000);
             }
         };
 
@@ -152,6 +168,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             Log.i("CURRENTSTATS", "Health: " + (int) ((assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000));
             changeMainBackground();
             setButtonVisibility();
+        });
+
+        binding.tutorButton.setOnClickListener(v -> {
+            if(!hasTutor){
+                hasTutor = true;
+                startTutorRunnable();
+            }
         });
 
         binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
@@ -701,9 +724,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         critSpotHandler.post(critSpotRunnable);
     }
 
-    private void stopCritSpotRunnable() {
-        // Stop the Runnable from running
-        critSpotHandler.removeCallbacks(critSpotRunnable);
+    private void startTutorRunnable() {
+        tutorHandler.post(tutorRunnable);
     }
 
     private void onClick(View v) {

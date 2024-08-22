@@ -18,6 +18,8 @@ public class Profile {
    public static String x10ButtonText;
    public static String x5ButtonText;
    public static Boolean initialAccess = true;
+    public static boolean hasTutor = false;
+    public static int tutorLevel = 1;
     //1-1000
     public static  void finishedPlaythrough(){
         playthroughs = switch (playthroughs){
