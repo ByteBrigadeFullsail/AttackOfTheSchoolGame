@@ -55,7 +55,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Runnable critSpotRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
-
+    private Profile profile;
 
     int x5Tracker;
     int x2Tracker;
@@ -66,6 +66,10 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        profile = new Profile(this);
+        profile.loadProgress();
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_assignment_screen);
         assignment.setBackgroundSetter(this);
         binding.setAssignment(assignment);
@@ -138,6 +142,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             CurrentLevel = 1001;
             FurthestLevel = CurrentLevel;
+            profile.saveProgress();
             resetProgressBar();
             refreshStats();
             setButtonVisibility();
@@ -207,6 +212,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
                 CurrentLevel--;
+                profile.saveProgress();
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -218,6 +224,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                     CurrentLevel = 1;
                 else
                     CurrentLevel -= 10;
+                profile.saveProgress();
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -226,6 +233,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.nextStage.setOnClickListener(v -> {
             if (CurrentLevel < FurthestLevel) {
                 CurrentLevel++;
+                profile.saveProgress();
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -234,6 +242,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.maxStage.setOnClickListener(v -> {
             if (CurrentLevel < FurthestLevel) {
                 CurrentLevel = FurthestLevel;
+                profile.saveProgress();
                 changeMainBackground();
                 setButtonVisibility();
                 resetProgressBar();

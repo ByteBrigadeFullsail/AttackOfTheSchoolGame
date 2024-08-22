@@ -1,5 +1,8 @@
 package com.bytebrigade.attackoftheschool.gameplay;
 import com.bytebrigade.attackoftheschool.helper.enums.SchoolType;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 public class Profile {
 
@@ -52,4 +55,53 @@ public class Profile {
 
     public static String profileName = null;
 
+    // Jason save-load section
+    private static final String PREFS_NAME = "prefs_name";
+    private static final String KEY_CURRENT_LEVEL = "current_level";
+    private static final String KEY_POINTS = "points";
+    private static final String KEY_CLICK_STRENGTH = "click_strength";
+    private static final String KEY_CLICK_STRENGTH_MULTIPLIER = "click_strength_multiplier";
+    private static final String KEY_FURTHEST_LEVEL = "furthest_level";
+    private static final String KEY_MOM_USES = "mom_uses";
+    private static final String KEY_AMOUNT_OF_UPGRADES = "amount_of_upgrades";
+
+
+    // TODO: Determine if these are important and if so create key-value pairs for them.
+//    x2ButtonText ="";
+//    x5ButtonText ="";
+//    x10ButtonText = "";
+//    x2T= 0;
+//    x10T = 0;
+//    x5T = 0;
+
+
+    private SharedPreferences sharedPreferences;
+
+    public Profile(Context context){
+        sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+    public void saveProgress(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_CURRENT_LEVEL, CurrentLevel);
+        editor.putLong(KEY_POINTS, points);
+        editor.putLong(KEY_CLICK_STRENGTH, clickStrength);
+        editor.putInt(KEY_CLICK_STRENGTH_MULTIPLIER, clickStrengthMultiplier);
+        editor.putInt(KEY_FURTHEST_LEVEL, FurthestLevel);
+        editor.putInt(KEY_MOM_USES, momUses);
+        editor.putInt(KEY_AMOUNT_OF_UPGRADES, amountOfClickIncreasedUpgrades);
+        editor.apply();
+        Log.d("Profile", "Saving progress: CurrentLevel = " + CurrentLevel);
+    }
+
+    public void loadProgress(){
+        CurrentLevel = sharedPreferences.getInt(KEY_CURRENT_LEVEL, CurrentLevel);
+        points = sharedPreferences.getLong(KEY_POINTS, points);
+        clickStrength = sharedPreferences.getLong(KEY_CLICK_STRENGTH, clickStrength);
+        clickStrengthMultiplier = sharedPreferences.getInt(KEY_CLICK_STRENGTH_MULTIPLIER, clickStrengthMultiplier);
+        FurthestLevel = sharedPreferences.getInt(KEY_FURTHEST_LEVEL, FurthestLevel);
+        momUses = sharedPreferences.getInt(KEY_MOM_USES, momUses);
+        amountOfClickIncreasedUpgrades = sharedPreferences.getInt(KEY_AMOUNT_OF_UPGRADES, amountOfClickIncreasedUpgrades);
+        Log.d("Profile", "Loaded progress: CurrentLevel = " + CurrentLevel);
+    }
 }

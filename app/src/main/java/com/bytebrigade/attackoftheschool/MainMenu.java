@@ -17,6 +17,8 @@ public class MainMenu extends AppCompatActivity {
     Button continueButton;
     Button storeButton;
 
+    private Profile profile;
+
     Button BackButton;
     Button momButton;
     Bundle x5;
@@ -27,6 +29,10 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        profile = new Profile(this);
+        profile.loadProgress();
+
         if(initialAccess == false)
         {
          x5 = getIntent().getExtras();
@@ -35,19 +41,30 @@ public class MainMenu extends AppCompatActivity {
 
         newGameButton = findViewById(R.id.newGameButton);
         continueButton = findViewById(R.id.continueButton);
-        if(profileName != null){
-            continueButton.setEnabled(true);
-            continueButton.setText("Continue: Level " + FurthestLevel);
-        }
         storeButton = findViewById(R.id.storeButton);
+        continueButton.setEnabled(true);
+//        if(Profile.profileName != null){
+//
+//            continueButton.setText("Continue: Level " + Profile.FurthestLevel);
+//        }
+
         newGameButton.setOnClickListener(v ->{
-            initialAccess = false;
+            Profile.initialAccess = false;
             Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
-        continueButton.setOnClickListener(this::onClick);
+
+        continueButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            finish();
+        });
+
+
+
         storeButton.setOnClickListener(this::onClick);
     }
 
