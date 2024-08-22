@@ -7,10 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
+import com.bytebrigade.attackoftheschool.gameplay.Profile;
 
-
-import static com.bytebrigade.attackoftheschool.gameplay.Profile.FurthestLevel;
-import static com.bytebrigade.attackoftheschool.gameplay.Profile.profileName;
+import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -20,14 +19,18 @@ public class MainMenu extends AppCompatActivity {
 
     Button BackButton;
     Button momButton;
- 
+    Bundle x5;
+    Intent intent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
+        if(initialAccess == false)
+        {
+         x5 = getIntent().getExtras();
+        }
 
 
         newGameButton = findViewById(R.id.newGameButton);
@@ -38,16 +41,13 @@ public class MainMenu extends AppCompatActivity {
         }
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
+            initialAccess = false;
             Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
-        continueButton.setOnClickListener(v ->{
-            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
-            startActivity(intent);
-            finish();
-        });
+        continueButton.setOnClickListener(this::onClick);
         storeButton.setOnClickListener(this::onClick);
     }
 
@@ -56,15 +56,36 @@ public class MainMenu extends AppCompatActivity {
         int x2Tracker;
         int x5Tracker;
         int x10Tracker;
-        //Store button
-        Bundle x5 = getIntent().getExtras();
 
-        Intent intent = new Intent();
-        intent.setClass(MainMenu.this, StoreFunctionality.class);
-        intent.putExtra("Uniqid", "From_Activity_A");
-        if (x5 != null) {
-            String x5changetext = x5.getString("x5name");
-            String x2changetext = x5.getString("x2name");
+
+        if (!initialAccess)
+        {
+            x5 = getIntent().getExtras();
+             intent = getIntent();
+        }
+        else
+        {
+            intent = new Intent();
+        }
+        //Store button
+        if(v == continueButton)
+        {
+            x5 = getIntent().getExtras();
+            intent.setClass(MainMenu.this, AssignmentScreen.class);
+           // onClick(this.getCurrentFocus());
+            intent.putExtra("Uniqid", "From_Activity_B");
+
+        }
+        else if(v == storeButton)
+        {
+            x5 = getIntent().getExtras();
+            intent.setClass(MainMenu.this, StoreFunctionality.class);
+            intent.putExtra("Uniqid", "From_Activity_A");
+        }
+        if (x5 != null)
+        {
+            String x5changetext = x5ButtonText;
+            String x2changetext = x2ButtonText;
             String x10changetext = x5.getString("x10name");
             intent.putExtra("x5", x5changetext);
             intent.putExtra("x2", x2changetext);
