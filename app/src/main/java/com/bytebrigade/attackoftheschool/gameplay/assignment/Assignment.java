@@ -182,6 +182,7 @@ public class Assignment implements Clickable {
         void start30SecondBossTimer();
 
         void stop30SecondBossTimer();
+
         void sendToCredits();
     }
 }

@@ -8,6 +8,7 @@ public class Profile {
     //0 if in elementary, 1 is in high school, 2 is in college,
     // 3 is continuing, but no increased challenge
 
+    public static int momUses = 0;
     public static int FurthestLevel =1;
     public static int CurrentLevel = 1;
     public static int amountOfClickIncreasedUpgrades = 0;
@@ -24,6 +25,7 @@ public class Profile {
         clickStrength = 10L;
         clickStrengthMultiplier = 1;
         points = 0;
+        momUses = 0;
     }
 
     public static Long clickStrength = 10L;
@@ -35,5 +37,15 @@ public class Profile {
     public static int StudentLoansPoints = 0;
 
     public static String profileName = null;
+
+    public static void updateMomUses(int amount){
+        if (momUses + amount > 4) {
+            momUses = 5;
+        } else if (momUses + amount < 0) {
+            momUses = 0;
+        } else {
+            momUses += amount;
+        } // Figure out the "indexing" it seems like the text on the button on the assignment screen skips a click.
+    }
 
 }
