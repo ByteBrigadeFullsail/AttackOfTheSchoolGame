@@ -10,7 +10,7 @@ import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentNam
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
 public class Assignment implements Clickable {
-    private long maxClickAmount;
+    public long maxClickAmount;
     public long currentClickAmount;
     private AssignmentName assignmentName;
     private CallBack caller;
@@ -182,6 +182,7 @@ public class Assignment implements Clickable {
         void start30SecondBossTimer();
 
         void stop30SecondBossTimer();
+
         void sendToCredits();
     }
 }
