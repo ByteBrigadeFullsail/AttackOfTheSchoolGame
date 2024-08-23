@@ -5,6 +5,9 @@
       <entry key="MainStartScreen">
         <State />
       </entry>
+      <entry key="NewGameMenu">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
