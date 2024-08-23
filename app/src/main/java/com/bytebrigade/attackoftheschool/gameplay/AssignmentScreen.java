@@ -133,6 +133,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         }
 //
+        binding.tutorButton.setOnClickListener(v -> {
+            if(!hasTutor){
+                hasTutor = true;
+                startTutorRunnable();
+            }
+        });
+
     }
 
     private void animateProgress(int end) {
@@ -170,12 +177,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             setButtonVisibility();
         });
 
-        binding.tutorButton.setOnClickListener(v -> {
-            if(!hasTutor){
-                hasTutor = true;
-                startTutorRunnable();
-            }
-        });
 
         binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
@@ -666,6 +667,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         Intent intent = new Intent(this, CreditsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void callSave() {
+        Profile.saveAll(this);
     }
 
     private void addRandomPointToAssignment() {

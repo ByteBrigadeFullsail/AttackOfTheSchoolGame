@@ -2,6 +2,8 @@ package com.bytebrigade.attackoftheschool;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,7 +39,11 @@ public class MainMenu extends AppCompatActivity {
         continueButton = findViewById(R.id.continueButton);
         if(profileName != null){
             continueButton.setEnabled(true);
-            continueButton.setText("Continue: Level " + FurthestLevel);
+            continueButton.setText("Continue: Loading... ");
+            new Handler(Looper.getMainLooper()).postDelayed(()->{
+
+                continueButton.setText("Continue: Level " + FurthestLevel);
+            }, 2000);
         }
         storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
@@ -49,6 +55,10 @@ public class MainMenu extends AppCompatActivity {
         });
         continueButton.setOnClickListener(this::onClick);
         storeButton.setOnClickListener(this::onClick);
+
+        Profile.loadClassFromFile(this);
+
+
     }
 
 
