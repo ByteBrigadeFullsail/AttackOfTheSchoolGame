@@ -123,4 +123,14 @@ public class Profile {
         x5T = 0;
         profileName = "";
     }
+
+    public static void updateMomUses(int amount){
+        if (momUses + amount > 4) {
+            momUses = 5;
+        } else if (momUses + amount < 0) {
+            momUses = 0;
+        } else {
+            momUses += amount;
+        } // Figure out the "indexing" it seems like the text on the button on the assignment screen skips a click.
+    }
 }

@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
+import android.widget.Button;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -132,7 +133,25 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             }
         }
-//
+            // Mom help button
+        Button helperButton = findViewById(R.id.helper_button);
+        helperButton.setText(("Mom Uses: " + Integer.toString(momUses)));
+
+        binding.helperButton.setOnClickListener(v -> {
+
+                    if (momUses == 0) {
+                        Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses--))); // Set the text
+                        int momClicks = (int) (assignment.getMaxClickAmount() * 0.10); // Set the amount of clicks the mom button gives.
+                        assignment.incrementClickBy(momClicks); // Increment the clicks by that amount.
+                        binding.progressBar.getProgress(); // Refresh the progress?? Need to polish functionality.
+                        animateProgress((int)assignment.currentClickAmount + momClicks + binding.progressBar.getProgress()); // Animate the prog bar
+                        showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
+                        callSave(); // Save our progress
+                    }
+            });
+
         binding.tutorButton.setOnClickListener(v -> {
             if(!hasTutor){
                 hasTutor = true;
@@ -167,6 +186,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             changeClickableBackground();
             changeMainBackground();
         });
+
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
@@ -200,6 +220,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.backtoMainMenu.setOnClickListener(this::onClick);
 
 
+
+
         binding.upgradeClick.setOnClickListener(v -> {
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
@@ -218,13 +240,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             clickedPowerUp();
         });
 
-        binding.helperButton.setOnClickListener(v -> {
-            assignment.currentClickAmount = assignment.getMaxClickAmount();
-            assignment.incrementClick();
-            resetProgressBar();
-            changeMainBackground();
-            setButtonVisibility();
-        });
+
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
 
