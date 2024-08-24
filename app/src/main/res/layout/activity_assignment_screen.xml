@@ -208,7 +208,7 @@ cheatSheet: The main cheatsheet object.
                 android:id="@+id/helper_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mom"
+                android:text="Mom Uses: "
                 android:background="#04A1E8"
                 android:backgroundTint="#03A9F4"
                 app:layout_constraintStart_toStartOf="parent"
