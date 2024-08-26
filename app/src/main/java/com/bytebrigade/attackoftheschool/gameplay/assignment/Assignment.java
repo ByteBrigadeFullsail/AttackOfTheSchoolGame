@@ -1,10 +1,12 @@
 package com.bytebrigade.attackoftheschool.gameplay.assignment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import com.bytebrigade.attackoftheschool.MainMenu;
 import com.bytebrigade.attackoftheschool.NewGameMenu;
 import com.bytebrigade.attackoftheschool.gameplay.Clickable;
+import com.bytebrigade.attackoftheschool.gameplay.Profile;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
@@ -58,7 +60,6 @@ public class Assignment implements Clickable {
 
             Log.i("CURRENTSTATS", this.currentClickAmount + " / " + this.maxClickAmount);
         } else { //defeated clickable below
-
             incrementPoints();
             if (CurrentLevel == FurthestLevel) {
 
@@ -66,6 +67,7 @@ public class Assignment implements Clickable {
             } else {
                 defeatedClickableButNoProgression();
             }
+            caller.callSave();
         }
         caller.changeClickableBackground();
 
@@ -100,7 +102,7 @@ public class Assignment implements Clickable {
         double basePercent = switch (playthroughs) {
             case ELEMENTARY -> 1.04;
             case HIGH_SCHOOL -> 1.06;
-            case COLLAGE -> 1.09;
+            case COLLEGE -> 1.09;
         };
         // Apply incremental increases based on stage type
         if (stage % 1001 == 0) {
@@ -184,5 +186,6 @@ public class Assignment implements Clickable {
         void stop30SecondBossTimer();
 
         void sendToCredits();
+        void callSave();
     }
 }

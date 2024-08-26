@@ -32,6 +32,24 @@ public class StoreFunctionality extends AppCompatActivity {
         Button x2 = findViewById(R.id.button101);
         Button x5 = findViewById(R.id.button106);
         Button x10 = findViewById(R.id.button113);
+        Button buttonMom = findViewById(R.id.button104);
+        Button buttonSkip = findViewById(R.id.button114);
+
+        buttonMom.setOnClickListener(v -> {
+
+            if (momUses == 5){
+                Toast.makeText(getApplicationContext(), "You can't hold anymore, you're gonna burst!", Toast.LENGTH_SHORT).show();
+            }
+            else if (momUses > 5){
+                Toast.makeText(getApplicationContext(), "You can't hold anymore, you're gonna burst!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                updateMomUses(1);
+            }
+
+        });
+
+
 
 
         Bundle x5Text = getIntent().getExtras();

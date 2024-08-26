@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
+import android.widget.Button;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -52,7 +53,9 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
     private Handler critSpotHandler = new Handler(Looper.getMainLooper());
+    private Handler tutorHandler = new Handler(Looper.getMainLooper());
     private Runnable critSpotRunnable;
+    private Runnable tutorRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
     boolean GodEnabled = false;
@@ -91,6 +94,20 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             }
         };
 
+        tutorRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                assignment.incrementClick();
+                double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+                animateProgress((int) progress);
+                changeMainBackground();
+                setButtonVisibility();
+
+                tutorHandler.postDelayed(this, 5000);
+            }
+        };
+
         gestureDetector = gestureDectorSetter();
 
         binding.clickableBlock.post(this::addRandomPointToAssignment);
@@ -118,7 +135,32 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             }
         }
-//
+            // Mom help button
+        Button helperButton = findViewById(R.id.helper_button);
+        helperButton.setText(("Mom Uses: " + Integer.toString(momUses)));
+
+        binding.helperButton.setOnClickListener(v -> {
+
+                    if (momUses == 0) {
+                        Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses--))); // Set the text
+                        int momClicks = (int) (assignment.getMaxClickAmount() * 0.10); // Set the amount of clicks the mom button gives.
+                        assignment.incrementClickBy(momClicks); // Increment the clicks by that amount.
+                        binding.progressBar.getProgress(); // Refresh the progress?? Need to polish functionality.
+                        animateProgress((int)assignment.currentClickAmount + momClicks + binding.progressBar.getProgress()); // Animate the prog bar
+                        showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
+                        callSave(); // Save our progress
+                    }
+            });
+
+        binding.tutorButton.setOnClickListener(v -> {
+            if(!hasTutor){
+                hasTutor = true;
+                startTutorRunnable();
+            }
+        });
+
     }
 
     private void animateProgress(int end) {
@@ -146,6 +188,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             changeClickableBackground();
             changeMainBackground();
         });
+
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
@@ -155,6 +198,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             changeMainBackground();
             setButtonVisibility();
         });
+
 
         binding.godMode.setOnClickListener(v ->
         {
@@ -172,6 +216,10 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             refreshStats();
 
         });
+
+
+
+        binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
 
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
         binding.backtoDefaultButtons.setOnClickListener(v -> {
@@ -194,6 +242,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.backtoMainMenu.setOnClickListener(this::onClick);
 
 
+
+
         binding.upgradeClick.setOnClickListener(v -> {
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
@@ -212,13 +262,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             clickedPowerUp();
         });
 
-        binding.helperButton.setOnClickListener(v -> {
-            assignment.currentClickAmount = assignment.getMaxClickAmount();
-            assignment.incrementClick();
-            resetProgressBar();
-            changeMainBackground();
-            setButtonVisibility();
-        });
+
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
 
@@ -663,6 +707,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         finish();
     }
 
+    @Override
+    public void callSave() {
+        Profile.saveAll(this);
+    }
+
     private void addRandomPointToAssignment() {
         if (binding.clickableBlock == null) {
             Log.e("AssignmentScreen", "clickableBlock is null");
@@ -719,9 +768,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         critSpotHandler.post(critSpotRunnable);
     }
 
-    private void stopCritSpotRunnable() {
-        // Stop the Runnable from running
-        critSpotHandler.removeCallbacks(critSpotRunnable);
+    private void startTutorRunnable() {
+        tutorHandler.post(tutorRunnable);
     }
 
     private void onClick(View v) {
