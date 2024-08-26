@@ -58,6 +58,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Runnable tutorRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
+    boolean GodEnabled = false;
 
 
     int x5Tracker;
@@ -77,6 +78,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler(Looper.getMainLooper());
         random = new Random();
+
 
         critSpotRunnable = new Runnable() {
 
@@ -198,7 +200,27 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
 
+        binding.godMode.setOnClickListener(v ->
+        {
+
+            if(!GodEnabled)
+            {
+                clickStrength += 100000000;
+                GodEnabled = true;
+            }
+            else
+            {
+                GodEnabled = false;
+                clickStrength -= 100000000;
+            }
+            refreshStats();
+
+        });
+
+
+
         binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
+
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
