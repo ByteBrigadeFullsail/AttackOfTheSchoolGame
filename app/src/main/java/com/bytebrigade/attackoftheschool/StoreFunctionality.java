@@ -10,8 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
-import com.bytebrigade.attackoftheschool.gameplay.Profile;
-import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
+
 import android.widget.Toast;
 
 public class StoreFunctionality extends AppCompatActivity {
@@ -23,7 +22,6 @@ public class StoreFunctionality extends AppCompatActivity {
         int x5T;
         int x2T;
         int x10T;
-        long click;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_menu);
@@ -66,7 +64,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 200)
                 {
                     points = points - 200;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 400pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -79,7 +77,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 400)
                 {
                     points = points - 400;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 800pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -90,7 +88,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 800)
                 {
                     points = points - 800;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 1000pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -102,7 +100,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 1000)
                 {
                     points = points - 1000;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 2000pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -114,7 +112,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 2000)
                 {
                     points = points - 2000;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2Tracker.getAndIncrement();
                 }
             }
@@ -135,7 +133,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 0)
                 {
                     points = points - 6000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 7000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -147,7 +145,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 0)
                 {
                     points = points - 7000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 8000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -158,7 +156,7 @@ public class StoreFunctionality extends AppCompatActivity {
             {
                 if (points > 0) {
                     points = points - 8000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 9000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -169,7 +167,7 @@ public class StoreFunctionality extends AppCompatActivity {
             {
                 if (points > 9000) {
                     points = points - 9000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 7000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -191,7 +189,7 @@ public class StoreFunctionality extends AppCompatActivity {
             if (x5Tracker.get() == 0) {
                 if (points > 2000) {
                     points = points - 2000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5ButtonText = "x5 Clicks: 3000pts.";
                     x5.setText(x5ButtonText);
                     x5Tracker.getAndIncrement();
@@ -201,7 +199,7 @@ public class StoreFunctionality extends AppCompatActivity {
             } else if (x5Tracker.get() == 1) {
                 if (points > 3000) {
                     points = points - 3000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5ButtonText = "x5 Clicks: 4000pts.";
                     x5.setText(x5ButtonText);
                     x5Tracker.getAndIncrement();
@@ -210,21 +208,26 @@ public class StoreFunctionality extends AppCompatActivity {
             } else if (x5Tracker.get() == 2) {
                 if (points > 4000) {
                     points = points - 4000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5ButtonText = "x5 Clicks: 5000pts.";
                     x5.setText(x5ButtonText);
                     x5Tracker.getAndIncrement();
                 }
 
 
-            } else if (x5Tracker.get() >= 3) {
-                if (points > 5000) {
+            }
+            else if (x5Tracker.get() > 3 || x5Tracker.get() == 3)
+            {
+                if (points > 5000)
+                {
                     points = points - 5000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5Tracker.getAndIncrement();
 
 
-                } else {
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Points.",Toast.LENGTH_SHORT).show();
                 }
 
