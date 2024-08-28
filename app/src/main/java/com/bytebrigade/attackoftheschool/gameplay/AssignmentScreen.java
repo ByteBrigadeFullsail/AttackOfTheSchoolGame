@@ -58,6 +58,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Runnable tutorRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
+    boolean GodEnabled = false;
 
 
     int x5Tracker;
@@ -77,6 +78,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler(Looper.getMainLooper());
         random = new Random();
+
 
         critSpotRunnable = new Runnable() {
 
@@ -141,15 +143,18 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
                     if (momUses == 0) {
                         Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
+                        momUses = 0; // Hard-coding momUses to 0.
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     } else {
-                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses--))); // Set the text
-                        int momClicks = (int) (assignment.getMaxClickAmount() * 0.10); // Set the amount of clicks the mom button gives.
-                        assignment.incrementClickBy(momClicks); // Increment the clicks by that amount.
-                        binding.progressBar.getProgress(); // Refresh the progress?? Need to polish functionality.
-                        animateProgress((int)assignment.currentClickAmount + momClicks + binding.progressBar.getProgress()); // Animate the prog bar
+                        momUses--;
+                        long momClicks = (assignment.getMaxClickAmount()); // Set the amount of clicks the mom button gives.
+                        assignment.currentClickAmount += momClicks;
+                        //assignment.incrementClickBy((int)momClicks); // Increment the clicks by that amount.
+                        animateProgress((int)assignment.currentClickAmount); // Animate the prog bar
                         showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
-                        callSave(); // Save our progress
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     }
+            callSave(); // Save our progress
             });
 
         binding.tutorButton.setOnClickListener(v -> {
@@ -208,7 +213,27 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         });
 
 
+        binding.godMode.setOnClickListener(v ->
+        {
+
+            if(!GodEnabled)
+            {
+                clickStrength += 100000000;
+                GodEnabled = true;
+            }
+            else
+            {
+                GodEnabled = false;
+                clickStrength -= 100000000;
+            }
+            refreshStats();
+
+        });
+
+
+
         binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
+
         binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
