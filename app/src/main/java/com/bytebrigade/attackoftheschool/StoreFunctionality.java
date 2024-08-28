@@ -12,9 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
-
-import android.widget.Toast;
-
 public class StoreFunctionality extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +21,9 @@ public class StoreFunctionality extends AppCompatActivity {
         int x5T;
         int x2T;
         int x10T;
+        String PointAmount = AmountOfAvailablePoints;
+
+
 
 
 
@@ -39,6 +39,9 @@ public class StoreFunctionality extends AppCompatActivity {
         Button buttonMom = findViewById(R.id.button104);
         Button buttonSkip = findViewById(R.id.button114);
         Button Ppoints = findViewById(R.id.button107);
+        Button AvailiablePoints = findViewById(R.id.button115);
+
+        AvailiablePoints.setText(PointAmount);
 
         buttonMom.setOnClickListener(v -> {
 
@@ -51,7 +54,7 @@ public class StoreFunctionality extends AppCompatActivity {
             else {
                 updateMomUses(1);
             }
-
+            AvailiablePoints.setText(PointAmount);
         });
 
 
@@ -91,6 +94,8 @@ public class StoreFunctionality extends AppCompatActivity {
                     x2ButtonText = "x2 Clicks: 400pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
+
+
                 }
 
 
@@ -143,6 +148,8 @@ public class StoreFunctionality extends AppCompatActivity {
             {
                 Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Points.",Toast.LENGTH_SHORT).show();
             }
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
+
 
         });
 
@@ -202,7 +209,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Points.",Toast.LENGTH_SHORT).show();
 
             }
-
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
 
         });
 
@@ -255,13 +262,9 @@ public class StoreFunctionality extends AppCompatActivity {
                 }
 
             }
-
-
-            // BackButton Functionality
-
-
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
         });
-
+        // BackButton Functionality
         goBack.setOnClickListener(v ->
         {
 
@@ -290,6 +293,20 @@ public class StoreFunctionality extends AppCompatActivity {
 
 
         });
+
+        Ppoints.setOnClickListener(v ->
+        {
+            if(LivingExpense > 0)
+            {
+                Assignment.basePoints = Assignment.basePoints + Assignment.basePoints *.5;
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds.",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
 
 
     }

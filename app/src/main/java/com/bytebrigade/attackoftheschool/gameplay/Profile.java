@@ -26,9 +26,11 @@ public class Profile {
     public static long clickStrength = 10L;
     public static int clickStrengthMultiplier = 1;
     public static long points = 0L;
-    public static int StudentLoansPoints = 0;
+    public static int LivingExpensePoints = 0;
     public static String profileName = "";
-
+    public static long LivingExpense = 0;
+    public static String livingExpenseText = "Living Expenses:" + String.valueOf(LivingExpensePoints);
+    public static String AmountOfAvailablePoints = "Points Available:"+ String.valueOf(points);
     private Profile() {
         throw new UnsupportedOperationException("Utility class should not be instantiated");
     }

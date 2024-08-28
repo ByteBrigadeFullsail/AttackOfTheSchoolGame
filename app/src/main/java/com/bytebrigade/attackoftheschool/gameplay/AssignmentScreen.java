@@ -537,6 +537,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
         stats[3] = "Click Strength: " + clickStrength * clickStrengthMultiplier;
+        AmountOfAvailablePoints = "Points Available:"+ String.valueOf(points);
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");

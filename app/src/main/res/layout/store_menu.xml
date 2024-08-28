@@ -38,6 +38,16 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="19dp"
             android:layout_marginEnd="23dp" app:layout_constraintEnd_toEndOf="parent"/>
     <Button
+            android:text="Points: "
+            android:layout_width="352dp"
+            android:layout_height="43dp"
+            android:id="@+id/button115"
+            style="@style/Widget.AppCompat.Button" android:clickable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/button103" app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/button101"/>
+    <Button
             android:text="Mom Help 500pts"
             android:layout_width="126dp"
             android:layout_height="52dp" android:id="@+id/button104"
@@ -66,32 +76,31 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="27dp"
             android:layout_marginEnd="255dp" app:layout_constraintEnd_toEndOf="parent"/>
     <Button
-            android:text="+Pt Per Page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button107"
+            android:text="+Pt Per Page: -5 living expenses"
+            android:layout_width="308dp"
+            android:layout_height="36dp" android:id="@+id/button107"
             style="@style/Widget.AppCompat.Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/button113"
-            app:layout_constraintVertical_bias="0.613" app:layout_constraintBottom_toTopOf="@+id/button108"
-            app:layout_constraintHorizontal_bias="0.498"/>
+            app:layout_constraintTop_toBottomOf="@+id/button113"
+            app:layout_constraintVertical_bias="0.7" app:layout_constraintBottom_toTopOf="@+id/button108"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button108"
+            android:text="+500Pts: -2 Living Expenses"
+            android:layout_width="314dp"
+            android:layout_height="42dp" android:id="@+id/button108"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button109" app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toTopOf="@+id/button105"/>
     <Button
-            android:text="Starting Stage +1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button109"
+            android:text="Starting Stage +1: -1 Living Expense"
+            android:layout_width="312dp"
+            android:layout_height="42dp" android:id="@+id/button109"
             style="@style/Widget.AppCompat.Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button107" app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/button108"/>
+            app:layout_constraintBottom_toTopOf="@+id/button108" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
     <Button
             android:text="x10 Clicks 6,000pts"
             android:layout_width="129dp"
