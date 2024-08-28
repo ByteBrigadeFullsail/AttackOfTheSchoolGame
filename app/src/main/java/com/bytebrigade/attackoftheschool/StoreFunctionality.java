@@ -279,11 +279,28 @@ public class StoreFunctionality extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-
-
         });
 
 
+        buttonSkip.setOnClickListener(v -> {
+            if (FurthestLevel % 5 == 0){
+                Toast.makeText(this, "You can't skip quizzes, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 50 == 0){
+                Toast.makeText(this, "You can't skip tests, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 200 == 0){
+                Toast.makeText(this, "You can't skip your final, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 1001 == 0){
+                Toast.makeText(this, "You can't skip the final boss, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "You get a pass... this time!", Toast.LENGTH_SHORT).show();
+                FurthestLevel++;
+                CurrentLevel = FurthestLevel;
+            }
+        });
     }
 
 

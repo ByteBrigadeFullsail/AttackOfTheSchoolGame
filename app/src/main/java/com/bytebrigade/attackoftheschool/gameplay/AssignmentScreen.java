@@ -141,15 +141,18 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
                     if (momUses == 0) {
                         Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
+                        momUses = 0; // Hard-coding momUses to 0.
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     } else {
-                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses--))); // Set the text
-                        int momClicks = (int) (assignment.getMaxClickAmount() * 0.10); // Set the amount of clicks the mom button gives.
-                        assignment.incrementClickBy(momClicks); // Increment the clicks by that amount.
-                        binding.progressBar.getProgress(); // Refresh the progress?? Need to polish functionality.
-                        animateProgress((int)assignment.currentClickAmount + momClicks + binding.progressBar.getProgress()); // Animate the prog bar
+                        momUses--;
+                        long momClicks = (assignment.getMaxClickAmount()); // Set the amount of clicks the mom button gives.
+                        assignment.currentClickAmount += momClicks;
+                        //assignment.incrementClickBy((int)momClicks); // Increment the clicks by that amount.
+                        animateProgress((int)assignment.currentClickAmount); // Animate the prog bar
                         showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
-                        callSave(); // Save our progress
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     }
+            callSave(); // Save our progress
             });
 
         binding.tutorButton.setOnClickListener(v -> {

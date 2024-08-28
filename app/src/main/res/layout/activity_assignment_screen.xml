@@ -153,6 +153,7 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
         />
 
+
         <LinearLayout
                 android:id="@+id/clickableBlock"
                 android:layout_width="0dp"
