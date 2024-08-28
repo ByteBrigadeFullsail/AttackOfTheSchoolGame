@@ -17,6 +17,7 @@ public class Assignment implements Clickable {
     private AssignmentName assignmentName;
     private CallBack caller;
     private String className;
+    public static double basePoints = 5;
 
     //aaa
     public Assignment(long clickAmount, AssignmentName assignmentName) {
@@ -26,8 +27,12 @@ public class Assignment implements Clickable {
         className = "English";
     }
 
+    public Assignment() {
+
+    }
+
     public long calculatePoints(int stage) {
-        double basePoints = 5;
+
         double points;
 
         if (stage % 1001 == 0) {

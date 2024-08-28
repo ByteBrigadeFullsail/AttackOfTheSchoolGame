@@ -16,7 +16,8 @@
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="217dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="613dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="27dp"
-            android:layout_marginEnd="260dp" app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginEnd="260dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.0"/>
     <Button
             android:text="cheat"
             android:layout_width="124dp"
@@ -70,71 +71,27 @@
             android:layout_height="wrap_content" android:id="@+id/button107"
             style="@style/Widget.AppCompat.Button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.13" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="530dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="336dp"
-            app:layout_constraintVertical_bias="1.0"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/button113"
+            app:layout_constraintVertical_bias="0.613" app:layout_constraintBottom_toTopOf="@+id/button108"
+            app:layout_constraintHorizontal_bias="0.498"/>
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/button108"
             style="@style/Widget.AppCompat.Button"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="613dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="230dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="145dp"
-            android:layout_marginEnd="163dp" app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button109" app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/button105"/>
     <Button
-            android:text="Button"
+            android:text="Starting Stage +1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/button109"
             style="@style/Widget.AppCompat.Button"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="613dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="230dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="292dp"
-            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"/>
-    <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button110"
-            style="@style/Widget.AppCompat.Button"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="720dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="123dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="292dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0"/>
-    <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button111"
-            style="@style/Widget.AppCompat.Button"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="720dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="123dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="154dp"
-            android:layout_marginEnd="154dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button112"
-            style="@style/Widget.AppCompat.Button"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="720dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="123dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="292dp"
-            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button107" app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/button108"/>
     <Button
             android:text="x10 Clicks 6,000pts"
             android:layout_width="129dp"

@@ -3,15 +3,14 @@ package com.bytebrigade.attackoftheschool;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
-
-
-import android.widget.Toast;
 
 public class StoreFunctionality extends AppCompatActivity {
     @Override
@@ -22,6 +21,8 @@ public class StoreFunctionality extends AppCompatActivity {
         int x5T;
         int x2T;
         int x10T;
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_menu);
@@ -34,6 +35,7 @@ public class StoreFunctionality extends AppCompatActivity {
         Button x10 = findViewById(R.id.button113);
         Button buttonMom = findViewById(R.id.button104);
         Button buttonSkip = findViewById(R.id.button114);
+        Button Ppoints = findViewById(R.id.button107);
 
         buttonMom.setOnClickListener(v -> {
 
@@ -252,11 +254,11 @@ public class StoreFunctionality extends AppCompatActivity {
             }
 
 
-            // BackButton Functionality
+
 
 
         });
-
+        // BackButton Functionality
         goBack.setOnClickListener(v ->
         {
 
@@ -286,7 +288,11 @@ public class StoreFunctionality extends AppCompatActivity {
 
         });
 
-
+        // +points per page button functionality
+        Ppoints.setOnClickListener(v ->
+        {
+           Assignment.basePoints = Assignment.basePoints + Assignment.basePoints * .5;
+        });
     }
 
 
