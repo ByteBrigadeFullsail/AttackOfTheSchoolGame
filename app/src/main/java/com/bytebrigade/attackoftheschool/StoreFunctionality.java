@@ -12,6 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
+
+import android.widget.Toast;
+
 public class StoreFunctionality extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,11 +257,11 @@ public class StoreFunctionality extends AppCompatActivity {
             }
 
 
-
+            // BackButton Functionality
 
 
         });
-        // BackButton Functionality
+
         goBack.setOnClickListener(v ->
         {
 
@@ -288,11 +291,7 @@ public class StoreFunctionality extends AppCompatActivity {
 
         });
 
-        // +points per page button functionality
-        Ppoints.setOnClickListener(v ->
-        {
-           Assignment.basePoints = Assignment.basePoints + Assignment.basePoints * .5;
-        });
+
     }
 
 

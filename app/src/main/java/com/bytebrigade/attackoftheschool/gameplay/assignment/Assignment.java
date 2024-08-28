@@ -78,6 +78,22 @@ public class Assignment implements Clickable {
 
     }
 
+    public void incrementClickTutor() {
+        if(this.currentClickAmount + tutorLevel < this.maxClickAmount) {
+            this.currentClickAmount += tutorLevel;
+
+        } else {
+            incrementPoints();
+            if (CurrentLevel == FurthestLevel) {
+                progressToNextLevel();
+            } else {
+                defeatedClickableButNoProgression();
+            }
+            caller.callSave();
+        }
+        caller.changeClickableBackground();
+    }
+
 
     public void currentLevelChanged() {
         this.maxClickAmount = calculateHealth(CurrentLevel);
