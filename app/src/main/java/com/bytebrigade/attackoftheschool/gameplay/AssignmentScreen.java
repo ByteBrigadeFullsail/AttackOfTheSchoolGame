@@ -96,7 +96,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             @Override
             public void run() {
-                assignment.incrementClick();
+                assignment.incrementClickTutor();
                 double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
                 animateProgress((int) progress);
                 changeMainBackground();
@@ -153,9 +153,19 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             });
 
         binding.tutorButton.setOnClickListener(v -> {
+            Log.i("Tutor", "Tutor Button clicked");
+            Log.i("Tutor", String.valueOf(hasTutor));
             if(!hasTutor){
+                Log.i("Tutor", "Tutor Started");
                 hasTutor = true;
+                binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
                 startTutorRunnable();
+            } else {
+                Log.i("Tutor", "Tutor Upgraded");
+                if(points >= (tutorLevel *5)){
+                    points -= (tutorLevel *5);
+                    tutorLevel++;
+                }
             }
         });
 
