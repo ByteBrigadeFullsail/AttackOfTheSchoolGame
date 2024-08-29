@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
+import com.bytebrigade.attackoftheschool.gameplay.Profile;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,8 +41,18 @@ public class StoreFunctionality extends AppCompatActivity {
         Button buttonSkip = findViewById(R.id.button114);
         Button Ppoints = findViewById(R.id.button107);
         Button AvailiablePoints = findViewById(R.id.button115);
+        Button LivingExpense = findViewById(R.id.button116);
+        Button LvlStartIncrease = findViewById(R.id.button109);
+        Button StartingPoints = findViewById(R.id.button108);
+
+        Bundle x5Text = getIntent().getExtras();
+        x5T = x5Text.getInt("x5Tracker");
+        x2T = x5Text.getInt("x2Tracker");
+        x10T = x5Text.getInt("x10Tracker");
 
         AvailiablePoints.setText(PointAmount);
+        LivingExpense.setText(livingExpenseText);
+
 
         buttonMom.setOnClickListener(v -> {
 
@@ -60,10 +71,7 @@ public class StoreFunctionality extends AppCompatActivity {
 
 
 
-        Bundle x5Text = getIntent().getExtras();
-        x5T = x5Text.getInt("x5Tracker");
-        x2T = x5Text.getInt("x2Tracker");
-        x10T = x5Text.getInt("x10Tracker");
+
 
 
         if (x5T > 0)
@@ -277,6 +285,8 @@ public class StoreFunctionality extends AppCompatActivity {
                 updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 startActivity(intent);
+
+
                 finish();
             }
             else if (intentData.equals("From_Activity_B"))
@@ -296,17 +306,49 @@ public class StoreFunctionality extends AppCompatActivity {
 
         Ppoints.setOnClickListener(v ->
         {
-            if(LivingExpense > 0)
+            if(LivingExpensePoints > 0)
             {
                 Assignment.basePoints = Assignment.basePoints + Assignment.basePoints *.5;
+                LivingExpensePoints = LivingExpensePoints - 5;
+                LivingExpense.setText( "Living Expense:" + LivingExpensePoints);
+
             }
             else
             {
-                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds. Get Them From Beating The Game.",Toast.LENGTH_SHORT).show();
             }
 
         });
+        LvlStartIncrease.setOnClickListener(v ->
+        {
+            if(LivingExpensePoints > 0)
+            {
+                LivingExpensePoints = LivingExpensePoints - 1;
+                CurrentLevel++;
+                FurthestLevel = CurrentLevel;
+                LivingExpense.setText("Living Expenses:" + LivingExpensePoints);
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds. Get Them From Beating The Game.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        StartingPoints.setOnClickListener(v ->
+        {
+            if(LivingExpensePoints > 0)
+            {
+                LivingExpensePoints = LivingExpensePoints - 2;
+                points = points + 500;
+                LivingExpense.setText("Living Expenses:" + LivingExpensePoints);
+                AvailiablePoints.setText("Points Available:"+ points);
 
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds. Get Them From Beating The Game.",Toast.LENGTH_SHORT).show();
+            }
+
+        });
 
 
     }
@@ -319,6 +361,7 @@ public class StoreFunctionality extends AppCompatActivity {
         intent.putExtra("x5Tracker", x5Tracker.get());
         intent.putExtra("x2Tracker", x2Tracker.get());
         intent.putExtra("x10Tracker", x10Tracker.get());
+
         startActivity(intent);
         finish();
     }

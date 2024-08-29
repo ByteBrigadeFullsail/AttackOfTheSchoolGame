@@ -243,7 +243,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         });
 
-        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
+        binding.plus49.setOnClickListener(v ->
+        {
+            FurthestLevel += 49;
+            if(FurthestLevel > 1001)
+            {
+                FurthestLevel = 1001;
+            }
+        });
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
             binding.bottomButtonsLayout.setVisibility(View.VISIBLE);

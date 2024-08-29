@@ -28,7 +28,6 @@ public class Profile {
     public static long points = 0L;
     public static int LivingExpensePoints = 0;
     public static String profileName = "";
-    public static long LivingExpense = 0;
     public static String livingExpenseText = "Living Expenses:" + String.valueOf(LivingExpensePoints);
     public static String AmountOfAvailablePoints = "Points Available:"+ String.valueOf(points);
     private Profile() {

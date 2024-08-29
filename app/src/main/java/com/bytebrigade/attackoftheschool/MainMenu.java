@@ -79,15 +79,14 @@ public class MainMenu extends AppCompatActivity {
         //Store button
         if(v == continueButton)
         {
-            x5 = getIntent().getExtras();
             intent.setClass(MainMenu.this, AssignmentScreen.class);
            // onClick(this.getCurrentFocus());
             intent.putExtra("Uniqid", "From_Activity_B");
 
+
         }
         else if(v == storeButton)
         {
-            x5 = getIntent().getExtras();
             intent.setClass(MainMenu.this, StoreFunctionality.class);
             intent.putExtra("Uniqid", "From_Activity_A");
         }
@@ -102,6 +101,7 @@ public class MainMenu extends AppCompatActivity {
             x5Tracker = x5.getInt("x5Tracker");
             x2Tracker = x5.getInt("x2Tracker");
             x10Tracker = x5.getInt("x10Tracker");
+
             intent.putExtra("x5Tracker", x5Tracker);
             intent.putExtra("x2Tracker", x2Tracker);
             intent.putExtra("x10Tracker", x10Tracker);
