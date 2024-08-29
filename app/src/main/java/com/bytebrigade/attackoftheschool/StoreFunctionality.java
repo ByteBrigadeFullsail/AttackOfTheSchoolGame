@@ -54,7 +54,7 @@ public class StoreFunctionality extends AppCompatActivity {
             else {
                 updateMomUses(1);
             }
-            AvailiablePoints.setText(PointAmount);
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
         });
 
 

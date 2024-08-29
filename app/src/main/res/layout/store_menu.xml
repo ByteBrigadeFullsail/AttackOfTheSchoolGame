@@ -8,6 +8,16 @@
 
 
     <Button
+            android:text="Points: "
+            android:layout_width="352dp"
+            android:layout_height="43dp"
+            android:id="@+id/button115"
+            style="@style/Widget.AppCompat.Button" android:clickable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/button103" app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/button101"/>
+    <Button
             android:text="X2 Clicks 200Pts"
             android:layout_width="124dp"
             android:layout_height="61dp" android:id="@+id/button101"
@@ -38,15 +48,15 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="19dp"
             android:layout_marginEnd="23dp" app:layout_constraintEnd_toEndOf="parent"/>
     <Button
-            android:text="Points: "
+            android:text="Living Expense: "
             android:layout_width="352dp"
             android:layout_height="43dp"
-            android:id="@+id/button115"
+            android:id="@+id/button116"
             style="@style/Widget.AppCompat.Button" android:clickable="false"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/button103" app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/button101"/>
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button113" app:layout_constraintVertical_bias="0.76"
+            app:layout_constraintBottom_toTopOf="@+id/button107"/>
     <Button
             android:text="Mom Help 500pts"
             android:layout_width="126dp"
