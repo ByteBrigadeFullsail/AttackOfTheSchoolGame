@@ -77,7 +77,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler(Looper.getMainLooper());
         random = new Random();
+        Intent intent = getIntent();
+        hasTutor = intent.getBooleanExtra("hasTutor", false);
+        tutorLevel = intent.getIntExtra("tutorLevel", 1);
 
+        if (hasTutor) {
+            Log.i("Tutor", "Resuming Tutor Thread");
+            startTutorRunnable();
+            binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
+        }
 
         critSpotRunnable = new Runnable() {
 
@@ -97,6 +105,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             @Override
             public void run() {
+                Log.i("Tutor", "Tutor Attack");
                 assignment.incrementClickTutor();
                 double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
                 animateProgress((int) progress);
@@ -140,30 +149,35 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         binding.helperButton.setOnClickListener(v -> {
 
-                    double progress;
+            double progress;
                     if (momUses == 0) {
-                        Toast.makeText(getApplicationContext(), "Dude... where's your mom?", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
                         momUses = 0; // Hard-coding momUses to 0.
                         helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     } else {
                         momUses--;
-                        int momClicks = (int) (assignment.getMaxClickAmount() / 4); // Set the amount of clicks the mom button gives.
-                        assignment.currentClickAmount = assignment.currentClickAmount + momClicks;
-                        // assignment.incrementClick();
-                        progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+                        int momClicks = (int)(assignment.getMaxClickAmount()/ 4); // Set the amount of clicks the mom button gives.
+                        assignment.currentClickAmount = assignment.currentClickAmount + momClicks  ;
+                       // assignment.incrementClick();
+                         progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
                         animateProgress((int) progress);
                         // Animate the prog bar
-                        showAddedPoints("Mom gave " + Integer.toString((int) momClicks) + " clicks!"); // Text popup on screen
+                        showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
                         helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     }
-                    if (assignment.getCurrentClickAmount().equals(assignment.getMaxClickAmount()) || assignment.getCurrentClickAmount() > assignment.getMaxClickAmount()) {
+                    if(assignment.getCurrentClickAmount().equals(assignment.getMaxClickAmount()))
+                    {
                         animateProgress(0);
-                        assignment.progressToNextLevel();
-                        assignment.currentLevelChanged();
-                        setButtonVisibility();
+                       assignment.progressToNextLevel();
+                       assignment.currentLevelChanged();
+                       setButtonVisibility();
+
+
                     }
-                    callSave(); // Save our progress
-                });
+
+
+            callSave(); // Save our progress
+            });
 
         binding.tutorButton.setOnClickListener(v -> {
             Log.i("Tutor", "Tutor Button clicked");
@@ -178,6 +192,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 if(points >= (tutorLevel *5)){
                     points -= (tutorLevel *5);
                     tutorLevel++;
+                    binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
                 }
             }
         });
@@ -238,11 +253,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         });
 
-
-
-        binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
-
-        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
+        binding.plus49.setOnClickListener(v ->
+        {
+            FurthestLevel += 49;
+            if(FurthestLevel > 1001)
+            {
+                FurthestLevel = 1001;
+            }
+        });
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
             binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
@@ -546,6 +564,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
         stats[3] = "Click Strength: " + clickStrength * clickStrengthMultiplier;
+        AmountOfAvailablePoints = "Points Available:"+ String.valueOf(points);
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");

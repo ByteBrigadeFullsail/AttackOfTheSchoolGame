@@ -34,6 +34,7 @@ public class NewGameMenu extends AppCompatActivity {
                 Profile.FurthestLevel = 1;
                 Profile.CurrentLevel = 1;
                 Profile.amountOfClickIncreasedUpgrades = 0;
+                Profile.hasTutor = false;
                 Profile.clickStrength = 10L;
                 Profile.clickStrengthMultiplier = 1;
                 Profile.points = 0;
