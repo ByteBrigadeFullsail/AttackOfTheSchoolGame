@@ -149,19 +149,33 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         binding.helperButton.setOnClickListener(v -> {
 
+            double progress;
                     if (momUses == 0) {
                         Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
                         momUses = 0; // Hard-coding momUses to 0.
                         helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     } else {
                         momUses--;
-                        long momClicks = (assignment.getMaxClickAmount()); // Set the amount of clicks the mom button gives.
-                        assignment.currentClickAmount += momClicks;
-                        //assignment.incrementClickBy((int)momClicks); // Increment the clicks by that amount.
-                        animateProgress((int)assignment.currentClickAmount); // Animate the prog bar
+                        int momClicks = (int)(assignment.getMaxClickAmount()/ 4); // Set the amount of clicks the mom button gives.
+                        assignment.currentClickAmount = assignment.currentClickAmount + momClicks  ;
+                       // assignment.incrementClick();
+                         progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+                        animateProgress((int) progress);
+                        // Animate the prog bar
                         showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
                         helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
                     }
+                    if(assignment.getCurrentClickAmount().equals(assignment.getMaxClickAmount()))
+                    {
+                        animateProgress(0);
+                       assignment.progressToNextLevel();
+                       assignment.currentLevelChanged();
+                       setButtonVisibility();
+
+
+                    }
+
+
             callSave(); // Save our progress
             });
 
@@ -239,11 +253,14 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
         });
 
-
-
-        binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
-
-        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
+        binding.plus49.setOnClickListener(v ->
+        {
+            FurthestLevel += 49;
+            if(FurthestLevel > 1001)
+            {
+                FurthestLevel = 1001;
+            }
+        });
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
             binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
@@ -547,6 +564,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
         stats[3] = "Click Strength: " + clickStrength * clickStrengthMultiplier;
+        AmountOfAvailablePoints = "Points Available:"+ String.valueOf(points);
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");
