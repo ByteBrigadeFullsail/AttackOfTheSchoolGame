@@ -13,6 +13,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
+
+import android.widget.Toast;
+
 public class StoreFunctionality extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,24 @@ public class StoreFunctionality extends AppCompatActivity {
         AvailiablePoints.setText(PointAmount);
         LivingExpense.setText(livingExpenseText);
 
+
+
+        buttonSkip.setOnClickListener(v->{
+            if (FurthestLevel % 5 == 0){
+                Toast.makeText(this, "You can't skip quizzes, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 50 == 0) {
+                Toast.makeText(this, "You can't skip tests, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 200 == 0){
+                Toast.makeText(this, "You can't skip finals, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Fine, you get a pass... THIS TIME!", Toast.LENGTH_SHORT).show();
+                CurrentLevel = FurthestLevel;
+                FurthestLevel++;
+            }
+        });
 
         buttonMom.setOnClickListener(v -> {
 
