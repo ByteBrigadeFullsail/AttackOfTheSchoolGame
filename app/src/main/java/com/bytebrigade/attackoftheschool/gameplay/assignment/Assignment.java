@@ -79,9 +79,10 @@ public class Assignment implements Clickable {
     }
 
     public void incrementClickTutor() {
+        Log.i("TutorAttack", String.valueOf(tutorLevel));
         if(this.currentClickAmount + tutorLevel < this.maxClickAmount) {
             this.currentClickAmount += tutorLevel;
-
+            Log.i("TutorAttack", this.currentClickAmount + " / " + this.maxClickAmount);
         } else {
             incrementPoints();
             if (CurrentLevel == FurthestLevel) {

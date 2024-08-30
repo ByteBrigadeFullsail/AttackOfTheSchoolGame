@@ -77,7 +77,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler(Looper.getMainLooper());
         random = new Random();
+        Intent intent = getIntent();
+        hasTutor = intent.getBooleanExtra("hasTutor", false);
+        tutorLevel = intent.getIntExtra("tutorLevel", 1);
 
+        if (hasTutor) {
+            Log.i("Tutor", "Resuming Tutor Thread");
+            startTutorRunnable();
+            binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
+        }
 
         critSpotRunnable = new Runnable() {
 
@@ -97,6 +105,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             @Override
             public void run() {
+                Log.i("Tutor", "Tutor Attack");
                 assignment.incrementClickTutor();
                 double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
                 animateProgress((int) progress);
@@ -169,6 +178,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 if(points >= (tutorLevel *5)){
                     points -= (tutorLevel *5);
                     tutorLevel++;
+                    binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
                 }
             }
         });

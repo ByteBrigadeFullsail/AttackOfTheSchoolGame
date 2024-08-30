@@ -82,6 +82,8 @@ public class MainMenu extends AppCompatActivity {
             x5 = getIntent().getExtras();
             intent.setClass(MainMenu.this, AssignmentScreen.class);
            // onClick(this.getCurrentFocus());
+            intent.putExtra("hasTutor", hasTutor);
+            intent.putExtra("tutorLevel", tutorLevel);
             intent.putExtra("Uniqid", "From_Activity_B");
 
         }
