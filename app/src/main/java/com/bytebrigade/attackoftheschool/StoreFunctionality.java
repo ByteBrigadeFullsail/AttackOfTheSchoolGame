@@ -40,6 +40,24 @@ public class StoreFunctionality extends AppCompatActivity {
         Button buttonSkip = findViewById(R.id.button114);
         Button Ppoints = findViewById(R.id.button107);
 
+
+        buttonSkip.setOnClickListener(v->{
+            if (FurthestLevel % 5 == 0){
+                Toast.makeText(this, "You can't skip quizzes, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 50 == 0) {
+                Toast.makeText(this, "You can't skip tests, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 200 == 0){
+                Toast.makeText(this, "You can't skip finals, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Fine, you get a pass... THIS TIME!", Toast.LENGTH_SHORT).show();
+                CurrentLevel = FurthestLevel;
+                FurthestLevel++;
+            }
+        });
+
         buttonMom.setOnClickListener(v -> {
 
             if (momUses == 5){
@@ -51,7 +69,6 @@ public class StoreFunctionality extends AppCompatActivity {
             else {
                 updateMomUses(1);
             }
-
         });
 
 
