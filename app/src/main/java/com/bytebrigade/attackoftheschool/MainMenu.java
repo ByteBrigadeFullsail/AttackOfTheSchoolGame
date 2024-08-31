@@ -2,9 +2,10 @@ package com.bytebrigade.attackoftheschool;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
 import com.bytebrigade.attackoftheschool.gameplay.Profile;
@@ -17,8 +18,6 @@ public class MainMenu extends AppCompatActivity {
     Button continueButton;
     Button storeButton;
 
-    private Profile profile;
-
     Button BackButton;
     Button momButton;
     Bundle x5;
@@ -29,10 +28,6 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-        profile = new Profile(this);
-        profile.loadProgress();
-
         if(initialAccess == false)
         {
          x5 = getIntent().getExtras();
@@ -41,31 +36,28 @@ public class MainMenu extends AppCompatActivity {
 
         newGameButton = findViewById(R.id.newGameButton);
         continueButton = findViewById(R.id.continueButton);
-        storeButton = findViewById(R.id.storeButton);
-        continueButton.setEnabled(true);
-//        if(Profile.profileName != null){
-//
-//            continueButton.setText("Continue: Level " + Profile.FurthestLevel);
-//        }
+        if(profileName != null){
+            continueButton.setEnabled(true);
+            continueButton.setText("Continue: Loading... ");
+            new Handler(Looper.getMainLooper()).postDelayed(()->{
 
+                continueButton.setText("Continue: Level " + FurthestLevel);
+            }, 2000);
+        }
+        storeButton = findViewById(R.id.storeButton);
         newGameButton.setOnClickListener(v ->{
-            Profile.initialAccess = false;
+            initialAccess = false;
             Intent intent = new Intent(MainMenu.this, NewGameMenu.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
-
-        continueButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainMenu.this, AssignmentScreen.class);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            finish();
-        });
-
-
-
+        continueButton.setOnClickListener(this::onClick);
         storeButton.setOnClickListener(this::onClick);
+
+        Profile.loadClassFromFile(this);
+
+
     }
 
 
@@ -87,15 +79,16 @@ public class MainMenu extends AppCompatActivity {
         //Store button
         if(v == continueButton)
         {
-            x5 = getIntent().getExtras();
             intent.setClass(MainMenu.this, AssignmentScreen.class);
            // onClick(this.getCurrentFocus());
+            intent.putExtra("hasTutor", hasTutor);
+            intent.putExtra("tutorLevel", tutorLevel);
             intent.putExtra("Uniqid", "From_Activity_B");
+
 
         }
         else if(v == storeButton)
         {
-            x5 = getIntent().getExtras();
             intent.setClass(MainMenu.this, StoreFunctionality.class);
             intent.putExtra("Uniqid", "From_Activity_A");
         }
@@ -110,6 +103,7 @@ public class MainMenu extends AppCompatActivity {
             x5Tracker = x5.getInt("x5Tracker");
             x2Tracker = x5.getInt("x2Tracker");
             x10Tracker = x5.getInt("x10Tracker");
+
             intent.putExtra("x5Tracker", x5Tracker);
             intent.putExtra("x2Tracker", x2Tracker);
             intent.putExtra("x10Tracker", x10Tracker);

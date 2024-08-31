@@ -3,7 +3,6 @@ package com.bytebrigade.attackoftheschool.gameplay;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,14 +10,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
+import android.widget.Button;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -26,6 +25,7 @@ import androidx.databinding.DataBindingUtil;
 import com.bytebrigade.attackoftheschool.*;
 import com.bytebrigade.attackoftheschool.databinding.ActivityAssignmentScreenBinding;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
+import com.bytebrigade.attackoftheschool.StoreFunctionality;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.AssignmentAnimationListener;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.animations.CheatSheetAnimator;
 import com.bytebrigade.attackoftheschool.gameplay.assignment.enums.AssignmentName;
@@ -52,10 +52,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     private Helper helper = new Helper(SchoolType.ELEMENTARY, assignment);
     private SchoolType schoolType = SchoolType.ELEMENTARY;
     private Handler critSpotHandler = new Handler(Looper.getMainLooper());
+    private Handler tutorHandler = new Handler(Looper.getMainLooper());
     private Runnable critSpotRunnable;
+    private Runnable tutorRunnable;
     ObjectAnimator bossTimerAnimation;
     ObjectAnimator progressBarAnimator;
-    private Profile profile;
+    boolean GodEnabled = false;
+
 
     int x5Tracker;
     int x2Tracker;
@@ -66,10 +69,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profile = new Profile(this);
-        profile.loadProgress();
-
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_assignment_screen);
         assignment.setBackgroundSetter(this);
         binding.setAssignment(assignment);
@@ -78,6 +77,15 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         menuLayout = binding.menuLayout;
         handler = new Handler(Looper.getMainLooper());
         random = new Random();
+        Intent intent = getIntent();
+        hasTutor = intent.getBooleanExtra("hasTutor", false);
+        tutorLevel = intent.getIntExtra("tutorLevel", 1);
+
+        if (hasTutor) {
+            Log.i("Tutor", "Resuming Tutor Thread");
+            startTutorRunnable();
+            binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
+        }
 
         critSpotRunnable = new Runnable() {
 
@@ -90,6 +98,21 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                 addRandomPointToAssignment();
 
                 critSpotHandler.postDelayed(this, 10000);
+            }
+        };
+
+        tutorRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                Log.i("Tutor", "Tutor Attack");
+                assignment.incrementClickTutor();
+                double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+                animateProgress((int) progress);
+                changeMainBackground();
+                setButtonVisibility();
+
+                tutorHandler.postDelayed(this, 5000);
             }
         };
 
@@ -120,7 +143,60 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             }
         }
-//
+            // Mom help button
+        Button helperButton = findViewById(R.id.helper_button);
+        helperButton.setText(("Mom Uses: " + Integer.toString(momUses)));
+
+        binding.helperButton.setOnClickListener(v -> {
+
+            double progress;
+                    if (momUses == 0) {
+                        Toast.makeText(getApplicationContext(), "You need to buy more!", Toast.LENGTH_SHORT).show();
+                        momUses = 0; // Hard-coding momUses to 0.
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
+                    } else {
+                        momUses--;
+                        int momClicks = (int)(assignment.getMaxClickAmount()/ 4); // Set the amount of clicks the mom button gives.
+                        assignment.currentClickAmount = assignment.currentClickAmount + momClicks  ;
+                       // assignment.incrementClick();
+                         progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
+                        animateProgress((int) progress);
+                        // Animate the prog bar
+                        showAddedPoints("Mom gave " + Integer.toString((int)momClicks) + " clicks!"); // Text popup on screen
+                        helperButton.setText(("Mom Uses: " + Integer.toString(momUses))); // Set the text
+                    }
+                    if(assignment.getCurrentClickAmount().equals(assignment.getMaxClickAmount()))
+                    {
+                        animateProgress(0);
+                       assignment.progressToNextLevel();
+                       assignment.currentLevelChanged();
+                       setButtonVisibility();
+
+
+                    }
+
+
+            callSave(); // Save our progress
+            });
+
+        binding.tutorButton.setOnClickListener(v -> {
+            Log.i("Tutor", "Tutor Button clicked");
+            Log.i("Tutor", String.valueOf(hasTutor));
+            if(!hasTutor){
+                Log.i("Tutor", "Tutor Started");
+                hasTutor = true;
+                binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
+                startTutorRunnable();
+            } else {
+                Log.i("Tutor", "Tutor Upgraded");
+                if(points >= (tutorLevel *5)){
+                    points -= (tutorLevel *5);
+                    tutorLevel++;
+                    binding.tutorButton.setText("Upgrade Tutor\nCost: " + (tutorLevel * 5));
+                }
+            }
+        });
+
     }
 
     private void animateProgress(int end) {
@@ -142,13 +218,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
             CurrentLevel = 1001;
             FurthestLevel = CurrentLevel;
-            profile.saveProgress();
             resetProgressBar();
             refreshStats();
             setButtonVisibility();
             changeClickableBackground();
             changeMainBackground();
         });
+
         binding.clickableBlock.setOnClickListener(v -> {
             assignment.incrementClick();
             double progress = (assignment.getCurrentClickAmount() / (double) assignment.getMaxClickAmount()) * 1000;
@@ -159,8 +235,32 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             setButtonVisibility();
         });
 
-        binding.godMode.setOnClickListener(v -> clickStrength += 100000000);
-        binding.plus49.setOnClickListener(v -> FurthestLevel += 49);
+
+        binding.godMode.setOnClickListener(v ->
+        {
+
+            if(!GodEnabled)
+            {
+                clickStrength += 100000000;
+                GodEnabled = true;
+            }
+            else
+            {
+                GodEnabled = false;
+                clickStrength -= 100000000;
+            }
+            refreshStats();
+
+        });
+
+        binding.plus49.setOnClickListener(v ->
+        {
+            FurthestLevel += 49;
+            if(FurthestLevel > 1001)
+            {
+                FurthestLevel = 1001;
+            }
+        });
         binding.backtoDefaultButtons.setOnClickListener(v -> {
 
             binding.bottomButtonsLayout.setVisibility(View.VISIBLE);
@@ -181,6 +281,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.backtoMainMenu.setOnClickListener(this::onClick);
 
 
+
+
         binding.upgradeClick.setOnClickListener(v -> {
             if (points >= assignment.getUpgradePrice()) {
                 points -= assignment.getUpgradePrice();
@@ -199,20 +301,13 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
             clickedPowerUp();
         });
 
-        binding.helperButton.setOnClickListener(v -> {
-            assignment.currentClickAmount = assignment.getMaxClickAmount();
-            assignment.incrementClick();
-            resetProgressBar();
-            changeMainBackground();
-            setButtonVisibility();
-        });
+
 
         binding.menuButton.setOnClickListener(v -> toggleMenu());
 
         binding.prevStage.setOnClickListener(v -> {
             if (CurrentLevel > 1) {
                 CurrentLevel--;
-                profile.saveProgress();
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -224,7 +319,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
                     CurrentLevel = 1;
                 else
                     CurrentLevel -= 10;
-                profile.saveProgress();
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -233,7 +327,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.nextStage.setOnClickListener(v -> {
             if (CurrentLevel < FurthestLevel) {
                 CurrentLevel++;
-                profile.saveProgress();
                 resetProgressBar();
                 changeMainBackground();
                 setButtonVisibility();
@@ -242,7 +335,6 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         binding.maxStage.setOnClickListener(v -> {
             if (CurrentLevel < FurthestLevel) {
                 CurrentLevel = FurthestLevel;
-                profile.saveProgress();
                 changeMainBackground();
                 setButtonVisibility();
                 resetProgressBar();
@@ -472,6 +564,7 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         stats[1] = "Points: " + points;
         stats[2] = "Time: " + "00:00:00";
         stats[3] = "Click Strength: " + clickStrength * clickStrengthMultiplier;
+        AmountOfAvailablePoints = "Points Available:"+ String.valueOf(points);
         StringBuilder updatedStats = new StringBuilder();
         for (String stat : stats) {
             updatedStats.append(stat).append("\n");
@@ -654,6 +747,11 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         finish();
     }
 
+    @Override
+    public void callSave() {
+        Profile.saveAll(this);
+    }
+
     private void addRandomPointToAssignment() {
         if (binding.clickableBlock == null) {
             Log.e("AssignmentScreen", "clickableBlock is null");
@@ -710,9 +808,8 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
         critSpotHandler.post(critSpotRunnable);
     }
 
-    private void stopCritSpotRunnable() {
-        // Stop the Runnable from running
-        critSpotHandler.removeCallbacks(critSpotRunnable);
+    private void startTutorRunnable() {
+        tutorHandler.post(tutorRunnable);
     }
 
     private void onClick(View v) {

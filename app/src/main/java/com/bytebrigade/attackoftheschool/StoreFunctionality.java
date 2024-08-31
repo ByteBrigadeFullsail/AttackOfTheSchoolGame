@@ -3,15 +3,17 @@ package com.bytebrigade.attackoftheschool;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bytebrigade.attackoftheschool.gameplay.AssignmentScreen;
+import com.bytebrigade.attackoftheschool.gameplay.Profile;
+import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bytebrigade.attackoftheschool.gameplay.Profile.*;
 
-import com.bytebrigade.attackoftheschool.gameplay.Profile;
-import com.bytebrigade.attackoftheschool.gameplay.assignment.Assignment;
+
 import android.widget.Toast;
 
 public class StoreFunctionality extends AppCompatActivity {
@@ -23,7 +25,11 @@ public class StoreFunctionality extends AppCompatActivity {
         int x5T;
         int x2T;
         int x10T;
-        long click;
+        String PointAmount = AmountOfAvailablePoints;
+
+
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_menu);
@@ -34,12 +40,59 @@ public class StoreFunctionality extends AppCompatActivity {
         Button x2 = findViewById(R.id.button101);
         Button x5 = findViewById(R.id.button106);
         Button x10 = findViewById(R.id.button113);
-
+        Button buttonMom = findViewById(R.id.button104);
+        Button buttonSkip = findViewById(R.id.button114);
+        Button Ppoints = findViewById(R.id.button107);
+        Button AvailiablePoints = findViewById(R.id.button115);
+        Button LivingExpense = findViewById(R.id.button116);
+        Button LvlStartIncrease = findViewById(R.id.button109);
+        Button StartingPoints = findViewById(R.id.button108);
 
         Bundle x5Text = getIntent().getExtras();
         x5T = x5Text.getInt("x5Tracker");
         x2T = x5Text.getInt("x2Tracker");
         x10T = x5Text.getInt("x10Tracker");
+
+        AvailiablePoints.setText(PointAmount);
+        LivingExpense.setText(livingExpenseText);
+
+
+
+        buttonSkip.setOnClickListener(v->{
+            if (FurthestLevel % 5 == 0){
+                Toast.makeText(this, "You can't skip quizzes, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 50 == 0) {
+                Toast.makeText(this, "You can't skip tests, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else if (FurthestLevel % 200 == 0){
+                Toast.makeText(this, "You can't skip finals, get back to class!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Fine, you get a pass... THIS TIME!", Toast.LENGTH_SHORT).show();
+                CurrentLevel = FurthestLevel;
+                FurthestLevel++;
+            }
+        });
+
+        buttonMom.setOnClickListener(v -> {
+
+            if (momUses == 5){
+                Toast.makeText(getApplicationContext(), "You can't hold anymore, you're gonna burst!", Toast.LENGTH_SHORT).show();
+            }
+            else if (momUses > 5){
+                Toast.makeText(getApplicationContext(), "You can't hold anymore, you're gonna burst!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                updateMomUses(1);
+            }
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
+        });
+
+
+
+
+
 
 
         if (x5T > 0)
@@ -66,10 +119,12 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 200)
                 {
                     points = points - 200;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 400pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
+
+
                 }
 
 
@@ -79,7 +134,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 400)
                 {
                     points = points - 400;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 800pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -90,7 +145,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 800)
                 {
                     points = points - 800;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 1000pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -102,7 +157,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 1000)
                 {
                     points = points - 1000;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2ButtonText = "x2 Clicks: 2000pts.";
                     x2.setText(x2ButtonText);
                     x2Tracker.getAndIncrement();
@@ -114,7 +169,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 2000)
                 {
                     points = points - 2000;
-                    clickStrength = clickStrength * 2;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 2;
                     x2Tracker.getAndIncrement();
                 }
             }
@@ -122,6 +177,8 @@ public class StoreFunctionality extends AppCompatActivity {
             {
                 Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Points.",Toast.LENGTH_SHORT).show();
             }
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
+
 
         });
 
@@ -135,7 +192,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 0)
                 {
                     points = points - 6000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 7000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -147,7 +204,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 if (points > 0)
                 {
                     points = points - 7000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 8000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -158,7 +215,7 @@ public class StoreFunctionality extends AppCompatActivity {
             {
                 if (points > 0) {
                     points = points - 8000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 9000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -169,7 +226,7 @@ public class StoreFunctionality extends AppCompatActivity {
             {
                 if (points > 9000) {
                     points = points - 9000;
-                    clickStrength = clickStrength * 10;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 10;
                     x10ButtonText = "x10 Clicks: 7000pts.";
                     x10.setText(x10ButtonText);
                     x10Tracker.getAndIncrement();
@@ -181,7 +238,7 @@ public class StoreFunctionality extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Points.",Toast.LENGTH_SHORT).show();
 
             }
-
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
 
         });
 
@@ -191,7 +248,7 @@ public class StoreFunctionality extends AppCompatActivity {
             if (x5Tracker.get() == 0) {
                 if (points > 2000) {
                     points = points - 2000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5ButtonText = "x5 Clicks: 3000pts.";
                     x5.setText(x5ButtonText);
                     x5Tracker.getAndIncrement();
@@ -201,7 +258,7 @@ public class StoreFunctionality extends AppCompatActivity {
             } else if (x5Tracker.get() == 1) {
                 if (points > 3000) {
                     points = points - 3000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5ButtonText = "x5 Clicks: 4000pts.";
                     x5.setText(x5ButtonText);
                     x5Tracker.getAndIncrement();
@@ -210,32 +267,33 @@ public class StoreFunctionality extends AppCompatActivity {
             } else if (x5Tracker.get() == 2) {
                 if (points > 4000) {
                     points = points - 4000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5ButtonText = "x5 Clicks: 5000pts.";
                     x5.setText(x5ButtonText);
                     x5Tracker.getAndIncrement();
                 }
 
 
-            } else if (x5Tracker.get() >= 3) {
-                if (points > 5000) {
+            }
+            else if (x5Tracker.get() > 3 || x5Tracker.get() == 3)
+            {
+                if (points > 5000)
+                {
                     points = points - 5000;
-                    clickStrength = clickStrength * 5;
+                    clickStrengthMultiplier = clickStrengthMultiplier * 5;
                     x5Tracker.getAndIncrement();
 
 
-                } else {
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Points.",Toast.LENGTH_SHORT).show();
                 }
 
             }
-
-
-            // BackButton Functionality
-
-
+            AvailiablePoints.setText("Points Available:"+ String.valueOf(points));
         });
-
+        // BackButton Functionality
         goBack.setOnClickListener(v ->
         {
 
@@ -248,6 +306,8 @@ public class StoreFunctionality extends AppCompatActivity {
                 updateIntent(x2Tracker, x5Tracker, x10Tracker, x2, x5, x10, intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 startActivity(intent);
+
+
                 finish();
             }
             else if (intentData.equals("From_Activity_B"))
@@ -265,6 +325,52 @@ public class StoreFunctionality extends AppCompatActivity {
 
         });
 
+        Ppoints.setOnClickListener(v ->
+        {
+            if(LivingExpensePoints > 0)
+            {
+                Assignment.basePoints = Assignment.basePoints + Assignment.basePoints *.5;
+                LivingExpensePoints = LivingExpensePoints - 5;
+                LivingExpense.setText( "Living Expense:" + LivingExpensePoints);
+
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds. Get Them From Beating The Game.",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+        LvlStartIncrease.setOnClickListener(v ->
+        {
+            if(LivingExpensePoints > 0)
+            {
+                LivingExpensePoints = LivingExpensePoints - 1;
+                CurrentLevel++;
+                FurthestLevel = CurrentLevel;
+                LivingExpense.setText("Living Expenses:" + LivingExpensePoints);
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds. Get Them From Beating The Game.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        StartingPoints.setOnClickListener(v ->
+        {
+            if(LivingExpensePoints > 0)
+            {
+                LivingExpensePoints = LivingExpensePoints - 2;
+                points = points + 500;
+                LivingExpense.setText("Living Expenses:" + LivingExpensePoints);
+                AvailiablePoints.setText("Points Available:"+ points);
+
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Sorry You Dont Have Enough Living Expense Funds. Get Them From Beating The Game.",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
 
     }
 
@@ -276,6 +382,7 @@ public class StoreFunctionality extends AppCompatActivity {
         intent.putExtra("x5Tracker", x5Tracker.get());
         intent.putExtra("x2Tracker", x2Tracker.get());
         intent.putExtra("x10Tracker", x10Tracker.get());
+
         startActivity(intent);
         finish();
     }

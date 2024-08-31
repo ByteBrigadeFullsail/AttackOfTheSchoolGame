@@ -23,7 +23,7 @@ public class Helper {
                 this.helperType = HelperType.ANSWER_SHEET;
                 this.noOfAssignments = 5;
                 break;
-            case COLLAGE:
+            case COLLEGE:
                 this.helperType = HelperType.PGT_BOTTER;
                 this.noOfAssignments = 10;
                 break;
@@ -48,7 +48,7 @@ public class Helper {
                 setHelperType(HelperType.ANSWER_SHEET);
                 activeHelper(clickable);
                 break;
-            case COLLAGE:
+            case COLLEGE:
                 setHelperType(HelperType.PGT_BOTTER);
                 activeHelper(clickable);
                 break;
