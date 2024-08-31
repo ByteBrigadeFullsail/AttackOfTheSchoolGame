@@ -63,6 +63,8 @@ cheatSheet: The main cheatsheet object.
                 android:textSize="60sp"
                 android:singleLine="false"
                 android:textStyle="bold"
+                android:background="@drawable/textview_background"
+                android:elevation="16dp"
                 android:textColor="@android:color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +79,7 @@ cheatSheet: The main cheatsheet object.
                 android:textStyle="bold"
                 android:textSize="40sp"
                 android:singleLine="true"
+                android:background="@drawable/textview_background"
                 app:layout_constraintTop_toBottomOf="@id/currentClassText"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +114,7 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintStart_toEndOf="@id/prev10Stages"
                 app:layout_constraintEnd_toStartOf="@+id/nameEditText"
                 app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+                app:layout_constraintTop_toTopOf="@+id/nameEditText"
         />
         <Button
                 android:id="@+id/prev10Stages"
@@ -124,6 +128,7 @@ cheatSheet: The main cheatsheet object.
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/prevStage"
                 app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
+                app:layout_constraintTop_toTopOf="@+id/nameEditText"
         />
         <Button
                 android:id="@+id/nextStage"
@@ -133,6 +138,7 @@ cheatSheet: The main cheatsheet object.
                 android:visibility="invisible"
                 android:background="#04A1E8"
                 android:backgroundTint="#03A9F4"
+                app:layout_constraintTop_toTopOf="@+id/nameEditText"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@id/maxStage"
                 app:layout_constraintStart_toEndOf="@+id/nameEditText"
@@ -148,6 +154,7 @@ cheatSheet: The main cheatsheet object.
                 android:visibility="invisible"
                 android:textSize="15sp"
                 android:singleLine="true"
+                app:layout_constraintTop_toTopOf="@+id/nameEditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/nextStage"
                 app:layout_constraintBottom_toBottomOf="@+id/nameEditText"
