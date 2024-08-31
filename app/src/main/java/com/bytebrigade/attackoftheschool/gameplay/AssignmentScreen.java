@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -537,27 +538,38 @@ public class AssignmentScreen extends AppCompatActivity implements Assignment.Ca
 
     @Override
     public void changeMainBackground() {
-        if (CurrentLevel <= 200) {
-            binding.getRoot().setBackgroundResource(R.drawable.english_0);
+        int backgroundResource = 0;
+
+        if(CurrentLevel <= 200){
+            backgroundResource = R.drawable.english_0;
             assignment.setClassName("English");
         } else if (CurrentLevel <= 400) {
-            binding.getRoot().setBackgroundResource(R.drawable.math_0);
+            backgroundResource = R.drawable.math_0;
             assignment.setClassName("Math");
         } else if (CurrentLevel <= 600) {
-            binding.getRoot().setBackgroundResource(R.drawable.pe_0);
+            backgroundResource = R.drawable.pe_0;
             assignment.setClassName("P.E");
         } else if (CurrentLevel <= 800) {
-            binding.getRoot().setBackgroundResource(R.drawable.science_0);
+            backgroundResource = R.drawable.science_0;
             assignment.setClassName("Science");
         } else if (CurrentLevel <= 999) {
-            binding.getRoot().setBackgroundResource(R.drawable.history_0);
+            backgroundResource = R.drawable.history_0;
             assignment.setClassName("History");
         } else if (CurrentLevel == 1000) {
-            binding.getRoot().setBackgroundResource(R.drawable.history_0);
+            backgroundResource = R.drawable.history_0;
             assignment.setClassName("Department Of Education");
         }
+
+        Drawable backgroundDrawable = ContextCompat.getDrawable(this, backgroundResource);
+        if (backgroundDrawable != null) {
+            backgroundDrawable.setAlpha(150);
+        }
+
+        binding.getRoot().setBackground(backgroundDrawable);
         binding.currentClassText.setText(assignment.getClassName());
     }
+
+
 
     private void refreshStats() {
         String[] stats = binding.statsDisplay.getText().toString().split("\n");
